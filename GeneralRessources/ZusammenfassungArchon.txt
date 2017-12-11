@@ -1,0 +1,22 @@
+
+Alles auch hier zu finden:
+http://www.vintagecomputing.com/index.php/archives/44
+
+
+Feld: 9x9
+D = permaDark
+L = permaLight
+G = cycling == 6 Farben (Schwarz, Weiß, 4 Grautöne) == jeder Spieler einen Zug pro Farbe == Farbe wechseln nach jedem Zug von Spieler 2
+
+    D   L   D   G   G   G   L   D   L
+    L   D   G   L   G   D   G   L   D
+    D   G   L   D   G   L   D   G   L
+    G   L   D   L   G   D   L   D   G
+    L   G   G   G   G   G   G   G   D
+    G   L   D   L   G   D   L   D   G
+    D   G   L   D   G   L   D   G   L
+    L   D   G   L   G   D   G   L   D
+    D   L   D   G   G   G   L   D   L
+
+
+
