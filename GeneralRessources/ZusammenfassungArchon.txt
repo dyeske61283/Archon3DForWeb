@@ -19,4 +19,12 @@ G = cycling == 6 Farben (Schwarz, Weiß, 4 Grautöne) == jeder Spieler einen Zug
     D   L   D   G   G   G   L   D   L
 
 
+Benötige:
+
+Spielfeld mit Figuren
+Startbildschirm mit Optionen, Connect-Anfragen/Start, Scoreboard(?),
+Finish Animation/Bildschirm
+
+
+
 
