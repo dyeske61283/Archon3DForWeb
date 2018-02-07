@@ -1,0 +1,146 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{Abb.}]\begingroup Abbildung\nomeqref {12.0}\nompageref{XX}
+  \item [{AJAX}]\begingroup erm\"oglicht asynchronen Datenaustausch mit \zB Webservern (engl. f{\"u}r Asynchronous JavaScript and XML)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{API}]\begingroup Programmschnittstelle nach aussen (engl. f{\"u}r Application Programming Interface)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{ASCII}]\begingroup 7-Bit Zeichencodierung (engl. f{\"u}r American Standard Code for Information Interchange)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{AWL}]\begingroup Anweisungsliste, Assembler \"ahnlich\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Code-Folding}]\begingroup logisch zusammengeh\"orende Quelltextabschnitte werden in Abschnitte gruppiert, um diese einfach ein- \bzw auszublenden, erh\"oht die Lesbarkeit und \"Ubersichtlichkeit\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{CPU}]\begingroup Elektronischer Rechner (engl. f{\"u}r Central Processing Unit)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{CR}]\begingroup Wagenr\"ucklauf (engl. Carriage Return)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{CRC}]\begingroup zyklische Redundanzpr\"ufung (engl. Cyclic Redundancy Check)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{CSS}]\begingroup gestufte Gestaltungsb\"ogen, legt die Darstellung des HTML Quellcodes im Browser fest (engl. f{\"u}r Cascading Style Sheets)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{DB}]\begingroup Datenbaustein, Baustein zur Datenhaltung\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{DOM}]\begingroup Dokumentstruktur der Webseite (engl. f{\"u}r Document Object Model)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{FB}]\begingroup Funktionsbaustein, wie FC nur mit Ged\"achtnis (Speicher in Form eines Datenbaustein\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{FC}]\begingroup Funktion\nomeqref {12.0}\nompageref{XX}
+  \item [{Field PG}]\begingroup Spezieller Laptop (Computer) f\"ur industrielle Umgebungen zum Programmieren einer Steuerung\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{FUP}]\begingroup Funktionsplan, Digitalen Logik Gattern \"ahnlich\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{GIF}]\begingroup Grafikaustausch Format, Animationsf\"ahig (engl. f\"ur Graphics Interchange Format)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{GUI}]\begingroup Grafisches Benutzer Interface (engl. f{\"u}r Graphical User Interface)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{HAP}]\begingroup HTML Agility Pack, \CSharp HTML Bibliothek zum verarbeiten von Webdokumenten\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{HMI}]\begingroup Mensch-Maschine Interface (engl. f{\"u}r Human Machine Interface)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{HTML}]\begingroup Hypertext Auszeichnungssprache, HTML-Dateien sind die Grundlage des World Wide Web und werden von einem Webbrowser dargestellt (engl. f{\"u}r Hypertext Markup Language)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{HTTP}]\begingroup Hypertext-\"Ubertragungsprotokoll, Protokoll zur \"Ubertragung von Daten \"uber ein Netzwerk  (engl. f{\"u}r Hypertext Transfer Protocol)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{HTTPS}]\begingroup sicheres Hypertext-\"Ubertragungsprotokoll \sa HTTP (engl. f\"ur Hypertext Transfer Protocol Secure)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{IDE}]\begingroup integrierte Entwicklungsumgebung (engl. f{\"u}r Integrated Development Environment)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Interface}]\begingroup Schnittstelle\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{IP}]\begingroup Internet Protocol\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{IPC}]\begingroup Industrie PC - Computer f\"ur Industriellen Einsatz\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Java-Applet}]\begingroup Hilfsprogramm oder Tool, was in eine Webseite integriert wird\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{JavaScript}]\begingroup Skriptsprache, urspr\"unglich f\"ur dynamisches HTML in Webbrowsern entwickelt\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{JPEG}]\begingroup komprimierte Grafikdatei, auch JPG (engl. f\"ur Joint Photographic Expert Group)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{JSON}]\begingroup kompaktes Datenformat zum Datenaustausch mit \zB Webservern (engl. f{\"u}r JavaScript Object Notation)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{KOP}]\begingroup Kontaktplan, Schaltplan \"ahnlich\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{LF}]\begingroup Zeilenvorschub (engl. Line Feed)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{LRC}]\begingroup L\"angsparit\"atspr\"ufung (engl. Longitudinal Redundancy Check)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Mockup}]\begingroup Attrappe oder auch rudiment\"arer Prototyp (auch Maquette)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{MSDN}]\begingroup Das Microsoft Entwickler Netzwerk (engl. f{\"u}r MicroSoft Developer Network)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{MWSL}]\begingroup Mini Web Server Language, Serverbasierende Scriptsprache\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{o.V.}]\begingroup ohne Verfasser (bei Literaturverweisen)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{OB}]\begingroup Organisationsbaustein\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{OS}]\begingroup das Betriebssystem (engl. f{\"u}r Operating System)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Parser}]\begingroup engl. to parse - \glqq analysieren\grqq\, bzw. lateinisch pars - \glqq Teil\grqq\, im Deutschen gelegentlich auch Zerteiler, Analysiert die Semantik des Scripts um daraufhin Aktionen durchzuf\"uhren\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PC}]\begingroup Elektronischer Rechner (engl. f{\"u}r Personal Computer)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PG}]\begingroup Programmier Ger\"at, meist ein PC\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PLC}]\begingroup \sa SPS (engl. f{\"u}r Programmable logic controller)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PLCVarTab}]\begingroup Variablentabelle (Symboltabelle)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PN}]\begingroup \sa Profinet\nomeqref {12.0}\nompageref{XX}
+  \item [{PNG}]\begingroup Grafikaustausch Format (engl. f\"ur Portable Network Graphics)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{PROFINET}]\begingroup Bezeichnung f\"ur industriellen Netzwerkstandard (engl. f{\"u}r Process Field Network)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SCL}]\begingroup Strukturierter Text (engl. f{\"u}r Structured Control Language)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SDK}]\begingroup \sa IDE (engl f{\"u}r Software Development Kit)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SFB}]\begingroup System Funktionsbaustein\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SFC}]\begingroup System Funktion\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SOP}]\begingroup Same Origin Policy\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SPS}]\begingroup Speicher Programmierbare Steuerung\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{ST}]\begingroup Strukturierter Text, \sa SCL\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{SVG}]\begingroup skalierbare Vektorgrafik (engl. f\"ur Scalable Vector Graphics)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{TCP}]\begingroup Transmission Control Protocol\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{TIA}]\begingroup Totally Integrated Automation\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{TN}]\begingroup Teilnehmer\nomeqref {12.0}\nompageref{XX}
+  \item [{UDT}]\begingroup Benutzerdefinierter Datentyp in Form einer Struktur (engl. f\"ur User Defined Typ)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{URI}]\begingroup Uniform Resource Identifier\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{URL}]\begingroup Uniform Resource Locator\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{URN}]\begingroup Uniform Resource Name\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{W3C}]\begingroup Organisation zur Standardisierung von Webtechnologien (engl. f{\"u}r World Wide Web Consortium)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Webbrowser}]\begingroup auch kurz Browser (engl. to browse) steht f{\"u}r durchst{\"o}bern, abgrassen, durchsuchen - Software zum Darstellen von Daten, haupts{\"a}chlich Webseiten und deren Inhalt, k\"onnen zu diesem Zweck mit Webservern kommunizieren\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Webseite}]\begingroup \sa HTML-Datei\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{Webserver}]\begingroup Ein Webserver speichert Webseiten und stellt diese zur Verf\"ugung. Der Webserver ist eine Software, die Dokumente mit Hilfe standardisierter \"Ubertragungsprotokolle (HTTP, HTTPS) an einen Webbrowser \"ubertr\"agt.\\ In einer CPU mit PROFINET-Schnittstelle ist ein Webserver integriert, der mit anwenderdefinierten Webseiten erweiterbar ist\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{WPO}]\begingroup Webdaten Optimierung (engl. f{\"u}r Web Performance Optimization)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{WWW}]\begingroup Internet (engl. f{\"u}r World Wide Web)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{WYSIWYG}]\begingroup Man sieht im Editor sofort was man bekommt, sowohl textuell als auch grafisch dargestellt (engl. f{\"u}r what you see is what you get) \nomeqref {12.0}
+		\nompageref{XX}
+  \item [{XML}]\begingroup erweiterbare Auszeichnungssprache (engl. für Extensible Markup Language)\nomeqref {12.0}
+		\nompageref{XX}
+  \item [{XPath}]\begingroup XML Abfragesprache (engl. für XML Path Language)\nomeqref {12.0}
+		\nompageref{XX}
+
+\end{thenomenclature}

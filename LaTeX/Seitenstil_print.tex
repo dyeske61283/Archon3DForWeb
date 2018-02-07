@@ -1,0 +1,58 @@
+% PDF-Optionen -----------------------------------------------------------------
+\usepackage{scrhack}
+\usepackage[
+    bookmarks=true,
+    bookmarksopen=true,
+    colorlinks=true,
+% diese Farbdefinitionen zeichnen Links im PDF farblich aus
+%    linkcolor=black, % einfache interne Verknüpfungen
+%    anchorcolor=black,% Ankertext
+%    citecolor=blue, % Verweise auf Literaturverzeichniseinträge im Text
+%    filecolor=magenta, % Verknüpfungen, die lokale Dateien öffnen
+%    menucolor=red, % Acrobat-Menüpunkte
+%    urlcolor=cyan, 
+% diese Farbdefinitionen sollten für den Druck verwendet werden (alles schwarz)
+    linkcolor=black, % einfache interne Verknüpfungen
+    anchorcolor=black, % Ankertext
+    citecolor=black, % Verweise auf Literaturverzeichniseintröge im Text
+    filecolor=black, % Verknüpfungen, die lokale Dateien öffnen
+    menucolor=black, % Acrobat-Menüpunkte
+    urlcolor=black,
+% andere Def. für Hyperlinks
+    pdftex,
+    pdfnewwindow = true,
+    pagebackref = false,
+    plainpages=false, % zur korrekten Erstellung der Bookmarks
+    pdfpagelabels=true, % zur korrekten Erstellung der Bookmarks
+    hypertexnames=true, % zur korrekten Erstellung der Bookmarks
+    breaklinks=true, % zur korrekten Erstellung der Bookmarks
+    linktocpage % Seitenzahlen anstatt Text im Inhaltsverzeichnis verlinken
+]{hyperref}
+
+\usepackage[all]{hypcap}
+
+% Befehle, die Umlaute ausgeben, führen zu Fehlern, wenn sie hyperref als Optionen übergeben werden
+\hypersetup{
+    pdftitle={\titel},
+    pdfauthor={\autor},
+    pdfproducer={\LaTeX},
+    pdfcreator={\LaTeX},
+    pdfsubject={\titel\ - \untertitel},
+    pdfkeywords={\titel\ - \untertitel},
+}
+
+% Zeilenabstand 1,5 Zeilen -----------------------------------------------------
+\onehalfspacing
+
+% Seitenränder -----------------------------------------------------------------
+\setlength{\topskip}{\ht\strutbox} % behebt Warnung von geometry
+\geometry{
+	paper=a4paper,
+	bindingoffset=10mm,
+	left=15mm,
+	right=25mm,
+	top=20mm,
+	bottom=35mm,
+	headsep=5mm,
+	footskip=10mm,
+}

@@ -1,33 +1,76 @@
-% Zeilenabstand 1,5 Zeilen -----------------------------------------------------
-\onehalfspacing
-
-% Seitenr�nder -----------------------------------------------------------------
-\setlength{\topskip}{\ht\strutbox} % behebt Warnung von geometry
-\geometry{paper=a4paper,left=35mm,right=35mm,top=30mm}
-
-% Kopf- und Fu�zeilen ----------------------------------------------------------
+% Kopf- und Fußzeilen ----------------------------------------------------------
 \pagestyle{scrheadings}
-% Kopf- und Fu�zeile auch auf Kapitelanfangsseiten
-\renewcommand*{\chapterpagestyle}{scrheadings} 
+% Kopf- und Fußzeile auch auf Kapitelanfangsseiten
+\renewcommand{\chapterpagestyle}{scrheadings}
+\renewcommand*{\chapterpagestyle}{scrheadings}
+\renewcommand{\indexpagestyle}{scrheadings}
+\renewcommand*{\indexpagestyle}{scrheadings}
 % Schriftform der Kopfzeile
 \renewcommand{\headfont}{\normalfont}
 
 % Kopfzeile
-\ihead{\large{\textsc{\titel}}\\ \small{\untertitel} \\[2ex] \textit{\headmark}}
+\ihead{	\large{\textsc{\art{}} - \textsc{\titel}}\\
+		\small{\untertitel} \\[2ex]
+		\textit{\headmark}}
 \chead{}
-\ohead{\includegraphics[scale=0.15]{\logo}}
-\setlength{\headheight}{21mm} % H�he der Kopfzeile
-% Kopfzeile �ber den Text hinaus verbreitern
-\setheadwidth[0pt]{textwithmarginpar} 
-\setheadsepline[text]{0.4pt} % Trennlinie unter Kopfzeile
+\ohead{} % \includegraphics[scale=0.11]{\logoHS}\\\includegraphics[scale=0.15]{\logoFA}}
+\setlength{\headheight}{20mm} % Höhe der Kopfzeile
+% Kopfzeile über den Text hinaus verbreitern
+%\setheadwidth[-5mm]{textwithmarginpar}
+\setheadwidth[-5mm]{180mm}
+\setheadsepline[170mm]{1.2pt} % Trennlinie unter Kopfzeile
 
-% Fu�zeile
-\ifoot{\copyright\ \autor}
-\cfoot{}
-\ofoot{\pagemark}
+% Fußzeile
+\setfootwidth[-5mm]{170mm} 
+\setfootsepline[170mm]{1.0pt} % Trennlinie \"uber Fusszeile
+\ifoot{\footnotesize{\copyright\ \autor\ / \jahr}}
+%\cfoot{\footnotesize{\textbf{\textcolor{red}{ - - ENTWURF - - ENTWURF - - ENTWURF - - }}}}
 
+%\cfoot{}
+\ofoot{\pagemark\ \\}
+
+% Abstand einstellen zwischen den Chaptern
+%\vspace*{2.3\baselineskip} = ORIGINAL
+% Abstand vor Kapitelüberschriften: 1/3 der Satzspiegelhöhe}}
+\renewcommand*{\chapterheadstartvskip}{\vspace*{-\topskip}} 
+% Abstand nach Kapitelüberschriften: 3 Zeilen
+\renewcommand*{\chapterheadendvskip}{\vspace{0\baselineskip}}
+
+\makeatletter 
+\renewcommand{\subsubsection}{\@startsection%
+   {subsubsection}%       name
+   {3}%                   level
+   {0mm}%                 indent
+   {-0.250\baselineskip}%   beforeskip
+   {+0.01\baselineskip}%    afterskip
+   {\normalsize\rmfamily\bfseries}}%     style
+\makeatother
+
+
+% Captions Setup ----------------------------------------------------------
+
+\renewcaptionname{ngerman}{\figurename}{Abb.}
+\renewcommand{\lstlistingname}{Quellcode}
+% caption Setup
+\renewcommand\theContinuedFloat{\alph{ContinuedFloat}}
+
+% Verzeichnis Setup ----------------------------------------------------------
+\makeatletter
+\renewcommand{\l@figure}{\@dottedtocline{1}{1.5em}{3em}}
+\renewcommand{\l@subfigure}{\@dottedtocline{1}{4.5em}{2.5em}}
+\renewcommand{\l@table}{\@dottedtocline{1}{1.5em}{3em}}
+\renewcommand{\l@lstlisting}{\@dottedtocline{1}{1.5em}{3em}}
+\makeatother
+% Verzeichnis Namen ----------------------------------------------------------
+\renewcaptionname{ngerman}{\contentsname}{Inhaltsverzeichnis}
+\renewcaptionname{ngerman}{\refname}{Literaturverzeichnis}
+\renewcaptionname{ngerman}{\listfigurename}{Abbildungsverzeichnis}
+\renewcaptionname{ngerman}{\listtablename}{Tabellenverzeichnis}
+\renewcaptionname{ngerman}{\indexname}{Stichwortverzeichnis}
+\renewcommand{\nomname}{Abk\"urzungsverzeichnis}
+\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
+\indexprologue{Das Verzeichnis ist in Haupt- und Unterbegriffe gegliedert. Ist ein Stichwort nicht unter den Hauptbegriffen gelistet, so ist es womöglich als Untereintrag zu finden.}
 % sonstige typographische Einstellungen ----------------------------------------
-
 % erzeugt ein wenig mehr Platz hinter einem Punkt
 \frenchspacing 
 
@@ -40,5 +83,458 @@
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true}
 \lstset{emph={square}, emphstyle=\color{red}, emph={[2]root,base}, emphstyle={[2]\color{blue}}}
 
-% Fu�noten fortlaufend durchnummerieren
+% Fußnoten fortlaufend durchnummerieren
 \counterwithout{footnote}{chapter}
+% Fußnoten - Abstand nach der Nummer
+\let\oldfootnote\footnote
+\renewcommand\footnote[1]{\oldfootnote{\hspace{1ex}#1}}
+
+\let\oldfootnotetext\footnotetext
+\renewcommand\footnotetext[1]{\oldfootnotetext{\hspace{1ex}#1}}
+%\setlength{\footnotesep}{2ex}
+
+% Longtable einstellen
+\setlength{\LTpre}{2ex}
+\setlength{\LTpost}{0.0ex}
+
+
+% Textboxen  mit TIKZ -----------------------------------------------------------------------------------
+\tikzset{content/.style	={text width={1.0\textwidth}, draw=black}}
+\tikzset{head/.style	={text width={0.21\textwidth}, above=0em of main.north west, xshift=+0.5em, yshift=-0.15em, line width=0.2em, anchor=south west, draw=white, double=black, double distance = 0.1em}}
+
+\newcommand{\ERKENNTNISbox}[1]{
+{\centering\begin{tikzpicture}[
+every node/.style={rectangle,rounded corners, top color=white, bottom color=black!5,very thick, inner sep=0.5em, minimum size=1.1em,} ]
+\node[content](main) at (0,0){\onehalfspacing #1};
+\node[head](surround){\textbf{ERKENNTNIS:}};
+\end{tikzpicture}}}
+
+\newcommand{\MERKEbox}[1]{
+{\centering\begin{tikzpicture}[
+every node/.style={rectangle,rounded corners, top color=white, bottom color=black!5,very thick, inner sep=0.5em, minimum size=1.1em,} ]
+	\vspace{-75pt}
+\node[content](main) at (0,0){\onehalfspacing #1};
+\node[head](surround){\textbf{MERKE:}};
+\end{tikzpicture}}}
+
+\newcommand{\TODObox}[1]{
+{\centering\begin{tikzpicture}[
+every node/.style={rectangle,rounded corners, top color=white, bottom color=red!50,very thick, inner sep=0.5em, minimum size=1.1em,} ]
+\node[content](main) at (0,0){\onehalfspacing \textbf{#1}};
+\node[head](surround){\textbf{ToDo BOX:}};
+\end{tikzpicture}}}
+
+% Programmablaufpläne mit TIKZ------------------------------------------------------------------------------
+\tikzset{
+	papSE/.style = {
+		ellipse, draw, 
+		align = center, 
+		text width = 20 mm, 
+		text badly centered,
+		font=\ttfamily\footnotesize,
+		%line width = 0.5,
+		minimum width = 2.5em,
+		minimum height = 2em,
+		inner sep = 0.5em,
+		top color=white,
+		bottom color=green!20,
+	},
+	papDescision/.style = {
+		diamond, draw, 
+		%text width = 2em, 
+		align = center, 
+		text badly centered,
+		font=\ttfamily\footnotesize,
+		line width = 0.5,
+		%minimum width  = 1.5em,
+		%minimum height = 1.5em,
+		inner sep=0.5em,
+		top color=white,
+		bottom color=yellow!20,
+	},
+	papData/.style = {
+		trapezium, draw,
+		align = left,
+		%align = center,
+		%text badly centered,
+		trapezium left angle=70,
+		trapezium right angle=110,
+		font=\ttfamily\footnotesize,
+		%line width = 0.5,
+		minimum width  = 10.0em,
+		%minimum height = 1.5em,
+		%text width = 5.0em,
+		inner sep = 0.5em,
+		top color=white,
+		bottom color=orange!20,
+	},
+	papInput/.style = {
+		trapezium, draw,
+		align = left,
+		%align = center,
+		%text badly centered,
+		trapezium left angle=110,
+		trapezium right angle=110,
+		font=\ttfamily\footnotesize,
+		%line width = 0.5,
+		minimum width  = 10.0em,
+		%minimum height = 1.5em,
+		%text width = 5.0em,
+		inner sep = 0.5em,
+		top color=white,
+		bottom color=gray!20,
+	},
+	papFunction/.style = {
+		draw, rectangle split,
+		rectangle split horizontal,
+		rectangle split parts = 3,
+		rectangle split empty part width=-10pt,
+		align = left, %center,
+		text badly centered,
+		font=\ttfamily\footnotesize,
+		%line width = 0.5,
+		minimum width  = 10.0em,
+		minimum height = 1.5em,
+		%text width = 4.5 em, 
+		inner sep = 0.5em,
+		top color=white,
+		bottom color=red!20,
+	},
+	papInstruction/.style = {
+		rectangle, draw,
+		%rounded corners,
+		align = left,
+		%align = center,
+		%text badly centered,
+		font=\ttfamily\footnotesize,
+		line width = 0.5,
+		minimum width  = 10.0em,
+		minimum height = 1.5em,
+		%text width = 6.0em, 
+		inner sep = 0.5em,
+		top color=white,
+		bottom color=blue!20,
+	},
+	papLine/.style = {
+		draw,
+		font=\ttfamily\footnotesize,
+		line width = 0.75,
+	},
+	papArrow/.style = {
+		draw,
+		-stealth,
+		font=\ttfamily\footnotesize,
+		line width = 0.75,
+	},
+	papDotted/.style = {
+		draw,
+		dotted,
+		-stealth,
+		font=\ttfamily\footnotesize,
+		line width = 1.0,
+	},
+	papDottedLine/.style = {
+		draw,
+		dotted,
+		font=\ttfamily\footnotesize,
+		line width = 1.0,
+	},
+	papCircle/.style = {
+		circle , draw, 
+		align = center, 
+		%text badly centered,
+		%text width = 20 mm, 
+		font=\ttfamily\footnotesize,
+		line width = 0.5,
+		%minimum width = 2em,
+		%minimum height = 2em,
+		inner sep = 2pt,
+		top color=white,
+		bottom color=white!20,
+	},
+}
+
+% Styles für Codefragmente ------------------------------------------------------------------------------
+\newcommand{\Code}[1]{\texttt{\textbf{\textsl{#1}}}}
+
+\newcommand{\HTMLcode}[1]{\HTML\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\HTML}{\includegraphics[height=12pt]{logo_HTML5} }
+
+\newcommand{\CSScode}[1]{\CSS\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\CSS}{\includegraphics[height=12pt]{logo_CSS3} }
+
+\newcommand{\JScode}[1]{\JS\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\JS}{\includegraphics[height=12pt]{logo_JavaScript} }
+
+\newcommand{\JQcode}[1]{\JQ\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\JQ}{\includegraphics[height=12pt]{logo_jQuery} }
+
+\newcommand{\SCLcode}[1]{\SCL\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\SCL}{\includegraphics[height=12pt]{logo_SCL} }
+
+\newcommand{\CScode}[1]{\CS\texttt{\textbf{\textsl{#1}}}}
+\newcommand{\CS}{\includegraphics[height=12pt]{logo_Csharp} }
+
+\newcommand{\CSharp}{\texttt{C\#}}
+
+\newcommand{\RED}[1]{\textcolor{red}{\textbf{{\textsl{#1}}}}}
+
+% Styles für Listings ------------------------------------------------------------------------------------
+\definecolor{colCommentsSCL}{rgb}{0,0.5,0.5}
+\definecolor{hellgelb}{rgb}{1,1,0.92}
+\definecolor{hellblau}{rgb}{0.2,0.6,0.6}
+\definecolor{cssKey}{rgb}{0.0,0.0,1.0}
+\definecolor{cssId}{rgb}{0,0.5,1.0}
+\definecolor{cssClass}{rgb}{1.0,0.0,0.0}
+\definecolor{cssPseudo}{rgb}{1.0,0.5,0.0}
+\definecolor{css}{rgb}{0.5,0.5,1.0}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{rgb}{0,0.5,0}
+\definecolor{colString}{rgb}{0,0,0.7}
+\definecolor{colName}{rgb}{0.6,0.3,0.1}
+
+\lstset{
+    %extendedchars=true,
+    inputencoding=utf8,
+    float=hbp,
+    captionpos=b, %bottom, %top
+    basicstyle=\ttfamily\color{black}\small\smaller,
+    columns=flexible,keepspaces,
+    tabsize=4,
+    frameround=fttt,
+    frame=trBL, %single,
+    extendedchars=true,
+    showstringspaces=false,
+    showspaces=false,
+    showlines=true,
+    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    numberstyle=\tiny,
+    numbersep = 15pt,
+    breaklines=true,
+    backgroundcolor=\color{hellgelb!75},
+    breakautoindent=true,
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[n]{(*}{*)},
+    morecomment=[n]{<!--}{-->},
+    commentstyle=\color{colComments},
+    abovecaptionskip = 0.5ex,
+    belowcaptionskip = \smallskipamount,
+    aboveskip=2ex,
+    belowskip=0.5ex,
+    inputpath=SourceCode,
+}
+
+% Styles for Structured Text SCL / ST
+\lstdefinelanguage{SCL}{
+    numbersep = 15pt,
+    identifierstyle=\color{colIdentifier},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[n]{(*}{*)},
+    commentstyle=\color{colComments},
+    morestring=[b]{"},
+    morestring=[b]{'},
+    %stringstyle=\color{colString},
+    stringstyle=\color{magenta},
+    keywordstyle=\color{colKeys},
+    keywordstyle=[2]\color{hellblau},
+    keywordstyle=[3]\color{colName},
+    morekeywords={CASE, END_CASE, OF, IF, ELSIF, ELSE, THEN, END_IF, LABEL, END_LABEL, GOTO, BEGIN,
+                  FOR, TO, DO, BY, END_FOR, WHILE, END_WHILE, REPEAT, UNTIL, END_REPEAT, CONTINUE, EXIT, RETURN,
+                  VAR_INPUT, VAR_IN_OUT, VAR_OUTPUT, VAR, RETAIN, VAR_TEMP, END_VAR, FUNCTION_BLOCK, END_FUNCTION_BLOCK, FUNCTION, END_FUNCTION, void, Void, VOID, DATA_BLOCK, END_DATA_BLOCK, TYPE, END_TYPE, STRUCT, Struct, END_STRUCT },
+    keywords=[2]{AND, OR, XOR, NOT, MOD, true, false, },
+    % function call
+    keywords=[3]{FC_no, FB_no, DB_no, IN_a, IN_b, SHR, SHL, LEN, FIND, LEFT, RIGHT, MID, DELETE, INSERT, REPLACE, DWORD_TO_USINT, USINT_TO_BYTE, Chars_TO_Strg, STRG_VAL, VAL_STR, CONCAT, DINT_TO_DWORD, },
+    literate=%
+        {0}{{{\color{red!20!violet}0}}}1
+        {1}{{{\color{red!20!violet}1}}}1
+        {2}{{{\color{red!20!violet}2}}}1
+        {3}{{{\color{red!20!violet}3}}}1
+        {4}{{{\color{red!20!violet}4}}}1
+        {5}{{{\color{red!20!violet}5}}}1
+        {6}{{{\color{red!20!violet}6}}}1
+        {7}{{{\color{red!20!violet}7}}}1
+        {8}{{{\color{red!20!violet}8}}}1
+        {9}{{{\color{red!20!violet}9}}}1
+        {<}{{{\color{hellblau}<}}}1
+        {>}{{{\color{hellblau}>}}}1
+        {=}{{{\color{hellblau}=}}}1
+        {<>}{{{\color{hellblau}<>}}}2
+        {>=}{{{\color{hellblau}>=}}}2
+        {<=}{{{\color{hellblau}<=}}}2
+        {:=}{{{\color{black}:=}}}2
+        {~}{{\textasciitilde}}1
+        {\$}{{\textcolor{blue}{\$}}}1
+}
+
+% Styles for HTML
+\lstdefinelanguage{HTML5}{
+    numbersep = 15pt,
+    identifierstyle=\color{colIdentifier},
+    morecomment=[l]{//},
+    morecomment=[s]{<!--}{-->},
+    morecomment=[n]{<!--}{-->},
+    commentstyle=\color{colComments},
+    morestring=[b]{'},
+    morestring=[b]{"},
+    %stringstyle=\color{colString},
+    stringstyle=\color{magenta},
+    emph={<, >, \/},
+    emphstyle=\color{colKeys},
+    emph={[2]<,>,\/},emphstyle={[2]\color{blue}},
+    %otherkeywords={<, >, \/}, % http://texblog.org/tag/otherkeywords/
+    %morekeywords={\<, \>, \/},
+    keywordstyle=\color{colKeys},
+    keywords=[2]{html, head, title, meta, link, script, body, div, span, p, a, br, hr, h, h1, h2, h3, h4, h5, h6, ul, li, img, iframe, table, thead, tbody, tfoot, tr, th, td, form, fieldset, legend, label, input, select, option,
+    },
+    keywordstyle=[2]\color{colKeys},
+    %moredelim=*[s][\color{colKeys}]{<}{>},
+    keywords=[3]{http, equiv, content, rel, href, src, type, class, id, name, alt, action, method, value, for, checked, onabort, onblur, onchange, onclick, ondblclick, onerror, onfocus, onkeydown, onkeypress, onkeyup, onload, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onreset, onselect, onsubmit, onunload,
+    },
+    keywordstyle=[3]\color{red},
+    literate=%
+        {0}{{{\color{red!20!violet}0}}}1
+        {1}{{{\color{red!20!violet}1}}}1
+        {2}{{{\color{red!20!violet}2}}}1
+        {3}{{{\color{red!20!violet}3}}}1
+        {4}{{{\color{red!20!violet}4}}}1
+        {5}{{{\color{red!20!violet}5}}}1
+        {6}{{{\color{red!20!violet}6}}}1
+        {7}{{{\color{red!20!violet}7}}}1
+        {8}{{{\color{red!20!violet}8}}}1
+        {9}{{{\color{red!20!violet}9}}}1
+        %{<}{{{\color{hellblau}<}}}1
+        %{>}{{{\color{hellblau}>}}}1
+}
+
+% Styles for CSS
+\lstdefinelanguage{CSS}{
+    numbersep = 15pt,
+    %alsodigit = {-}% Hier: Seite 40 Doku Version 1.0 (1.4.02)
+    %alsoletter= {#}
+    identifierstyle=\color{colIdentifier},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[n]{/*}{*/},
+    commentstyle=\color{colComments},
+    morestring=[b]{'},
+    morestring=[b]{"},
+    %stringstyle=\color{colString},
+    stringstyle=\color{magenta},
+    %KEYWORDS
+    %otherkeywords={<, >, \/}, % http://texblog.org/tag/otherkeywords/
+    morekeywords={html, head, title, body, div, span, p, a, br, h, ul, li, img, iframe, table, thead, tbody, tfoot, tr, th, td, form, fieldset, legend, label, input, select, option, even, odd,% h1, h2, h3, h4, h5, h6,
+    },
+    keywordstyle=\color{cssKey},
+    % CSS Design Selector
+    keywords=[2]{margin, padding, position, z, index, float, clear, height, width, top, bottom, left, right, overflow, display, visibility, min, empty, cells, border, radius, vertical, align, text, decoration, color, background, list, style, image, spacing, collapse, filter, opacity,
+    },
+    keywordstyle=[2]\color{css},
+    %
+    keywords=[3]{table, layout, font, family, size, weight, border, style,
+    },
+    keywordstyle=[3]\color{css},
+    % CSS PSEUDO selector
+    keywords=[4]{root, empty, first, last, nth, only, child, of, type, link, visited, hover, active, focus, target, disabled, enabled, checked, valid, invalid, lang, not,
+    },
+    keywordstyle=[4]\color{cssPseudo},
+    % CSS Class selector
+    keywords=[6]{hide, leftfloat, clearfloat, ind_img, ind_txt, load_pic,},
+    keywordstyle=[6]\color{cssClass},
+    % CSS ID's selector
+    keywords=[9]{HeaderContainer, headertitle, breadcrumbs, content, grafik_sprite, load_div, },
+    keywordstyle=[9]\color{cssId},
+        literate=%
+            {0}{{{\color{black}0}}}1
+            {1}{{{\color{black}1}}}1
+            {2}{{{\color{black}2}}}1
+            {3}{{{\color{black}3}}}1
+            {4}{{{\color{black}4}}}1
+            {5}{{{\color{black}5}}}1
+            {6}{{{\color{black}6}}}1
+            {7}{{{\color{black}7}}}1
+            {8}{{{\color{black}8}}}1
+            {9}{{{\color{black}9}}}1
+}
+
+% Styles for JavaScript
+\lstdefinelanguage{JavaScript}{
+    numbersep = 15pt,
+    identifierstyle=\color{colIdentifier},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[n]{/*}{*/},
+    commentstyle=\color{colComments},
+    morestring=[b]{'},
+    morestring=[b]{"},
+    %stringstyle=\color{colString},
+    stringstyle=\color{magenta},
+    %otherkeywords={<, >, \/}, % http://texblog.org/tag/otherkeywords/
+    %morekeywords={\<, \>, \/},
+    keywordstyle=\color{colKeys},
+    keywords=[2]{var, in, if, else, switch, case, break, continue, default, while, do, for, function, return, false, true,
+    },
+    keywordstyle=[2]\color{colKeys},
+    keywords=[3]{
+    },
+    keywordstyle=[3]\color{red},
+    literate=%
+        {0}{{{\color{red!20!violet}0}}}1
+        {1}{{{\color{red!20!violet}1}}}1
+        {2}{{{\color{red!20!violet}2}}}1
+        {3}{{{\color{red!20!violet}3}}}1
+        {4}{{{\color{red!20!violet}4}}}1
+        {5}{{{\color{red!20!violet}5}}}1
+        {6}{{{\color{red!20!violet}6}}}1
+        {7}{{{\color{red!20!violet}7}}}1
+        {8}{{{\color{red!20!violet}8}}}1
+        {9}{{{\color{red!20!violet}9}}}1
+        %{<}{{{\color{hellblau}<}}}1
+        %{>}{{{\color{hellblau}>}}}1
+}
+
+\definecolor{colIdentifierCS}{rgb}{0,0,0}
+\definecolor{colCommentsCS}{rgb}{0,0.501,0}
+\definecolor{colNameCS}{rgb}{0.168,0.568,0.686}
+\definecolor{colStringCS}{rgb}{0.639,0.082,0.082}
+
+% Styles for C#
+\lstdefinelanguage{CSharp}{
+    language=[Sharp]C,
+    language=csh,
+    numbersep = 15pt,
+    identifierstyle=\color{colIdentifierCS},
+    commentstyle=\color{colCommentsCS},
+    morecomment=[l]{//}, %use comment-line-style!
+    morecomment=[s]{/*}{*/}, %for multiline comments
+    morecomment=[n]{/*}{*/}, %for multiline comments
+    stringstyle=\color{colStringCS},
+    morestring=[b]{"},
+    morestring=[s]{@"}{"},
+    morestring=[b]{'},
+    keywordstyle=\color{colKeys},
+    keywordstyle=[2]\color{colNameCS},
+    morekeywords={  abstract, event, new, struct,
+                    as, explicit, null, switch,
+                    base, extern, object, this,
+                    bool, false, operator, throw,
+                    break, finally, out, true,
+                    byte, fixed, override, try,
+                    case, float, params, typeof,
+                    catch, for, private, uint,
+                    char, foreach, protected, ulong,
+                    checked, goto, public, unchecked,
+                    class, if, readonly, unsafe,
+                    const, implicit, ref, ushort,
+                    continue, in, return, using,
+                    decimal, int, sbyte, virtual,
+                    default, interface, sealed, volatile,
+                    delegate, internal, short, void,
+                    do, is, sizeof, while,
+                    double, lock, stackalloc,
+                    else, long, static,
+                    enum, namespace, string},
+    keywords=[2]{FolderBrowserDialog, DialogResult, },
+}

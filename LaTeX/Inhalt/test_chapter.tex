@@ -1,0 +1,172 @@
+\chapter{Vorlagen Chapter \& To Do's}
+\label{cha:test_chap}
+
+\section{Test Section}
+\label{sec:test_sec}
+
+\subsection{reserve Section}
+\label{subsec:guideline_res}
+
+\subsubsection{reserve Section}
+\label{subsubsec:guideline_res}
+
+\url{https://developers.google.com/speed/pagespeed/}
+
+
+Test abschnitt\footnote{nach \citet[5. Code minimieren \& optimieren]{smart_webentwicklung}\label{ftn:smart-webentwicklung}}
+
+zweiter Testabschnitt\footref{ftn:smart-webentwicklung}}
+
+\section[Titel des Abschnitts]{Titel des Abschnitts\footnote{Fasse dich kurz!}}
+\subsection{Test SubSection}
+\label{subsec:test_subsec}
+
+Test zum einbinden einer animierten GIF-Grafik
+\begin{figure}[htp]
+\centering
+\caption[Ladeindikator]{Ladeindikator}
+\label{fig:ladeindikator}
+\end{figure} 
+
+\newpage
+
+\section{Quellcodes}
+\label{sec:listing}
+
+\subsection{Quellcodes mit Listing Paket}
+\label{subsec:listing_quellcode}
+
+\lstset{language=CSS,basicstyle=\footnotesize}
+\begin{lstlisting}[caption={[QC im Verzeichniss \newline{} \Quelle{\citet{css_sprites_animation}}]\CSS QC unter listing\protect\footnotemark}, label=lst:QC_test]
+#load_div{
+position: absolute;
+top: 136px;		left: 118px;
+bottom: 0;		right: 17px;
+z-index: 1000;	background-color: #ffffff; 
+filter: alpha(opacity=60);		opacity: 0.6;
+}
+\end{lstlisting}
+\footnotetext{\Quelle{\citet{css_sprites_animation}}}
+
+\newpage
+
+\section{Programmablaufpl\"ane (PAP)}
+\label{sec:pap}
+
+\subsection{PAP mit TIKZ}
+\label{subsec:pap_tikz}
+
+\begin{figure}[htp]
+\centering
+\begin{tikzpicture}[node distance = 3.0em, auto]
+\node [papSE](Start1)
+		{Start};
+\node [papDescision, below of = Start1, yshift= -3.5em](Desc1)
+		{word word word};
+\node [papInput, below of = Desc1, yshift= -3.5em](input)
+		{User Input};
+\node [papData, below of = input, yshift= -1.0em](Trap1)
+		{Data read};
+\node [papFunction,  below of = Trap1] (Func1)
+		{\nodepart{two}\shortstack{Predefined\\Process}};
+\node [papFunction,  right of = Trap1, xshift=7.5em] (Func2) 
+		{\nodepart{two}Function\\2, second};
+\node [papInstruction,  below of = Func2](Func3)
+		{Operation};
+\node [papSE, below of = Func1, yshift= -1em](End)
+		{Ende};
+
+\coordinate [below of = Func1, yshift= 5mm] (join1);
+
+
+\path [papLine] (Start1) -- (Desc1);
+\path [papLine] (Desc1) -- node [at start] {\papYes} (input);
+\path [papArrow] (input) -- (Trap1);
+\path [papLine] (Func3) |- (join1);
+\path [papLine] (Func1) -- (End);
+\path [papLine] (Desc1) -| node [at start] {\papNo} (Func2);
+\path [papLine] (Func2) -- (Func3);
+\path [papLine] (Trap1) -- (Func1);
+
+\end{tikzpicture}
+\caption[PAP Muster]{PAP Muster}
+\label{pap:pap_muster}
+\end{figure}
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\begin{tikzpicture}[auto]
+\node [papSE](ExpStart)
+		{Start};
+\node [papData, below of=ExpStart, yshift=-2.0em](ExpData)
+		{Datenexport aus TIA-Portal\\ - Datenbausteine\\ - Benutzerdefinierte Typen\\ - Symboltabellen};
+\node [papSE, below of = ExpData, yshift= -2.0em](ExpEnde)
+		{Ende};
+
+\path [papArrow] (ExpStart) -- (ExpData);
+\path [papArrow] (ExpData) -- (ExpEnde);
+
+\node [papSE, right of = ExpStart, xshift= 17.5em](ComStart)
+		{Start};
+\node [papInput, below of=ComStart, yshift=-2.5em](ComSystem)
+		{System w\"ahlen: \\$\bigotimes$ S7-1200\\$\boldsymbol{\bigcirc}$ S7-1500};
+\node [papInput, below of=ComSystem, yshift=-2.5em](ComDataFiles)
+		{Auswahl der Datendateien\\ - S7 Variablen};
+\node [papData, below of=ComDataFiles, yshift=-1.0em](ComData)
+		{Datenimport aus TIA-Portal\\ DB, UDT, Vaiablentabellen};
+\node [papFunction, below of=ComData, yshift= -1.2em](ComDataImport)
+		{\nodepart{two}Import der Variablen mit Typangabe\\ Erstellen eines Protokolls};
+\node [papInput, below of=ComDataImport, yshift=-2.0em](ComHtmlFiles)
+		{Auswahl der Datendateien\\ - Webinterface};
+\node [papData, below of=ComHtmlFiles, yshift=-1.0em](ComHtml)
+		{Datenimport der Webinterface Dateien\\ HTML, HTM, JS};
+\node [papFunction, below of=ComHtml, yshift= -1.2em](ComHtmlImport)
+		{\nodepart{two}Kompilieren der Webinterface Dateien\\ Erstellen eines Protokolls};
+\node [papFunction, below of=ComHtmlImport, yshift= -2.0em](ComGen)
+		{\nodepart{two}Generierung der Scripte\\ - SCL Quellen\\ - JavaScript, JSON};
+\node [papInput, below of=ComGen, yshift=-2.5em](ComTargetFolder)
+		{Auswahl des Zielordners};
+\node [papData, below of=ComTargetFolder, yshift=-0.8em](ComSave)
+		{Datenexport der Dateien\\ HTML, HTM, JS, JSON, SCL, LOG};
+\node [papSE, below of = ComSave, yshift= -1.5em](ComEnde)
+		{Ende};
+
+\path [papArrow] (ComStart) -- (ComSystem);
+\path [papArrow] (ComSystem) -- (ComDataFiles);
+\path [papArrow] (ComDataFiles) -- (ComData);
+\path [papArrow] (ComData) -- (ComDataImport);
+\path [papArrow] (ComDataImport) -- (ComHtmlFiles);
+\path [papArrow] (ComHtmlFiles) -- (ComHtml);
+\path [papArrow] (ComHtml) -- (ComHtmlImport);
+\path [papArrow] (ComHtmlImport) -- (ComGen);
+\path [papArrow] (ComGen) -- (ComTargetFolder);
+\path [papArrow] (ComTargetFolder) -- (ComSave);
+\path [papArrow] (ComSave) -- (ComEnde);
+
+\node [papSE, left of = ComEnde, xshift= -17.5em](ImpEnd)
+		{Ende};
+\node [papData, above of=ImpEnd, yshift=2.0em](ImpData)
+		{Datenimport in TIA-Portal\\ - SCL-Quellen\\ - Webinterface};
+\node [papSE, above of = ImpData, yshift= 2.0em](ImpStart)
+		{Start};
+
+\path [papArrow] (ImpStart) -- (ImpData);
+\path [papArrow] (ImpData) -- (ImpEnd);
+
+\coordinate [right of = ExpEnde, xshift= 7.0em] (join1);
+\path [papLine] (ExpEnde) -- (join1);
+\path [papArrow] (join1) |- (ComStart);
+
+\coordinate [right of = ImpEnd, xshift= 7.0em] (join2);
+\path [papLine] (ComEnde) -- (join2);
+\path [papArrow] (join2) |- (ImpStart);
+\end{tikzpicture}
+\captionof{figure}[WebOptimierungsTool - Ablauf]{WebOptimierungsTool - Ablauf}
+\label{pap:WebGen_konzept_test}
+\end{minipage}
+\end{center}
+
+
+
+

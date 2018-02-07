@@ -1,21 +1,26 @@
-% Eigene Befehle und typographische Auszeichnungen für diese
+% Eigene Befehle und typographische Auszeichnungen fÃ¼r diese
+%\addtocontents{toc}{\protect\newpage} %Seitenumbruch in Inhaltsverzeichnis erzwingen
 
 % einfaches Wechseln der Schrift, z.B.: \changefont{cmss}{sbc}{n}
-\newcommand{\changefont}[3]{\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
+%\newcommand{\changefont}[3]{\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
 
-% Abkürzungen mit korrektem Leerraum 
+% AbkÃ¼rzungen mit korrektem Leerraum 
+\newcommand{\sa}{\mbox{s.\,a.\ }}
 \newcommand{\ua}{\mbox{u.\,a.\ }}
 \newcommand{\zB}{\mbox{z.\,B.\ }}
 \newcommand{\dahe}{\mbox{d.\,h.\ }}
 \newcommand{\Vgl}{Vgl.\ }
+\newcommand{\vgl}{vgl.\ }
 \newcommand{\bzw}{bzw.\ }
+\newcommand{\uvm}{uvm.\ }
 \newcommand{\evtl}{evtl.\ }
 
 \newcommand{\abbildung}[1]{Abbildung~\ref{fig:#1}}
 
 \newcommand{\bs}{$\backslash$}
+%\newcommand{\bs}[1]{\boldsymbol{#1}}
 
-% erzeugt ein Listenelement mit fetter Überschrift 
+% erzeugt ein Listenelement mit fetter Ãœberschrift 
 \newcommand{\itemd}[2]{\item{\textbf{#1}}\\{#2}}
 
 % einige Befehle zum Zitieren --------------------------------------------------
@@ -25,14 +30,26 @@
 \newcommand{\AutorName}[1]{\textsc{#1}}
 \newcommand{\Autor}[1]{\AutorName{\citeauthor{#1}}}
 
-% verschiedene Befehle um Wörter semantisch auszuzeichnen ----------------------
+% verschiedene Befehle um WÃ¶rter semantisch auszuzeichnen ----------------------
 \newcommand{\NeuerBegriff}[1]{\textbf{#1}}
 \newcommand{\Fachbegriff}[1]{\textit{#1}}
 
 \newcommand{\Eingabe}[1]{\texttt{#1}}
-\newcommand{\Code}[1]{\texttt{#1}}
+%\newcommand{\Code}[1]{\texttt{#1}}
 \newcommand{\Datei}[1]{\texttt{#1}}
 
 \newcommand{\Datentyp}[1]{\textsf{#1}}
 \newcommand{\XMLElement}[1]{\textsf{#1}}
 \newcommand{\Webservice}[1]{\textsf{#1}}
+
+% verschiedene Befehle um WÃ¶rter semantisch auszuzeichnen ----------------------
+\newcommand{\Index}[1]{#1\index{#1}}
+
+%\newcommand{\Quelle}{\footnotesize Quelle: }
+\newcommand{\Quelle}[1]{\footnotesize{}Quelle: #1}
+% im Index erscheinen alle gepunkteten Linien direkt \"ubereinander
+\renewcommand{\dotfill}{\leaders\hbox to2mm{\hss.\hss}\hskip 2mm plus1fill}
+%\renewcommand{\dotfill}{\leaders\hbox to 5p1{\hss.\hss}\hfill}
+
+% alternativ on-the-fly Konvertierung beim Ãœbersetzungsvorgang wird externer Grafikkonverter aufgerufen
+%\DeclareGraphicsRule{.jpg}{.eps}{}{jpeg2ps #1}
