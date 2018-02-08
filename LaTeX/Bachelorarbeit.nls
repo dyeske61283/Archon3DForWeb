@@ -138,9 +138,4 @@
 		\nompageref{XX}
   \item [{WYSIWYG}]\begingroup Man sieht im Editor sofort was man bekommt, sowohl textuell als auch grafisch dargestellt (engl. f{\"u}r what you see is what you get) \nomeqref {12.0}
 		\nompageref{XX}
-  \item [{XML}]\begingroup erweiterbare Auszeichnungssprache (engl. für Extensible Markup Language)\nomeqref {12.0}
-		\nompageref{XX}
-  \item [{XPath}]\begingroup XML Abfragesprache (engl. für XML Path Language)\nomeqref {12.0}
-		\nompageref{XX}
-
 \end{thenomenclature}

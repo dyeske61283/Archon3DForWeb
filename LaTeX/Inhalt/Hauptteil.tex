@@ -1,46 +1,67 @@
 \chapter{Hauptteil}
 \label{cha:Hauptteil}
 
-Hier\todo
-
-\section{Theorie und benutzte Technologien}
-\label{sec:theorie}\index{Theorie}
-
 \section{Analyse}
 \label{sec:analyse}\index{Analyse}
+
+\emph{In diesem Abschnitt soll die Vorgehensweise bei der Analyse kurz aufgezeigt werden und der Inhalt der einzelnen Teile klar gemacht werden. Also, zum einen, dass hier eben eine Anforderungsanalyse stattfindet, und zum Anderen, dass diese Analyse zweigeteilt ist.}
 
 \subsection{Analyse des klassischen Spiels}
 \label{subsec:spiel_analyse}\index{Spiel Analyse}
 
+\emph{Hier werden alle Aspekte des klassischen Spiels herausgearbeitet, gegliedert nach Teilen: Generelle Regeln, das Board, die Figuren, Abläufe und Wirkungen, mögliche Einstellungen}
+
 \subsection{Anforderungsanalyse an neue Implementierung}
 \label{subsec:neueImpl_analyse}\index{Analyse neue Implementierung}
 
-\section{Zusammenf\"uhrung}
-\label{sec:zusammenfuhrung}\index{Zusammenf\"uhrung}
+\emph{Hier wird analysiert, welche Aspekte das Spiel von der Seite der technologisch gestellten Anfoderungen erfüllen muss. Also: Es muss eine 3D- Engine geben, die irgendwie im Browser renderbar ist.\\ Es muss möglich sein, alle Spiel-Mechaniken mittels Server-Client-Kommunikation umzusetzen, etc.}
+
+\section{Zusammenführung}
+\label{sec:zusammenfuhrung}\index{Zusammenführung}
+
+\emph{Hier soll dann aufgezeigt werden, welche Anforderungen vom Spiel durch welche Technologie umgesetzt werden und nötige Bedingungen/grundsätzliche Ausschlüsse aufgezeigt werden.}
 
 \subsection{Architektur}
 \label{subsec:Architektur}\index{Architektur}
 
-\subsection{ben\"otigte Technologien und Frameworks}
+\emph{Aus dem Teil der Zusammenführung ergibt sich dann zwangsläufig eine Art Komponentenarchitektur, die hier verfeinert wird, bis zu dem Punkt, an dem eine Festlegung auf Frameworks und Technologien getätigt werden muss.}
+
+\subsection{benötigte Technologien und Frameworks}
 \label{subsec:Technologien}\index{Technologien}
+
+\emph{Hier wird dann von den benötigten Technologien die Festlegung auf eine bestimmte Implementierung getroffen, also Frameworks, Programmiersprachen, Toolsets etc. festgelegt.}
 
 \section{Umsetzung}
 \label{sec:Umsetzung}\index{Umsetzung}
 
+\emph{Hier wird dann die Komponentenarchitektur vom vorherigen Teil weiter verfeinert, sodass evtl schon eine grobe Klassenarchitektur dabei herausspringen kann.}
+
 \subsection{Hilfsmittel und Vereinfachungen}
 \label{subsec:Hilfsmittel}\index{Hilfsmittel}
+
+\emph{Hier würden Dinge zu lesen sein, wie die Benutzung von TypeScript, oder Browser-Beschränkungen etc, da diese nicht relevant für den eigentlichen Entwicklungsvorgang sind, aber dennoch nützlich sind und eben Vereinfachungen darstellen.}
 
 \subsection{Schritte der Implementierung}
 \label{subsec:Implementierung}\index{Implementierung}
 
+\emph{Hier wird dann der Entwicklungsprozess kurz erläutert, also Vorgehen, wie Aufsetzen der Tool-Chain, dann Entwicklung einer ersten Darstellung (Frontend), um direkte Erfogle zu sehen, etc pp.}
+
 \section{Ergebnisse}
 \label{sec:Ergebnisse}\index{Ergebnisse}
+
+\emph{Hier soll dann ein Screenshot des Ergebnisses rein und erläutert werden, dass als nächste der Endstand mit seiner Architektur gezeigt wird und anschließend die Erfüllung aller Anforderungen sichergestellt wird. Als letztes (falls genug Zeit!) werden die (hoffentlich) programmierten Unit-Tests erwähnt, und deren Ergebnisse dargestellt.}
 
 \subsection{fertige Architektur}
 \label{subsec:f_architektur}
 
-\subsection{Erf\"ullung der Anforderungen}
-\label{subsec:erfullung_anforderungen}\index{Erf\"ullung}
+\emph{Die fertige Architektur kann und soll durchaus von der geplanten Abweichen und das schlussendliche Ergebnisse wird hier in Form von Diagrammen gezeigt, die dann einzeln erklärt werden.}
 
-\subsection{\"Uberpr\"ufung der Software mit Unit-Tests}
+\subsection{Erfüllung der Anforderungen}
+\label{subsec:erfullung_anforderungen}\index{Erfüllung}
+
+\emph{Hier werden die Anforderungen aus dem Analyse-Teil aufgegriffen und mit der fertigen Anwendung und ihrer Architektur abgeglichen, also sowas wie "die einzelnen Figuren und ihre Unterschiede, sind hier und hier da und da durch umgesetzt worden."}
+
+\subsection{Überprüfung der Software mit Unit-Tests}
 \label{subsec:unittests}\index{Unittests}
+
+\emph{Hier wird dann die breite der Unit-Tests gezeigt, deren Anzahl und die Beschränkungen, also Code-Abdeckung. Anschließend ein Ergebnis-Log von einem Lauf auf dem finalen Stand.}

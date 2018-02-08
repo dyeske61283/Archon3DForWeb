@@ -12,26 +12,26 @@
     twoside,				% zweiseitiges Dokument
     openright,
     titlepage,				% es wird eine Titelseite verwendet
-    parskip=half,			% Abstand zwischen Abs\"atzen (halbe Zeile)
-    headings=normal,		% Gr\"o\ss e der \"uberschriften verkleinern
-    %listof=totoc,			% Verzeichnisse im Inhaltsverzeichnis auff\"uhren
-    %bibliography=totoc,	% Literaturverzeichnis im Inhaltsverzeichnis auff\"uhren
-    %index=totoc,			% Index im Inhaltsverzeichnis auff\"uhren
+    parskip=half,			% Abstand zwischen Absätzen (halbe Zeile)
+    headings=normal,		% Gr\"o\ss e der Überschriften verkleinern
+    %listof=totoc,			% Verzeichnisse im Inhaltsverzeichnis aufführen
+    %bibliography=totoc,	% Literaturverzeichnis im Inhaltsverzeichnis aufführen
+    %index=totoc,			% Index im Inhaltsverzeichnis aufführen
     %captions=tableheading,	% Beschriftung von Tabellen oberhalb ausgeben
     %listof=flat,
     final					% Status des Dokuments (final/draft)
 ]{scrreprt}					% 
 
 % Meta-Informationen -----------------------------------------------------------
-%   Informationen \"uber das Dokument, wie z.B. Titel, Autor, Matrikelnr. etc
-%   werden in der Datei Meta.tex definiert und k\"onnen danach global
+%   Informationen \"uber das Dokument, wie z.B. Titel, Autor, Matrikelnummer etc
+%   werden in der Datei Meta.tex definiert und können danach global
 %   verwendet werden.
 % ------------------------------------------------------------------------------
 \input{Meta}
 
-% ben\"otigte Packages -----------------------------------------------------------
-%   LaTeX-Packages, die ben\"otigt werden, sind in die Datei Packages.tex
-%   "ausgelagert", um diese Vorlage m\"oglichst \"ubersichtlich zu halten.
+% benötigte Packages -----------------------------------------------------------
+%   LaTeX-Packages, die benötigt werden, sind in die Datei Packages.tex
+%   "ausgelagert", um diese Vorlage möglichst übersichtlich zu halten.
 % ------------------------------------------------------------------------------
 \input{Packages}
 
@@ -68,23 +68,23 @@
 \ofoot{\pagemark}
 
 % Seitennummerierung -----------------------------------------------------------
-%   Vor dem Hauptteil werden die Seiten in gro\ss en r\"omischen Ziffern 
+%   Vor dem Hauptteil werden die Seiten in groß en römischen Ziffern 
 %   nummeriert.
 % ------------------------------------------------------------------------------
 \pagenumbering{Roman}
-\clearpage\markboth{Kurzfassung / Abstract}{Kurzfassung / Abstract} % f�r korrekte �berschrift in der Kopfzeile
+\clearpage\markboth{Kurzfassung / Abstract}{Kurzfassung / Abstract} % für korrekte Überschrift in der Kopfzeile
 \include{Inhalt/Kurzfassung}
 \cleardoublepage
 
 % Inhaltsverzeichnis ----------------------------------------------------------
-\clearpage\markboth{\contentsname}{\contentsname} % f�r korrekte �berschrift in der Kopfzeile
+\clearpage\markboth{\contentsname}{\contentsname} % für korrekte Überschrift in der Kopfzeile
 \phantomsection
 \addcontentsline{toc}{chapter}{\contentsname}
 \tableofcontents % Inhaltsverzeichnis
 \cleardoublepage
 
 % Vorwort ----------------------------------------------------------------------
-\clearpage\markboth{Vorwort}{Vorwort} % f�r korrekte �berschrift in der Kopfzeile
+\clearpage\markboth{Vorwort}{Vorwort} % für korrekte Überschrift in der Kopfzeile
 \include{Inhalt/Vorwort}
 \cleardoublepage
 %\newpage \thispagestyle{empty} \quad \newpage
@@ -142,7 +142,7 @@
 % Literaturverzeichnis ---------------------------------------------------------
 % Das Literaturverzeichnis wird aus der BibTeX-Datenbank "Bibliographie.bib" erstellt.
 \cleardoublepage\phantomsection
-\markboth{\refname}{\refname} % f�r korrekte �berschrift in der Kopfzeile
+\markboth{\refname}{\refname} % f�r korrekte Überschrift in der Kopfzeile
 \addcontentsline{toc}{section}{\refname}
 %\bibliographystyle{dinat}
 %\bibliographystyle{alphadin}
@@ -151,19 +151,19 @@
 
 % Abbildungsverzeichnis --------------------------------------------------------
 \cleardoublepage\phantomsection
-\markboth{\listfigurename}{\listfigurename} % f�r korrekte �berschrift in der Kopfzeile
+\markboth{\listfigurename}{\listfigurename} % für korrekte Überschrift in der Kopfzeile
 \addcontentsline{toc}{section}{\listfigurename}
 \listoffigures
 
 % Tabellenverzeichnis ---------------------------------------------------------
 \cleardoublepage\phantomsection
-\markboth{\listtablename}{\listtablename} % f�r korrekte �berschrift in der Kopfzeile
+\markboth{\listtablename}{\listtablename} % für korrekte Überschrift in der Kopfzeile
 \addcontentsline{toc}{section}{\listtablename}
 \listoftables
 
 % Code Listen Verzeichnis ------------------------------------------------------
 \cleardoublepage\phantomsection
-\markboth{\lstlistlistingname}{\lstlistlistingname} % f�r korrekte �berschrift in der Kopfzeile
+\markboth{\lstlistlistingname}{\lstlistlistingname} % für korrekte Überschrift in der Kopfzeile
 \addcontentsline{toc}{section}{\lstlistlistingname}
 \lstlistoflistings % Listings-Verzeichnis
 
@@ -173,14 +173,14 @@
 \include{Inhalt/VerzeichnissStruktur}
 
 % Abkürzungsverzeichnis -----------------------------------------------------
-\cleardoublepage\markboth{\nomname}{\nomname} % f�r korrekte �berschrift in der Kopfzeile
+\cleardoublepage\markboth{\nomname}{\nomname} % für korrekte Überschrift in der Kopfzeile
 \phantomsection
 \addcontentsline{toc}{section}{\nomname}
 \input{Inhalt/Glossar}
 \printnomenclature
 
 % Stichwortverzeichnis ---------------------------------------------------------
-\cleardoublepage\markboth{\indexname}{\indexname} % f�r korrekte �berschrift in der Kopfzeile
+\cleardoublepage\markboth{\indexname}{\indexname} % für korrekte Überschrift in der Kopfzeile
 \phantomsection
 \addcontentsline{toc}{section}{\indexname}
 \printindex
