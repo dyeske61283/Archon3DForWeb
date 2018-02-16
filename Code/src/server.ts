@@ -27,7 +27,7 @@ export const server = app.listen(app.get("port"), () => {
   console.log("  Press CTRL-C to stop\n");
 });
 
-// init gameserver
+// init game server
 const gameServer = new GameServer();
 
 // init socket io server
