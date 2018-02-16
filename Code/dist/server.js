@@ -30,7 +30,7 @@ exports.io = SocketIO(exports.server);
 exports.io.serveClient(true);
 exports.io.on("connection", function (socket) {
     console.log("Client connected on port " + exports.app.get("port"));
-    socket.emit("colorChange", 5);
+    // socket.emit("colorChange", 5);
 });
 exports.io.on("disconnect", function () {
     console.log("Client disconnected.");

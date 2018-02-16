@@ -1,16 +1,23 @@
 ///<reference path="../../../src/types/threejs/three.d.ts"/>
 import * as THREE from "three";
+import { OrbitControls } from "three-orbitcontrols-ts";
 import * as io from "socket.io-client";
 // let client: Client;
 
 let camera: THREE.PerspectiveCamera;
 let scene: THREE.Scene;
+let raycaster: THREE.Raycaster;
+const mouse: THREE.Vector2 = new THREE.Vector2();
 let renderer: THREE.WebGLRenderer;
 let boardGeo: THREE.PlaneGeometry;
+let boardMesh: THREE.Mesh;
+let figMesh: THREE.Mesh;
+let cursorMesh: THREE.Mesh;
 let radius: number;
+let selected: boolean;
 const MAX: number = 9;
 let materialIndex: number = 0;
-const socket =  io();
+const socket = io();
 
 $(document).ready(function () {
   setup();
@@ -34,6 +41,8 @@ function setup(): void {
   scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
   scene.add(camera);
 
+  // raycaster
+  raycaster = new THREE.Raycaster();
   // add a little light
   const light = new THREE.AmbientLight(0x222222);
   scene.add(light);
@@ -87,7 +96,7 @@ function setup(): void {
     if (boardGeo.faces[i].materialIndex != 3) {
       boardGeo.faces[i].materialIndex = boardGeo.faces[i + 1].materialIndex = materialIndex;
       n++;
-      if ((n >= 10 && (n - 10) % 6 != 0 ) || n < 10 || n > 40) {
+      if ((n >= 10 && (n - 10) % 6 != 0) || n < 10 || n > 40) {
         if (materialIndex == 0) {
           materialIndex = materials.length - 1;
         }
@@ -100,8 +109,9 @@ function setup(): void {
   // reset the index for the changing tiles
   materialIndex = boardGeo.faces[6].materialIndex;
   // add board to the scene
-  const mesh: THREE.Mesh = new THREE.Mesh(boardGeo, new THREE.MeshFaceMaterial(materials));
-  scene.add(mesh);
+  boardMesh = new THREE.Mesh(boardGeo, new THREE.MeshFaceMaterial(materials));
+  boardMesh.rotateZ(- Math.PI / 2);
+  scene.add(boardMesh);
 
   // power fields
   const powerFields: THREE.Group = new THREE.Group();
@@ -147,12 +157,83 @@ function setup(): void {
   const axesHelper: THREE.AxisHelper = new THREE.AxisHelper(5);
   scene.add(axesHelper);
 
+  // drop that sweet magician in
+  // const loader = new THREE.OBJLoader();
+  // loader.load("../images/tinker.obj", (magician: THREE.Object3D) => {
+  //   scene.add(magician);
+  // });
+
+  // add primitive figure
+  const box = new THREE.BoxGeometry(3, 3, 3);
+  const standGeo = new THREE.CylinderGeometry(1, 2, 0.5);
+  standGeo.rotateX(Math.PI / 2);
+  box.rotateZ(Math.PI / 4);
+  box.rotateY(Math.PI / 4);
+  const figureMaterial = new THREE.MeshNormalMaterial();
+  const figureMesh = new THREE.Mesh(box, figureMaterial);
+  figureMesh.position.set(-0.3, 0, 2.5);
+  figureMesh.updateMatrix();
+  standGeo.mergeMesh(figureMesh);
+  figMesh = new THREE.Mesh(standGeo, figureMaterial);
+  figMesh.position.set(-20, -20, 0.5);
+  scene.add(figMesh);
+
+  // add orbit controls for debugging to be able to move the board around
+  const controls = new OrbitControls(camera);
+
+  // add cursor
+  const cursorGeo = new THREE.RingBufferGeometry(3, 3.53, 4);
+  cursorGeo.rotateZ(Math.PI / 4);
+  const cursorMaterial = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: 0xDDDD00, transparent: true });
+  cursorMesh = new THREE.Mesh(cursorGeo, cursorMaterial);
+  cursorMesh.position.z += 0.01;
+  scene.add(cursorMesh);
 
   // EVENT LISTENERS
   // attach resize listener
   window.addEventListener("resize", onWindowResize, false);
-  // attach mousedragged listener
+  // attach mouse dragged listener
   window.addEventListener("mousedown", onMouseDown, false);
+  // attach mouse moved listender
+  window.addEventListener("mousemove", onMouseMove, false);
+  // attach key pressed event listender
+  window.addEventListener("keypress", onKeyPress, false);
+}
+
+function onKeyPress(ev: KeyboardEvent) {
+  // use arrow keys to move cursor
+  ev.preventDefault();
+  switch (ev.key) {
+    case "ArrowDown":
+      if (cursorMesh.position.y > - 20) {
+        cursorMesh.position.y -= 5;
+      }
+      break;
+    case "ArrowUp":
+      if (cursorMesh.position.y < 20) {
+        cursorMesh.position.y += 5;
+      }
+      break;
+    case "ArrowRight":
+      if (cursorMesh.position.x < 20) {
+        cursorMesh.position.x += 5;
+      }
+      break;
+    case "ArrowLeft":
+      if (cursorMesh.position.x > -20) {
+        cursorMesh.position.x -= 5;
+      }
+      break;
+    case " ":
+      if (selected) {
+        selected = false;
+        figMesh.position.set(cursorMesh.position.x, cursorMesh.position.y, figMesh.position.z);
+      } else {
+        if (cursorMesh.position.distanceTo(figMesh.position) < 2) {
+          selected = true;
+        }
+      }
+  }
 }
 
 function draw(): void {
@@ -166,18 +247,58 @@ function draw(): void {
       }
     }
   }
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(figMesh);
+  let m, c;
+  if (intersects.length > 0) {
+    m = <THREE.Mesh>intersects[0].object;
+    c = <THREE.MeshNormalMaterial>m.material;
+    c.wireframe = true;
+  } else {
+    c = <THREE.MeshNormalMaterial>figMesh.material;
+    c.wireframe = false;
+  }
+  if (selected) {
+    m = <THREE.MeshBasicMaterial>figMesh.material;
+    m.wireframe = true;
+  } else {
+    m = <THREE.MeshBasicMaterial>figMesh.material;
+    m.wireframe = false;
+  }
 
   renderer.render(scene, camera);
 }
 
 function onWindowResize() {
-  this.camera.aspect = window.innerWidth / window.innerHeight;
-  this.camera.updateProjectionMatrix();
-  this.renderer.setSize(window.innerWidth, window.innerHeight);
-
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function onMouseDown() {
+function onMouseMove(event: MouseEvent) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function onMouseDown(event: MouseEvent) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  if (selected) {
+    console.log("Figur wird gesetzt. An Position: " + mouse.x + ", " + mouse.y);
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObject(boardMesh);
+    if (intersects.length > 0) {
+      selected = false;
+      figMesh.position.copy(intersects[0].point).add(intersects[0].face.normal);
+      figMesh.position.divideScalar(5).floor().multiplyScalar(5).addScalar(2.25);
+    }
+  }
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(figMesh);
+  if (intersects.length > 0) {
+    selected = true;
+    console.log("Figur ist selektiert. An Position: " + mouse.x + ", " + mouse.y);
+  }
 }
 
 socket.on("colorChange", (change: number) => {

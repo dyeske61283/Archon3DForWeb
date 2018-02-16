@@ -2051,7 +2051,6 @@ declare namespace THREE {
         setTexturePath(value: string): void;
         parse(json: any, texturePath?: string): { geometry: Geometry; materials?: Material[] };
     }
-
     /**
      * Handles and keeps track of loaded and pending data.
      */

@@ -130,6 +130,24 @@ function setup() {
     // axes helper
     var axesHelper = new THREE.AxisHelper(5);
     scene.add(axesHelper);
+    // drop that sweet magician in
+    // const loader = new THREE.OBJLoader();
+    // loader.load("../images/tinker.obj", (magician: THREE.Object3D) => {
+    //   scene.add(magician);
+    // });
+    // add primitive figure
+    var figureGeo = new THREE.BoxBufferGeometry(5, 5, 5);
+    var standGeo = new THREE.CylinderBufferGeometry(1, 2, 0.5);
+    figureGeo.rotateZ(Math.PI / 2);
+    figureGeo.rotateY(Math.PI / 2);
+    var figureMaterial = new THREE.MeshPhongMaterial();
+    var figureMesh = new THREE.Mesh(figureGeo);
+    var standMesh = new THREE.Mesh(standGeo);
+    var geo = new THREE.Geometry();
+    geo.mergeMesh(figureMesh);
+    geo.mergeMesh(standMesh);
+    var figMesh = new THREE.Mesh(geo, figureMaterial);
+    scene.add(figMesh);
     // EVENT LISTENERS
     // attach resize listener
     window.addEventListener("resize", onWindowResize, false);
@@ -142,21 +160,22 @@ function draw() {
         var oldIndex = boardGeo.faces[6].materialIndex;
         for (var i = 0; i < boardGeo.faces.length; i += 2) {
             if (boardGeo.faces[i].materialIndex == oldIndex) {
-                boardGeo.faces[i].materialIndex = materialIndex;
+                boardGeo.faces[i].materialIndex = boardGeo.faces[i + 1].materialIndex = materialIndex;
             }
         }
     }
     renderer.render(scene, camera);
 }
 function onWindowResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 function onMouseDown() {
 }
 socket.on("colorChange", function (change) {
     console.log("received color change event with color index: " + change);
     materialIndex = change;
+    boardGeo.elementsNeedUpdate = true;
 });
 //# sourceMappingURL=main.js.map
