@@ -13,7 +13,6 @@ let boardGeo: THREE.PlaneGeometry;
 let boardMesh: THREE.Mesh;
 let figMesh: THREE.Mesh;
 let cursorMesh: THREE.Mesh;
-let radius: number;
 let selected: boolean;
 const MAX: number = 9;
 let materialIndex: number = 0;
@@ -33,8 +32,6 @@ function setup(): void {
   camera.position.z = 60;
   camera.position.y = -50;
   camera.lookAt(new THREE.Vector3(0, 0, -4));
-  radius = camera.position.distanceTo(new THREE.Vector3(0, 0, -4));
-
   // scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xcccccc);
