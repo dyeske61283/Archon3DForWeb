@@ -1,31 +1,48 @@
-export class GameServer {
-	private socket: SocketIO.Socket;
-	playerOne: any;
-	playerTwo: any;
+import { PlayerInfo } from "./PlayerInfo";
+import { BoardInfo } from "./BoardInfo";
+import { SettingsInfo } from "./SettingsInfo";
+import { ConnectionManager } from "./ConnectionManager";
+import { CursorInfo } from "./CursorInfo";
+import { OverlayManager } from "./OverlayManager";
+
+export class GameServer implements SettingsInfo {
+
+	socket: SocketIO.Socket;
+	connectionManager: ConnectionManager;
+	players: [PlayerInfo, PlayerInfo];
 	turns: number = 0;
 	colorIndex: number = 3;
 	colorDir: number = 1;
+	board: BoardInfo;
+	cursor: CursorInfo;
+	overlayManager: OverlayManager;
+
 	constructor() {
 	}
 
-	set Socket(socket: SocketIO.Socket) {
-		this.socket = socket;
+	public whoGoesFirst(p: PlayerInfo): void {
+		throw new Error("Method not implemented.");
 	}
-	public nextTurn(socket: SocketIO.Socket): void {
-		this.turns++;
+	public setColorForPlayer(p: PlayerInfo, c: boolean): void {
+		throw new Error("Method not implemented.");
+	}
 
-		console.log("executing next Turn: " + this.turns);
-		if ((this.turns % 2) === 0) {
+	public nextAction(): void {
 
-			console.log("sending color change event");
-			socket.emit("colorChange", this.colorIndex);
-			if (this.colorIndex == 5) {
-				this.colorDir = -1;
-			}
-			if (this.colorIndex == 0) {
-				this.colorDir = 1;
-			}
-			this.colorIndex += this.colorDir;
-		}
+	}
+
+	private initGame(): void {
+
+	}
+
+	private allowSettings(n: number): void {
+
+	}
+
+	private giveControlToPlayer(n: number): void {
+	}
+
+	private resetGame(): void {
+
 	}
 }

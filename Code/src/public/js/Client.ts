@@ -4,6 +4,7 @@ import { Cursor, direction } from "./Cursor";
 import { Figure } from "./Figure";
 import { ActionsWiring } from "./ActionWiring";
 import { CommunicationManager } from "./CommunicationManager";
+import { WaitingForPlayerOverlay } from "./WaitingForPlayerOverlay";
 export class Client {
   // client needs to have..
   // scene
@@ -28,6 +29,8 @@ export class Client {
   public socket: SocketIOClient.Socket;
   public actionWirer: ActionsWiring;
   public commManager: CommunicationManager;
+  public pwOverlay: WaitingForPlayerOverlay;
+
   public constructor() {
     this.init();
   }

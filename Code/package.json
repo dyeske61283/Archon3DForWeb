@@ -9,6 +9,7 @@
   "author": "Kevin Dyes",
   "license": "",
   "scripts": {
+    "createDiagrams": "tsviz -d -r ./src/ ../overview.png && tsviz -d ./src/ ../server.png && tsviz -d ./src/public/js/ ../client.png",
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint && npm run copy-static-assets",
     "serve": "node dist/server.js",
