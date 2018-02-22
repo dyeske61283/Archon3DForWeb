@@ -36,7 +36,6 @@ io.serveClient(true);
 
 io.on("connection", (socket) => {
   console.log("Client connected on port " + app.get("port"));
-  // socket.emit("colorChange", 5);
 });
 
 io.on("disconnect", () => {

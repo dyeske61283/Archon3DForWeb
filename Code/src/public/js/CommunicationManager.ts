@@ -1,4 +1,4 @@
-class CommunicationManager {
+export class CommunicationManager {
 	public constructor() {
 
 	}

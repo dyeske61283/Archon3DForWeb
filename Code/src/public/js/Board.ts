@@ -1,4 +1,6 @@
-class Board {
+import { HasMesh } from "./hasMeshInterface";
+
+export class Board implements HasMesh {
 
 	private boardGeo: THREE.PlaneGeometry;
 	private boardMesh: THREE.Mesh;
@@ -113,15 +115,17 @@ class Board {
 
 	}
 
-	public getFieldFromXY(x: number, y: number) {
-
+	public getFieldPosition(indexX: number, indexY: number): [number, number] {
+		const tmpX: number = indexX * this.SCALE - (this.MAX_FIELDS - 1) * this.SCALE / 2;
+		const tmpY: number = indexY * this.SCALE - (this.MAX_FIELDS - 1) * this.SCALE / 2;
+		return [tmpX, tmpY];
 	}
 
 	public getMesh(): THREE.Mesh {
 		return this.boardMesh;
 	}
 
-	public getPowerFields(): THREE.Group {
+	public getGroup(): THREE.Group {
 		return this.powerFields;
 	}
 

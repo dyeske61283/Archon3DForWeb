@@ -1,4 +1,4 @@
-class ActionsWiring {
+export class ActionsWiring {
 
 	public constructor() {
 

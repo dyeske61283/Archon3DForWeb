@@ -23,7 +23,7 @@ exports.server = exports.app.listen(exports.app.get("port"), function () {
     console.log(("  App is running at http://localhost:%d in %s mode"), exports.app.get("port"), exports.app.get("env"));
     console.log("  Press CTRL-C to stop\n");
 });
-// init gameserver
+// init game server
 var gameServer = new GameServer_1.GameServer();
 // init socket io server
 exports.io = SocketIO(exports.server);

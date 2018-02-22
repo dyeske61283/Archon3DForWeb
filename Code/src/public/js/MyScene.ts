@@ -1,4 +1,6 @@
-class MyScene {
+import { HasMesh } from "./hasMeshInterface";
+
+export class MyScene {
 	private renderer: THREE.WebGLRenderer;
 	private scene: THREE.Scene;
 	private camera: THREE.PerspectiveCamera;
@@ -9,6 +11,7 @@ class MyScene {
 	public constructor(scalingFactor: number, domElement: string) {
 		this.scaling = scalingFactor;
 		this.domElement = domElement;
+		this.setupRenderer();
 		this.renderLoop = this.renderLoop.bind(this);
 		this.initCamera();
 		this.initScene();
@@ -58,19 +61,23 @@ class MyScene {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
-	public board(board: Board): MyScene {
+	public board(board: HasMesh): MyScene {
 		this.add(board.getMesh());
-		this.add(board.getPowerFields());
+		this.add(board.getGroup());
 		return this;
 	}
 
-	public cursor(cursor: Cursor): MyScene {
+	public cursor(cursor: HasMesh): MyScene {
 		this.add(cursor.getMesh());
 		return this;
 	}
 
-	public figure(figure: Figure): MyScene {
+	public figure(figure: HasMesh): MyScene {
 		this.add(figure.getMesh());
 		return this;
+	}
+
+	public getCamera(): THREE.PerspectiveCamera {
+		return this.camera;
 	}
 }

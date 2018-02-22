@@ -1,37 +1,107 @@
 var Board = /** @class */ (function () {
-    function Board() {
-        this.colorDirection = 1;
-        this.colorIndex = 0;
-        this.colors = [new THREE.Color(0),
-            new THREE.Color(0, 80, 0),
-            new THREE.Color(0, 140, 0),
-            new THREE.Color(0, 180, 0),
-            new THREE.Color(0, 220, 0),
-            new THREE.Color(255)];
-        this.width = 9;
-        this.size = this.width * 50;
-        // build a plane
-        this.geo = new THREE.PlaneGeometry(this.size, this.size, this.width, this.width);
-        this.materialBlack = new THREE.MeshBasicMaterial({ color: this.colors[0].getHex(), side: THREE.DoubleSide });
-        this.MaterialWhite = new THREE.MeshBasicMaterial({ color: this.colors[5].getHex(), side: THREE.DoubleSide });
-        var materials = [this.MaterialWhite, this.materialBlack];
-        // color the vertices
-        var l = this.geo.faces.length;
-        console.log("This should be 81: " + l);
-        for (var i = 0; i < l; i++) {
-            var j = i * 2;
-            this.geo.faces[j].materialIndex = ((i + Math.floor(i / 9)) % 2);
-            this.geo.faces[j + 1].materialIndex = ((i + Math.floor(i / 9)) % 2);
-        }
-        this.mesh = new THREE.Mesh(this.geo, new THREE.MeshFaceMaterial(materials));
+    function Board(scale, maxFields) {
+        this.materialIndex = 0;
+        this.materials = [new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0x005000, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0x008C00, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0x00B400, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0x00DC00, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide })];
+        this.SCALE = scale;
+        this.MAX_FIELDS = maxFields;
+        this.init();
+        this.initPowerFields();
     }
+    Board.prototype.init = function () {
+        this.boardGeo = new THREE.PlaneGeometry(this.SCALE * this.MAX_FIELDS, this.SCALE * this.MAX_FIELDS, this.MAX_FIELDS, this.MAX_FIELDS);
+        this.faces = this.boardGeo.faces.length;
+        this.materialIndex = 3;
+        var offset = 4 * 2 * this.MAX_FIELDS;
+        for (var i = 0; i < 18; i += 2) {
+            this.boardGeo.faces[i + offset].materialIndex = this.boardGeo.faces[i + 1 + offset].materialIndex = this.materialIndex;
+        }
+        offset = 26;
+        for (var i = 0; i < 126; i += 18) {
+            this.boardGeo.faces[i + offset].materialIndex = this.boardGeo.faces[i + 1 + offset].materialIndex = this.materialIndex;
+        }
+        offset = 6;
+        var offsetMax = 160;
+        var index = 0;
+        for (var i = 0; i < 8; i += 2) {
+            index = i * 9 - i + offset;
+            this.boardGeo.faces[index].materialIndex = this.boardGeo.faces[index + 1].materialIndex = this.materialIndex;
+            this.boardGeo.faces[offsetMax - index].materialIndex = this.boardGeo.faces[offsetMax - index + 1].materialIndex = this.materialIndex;
+        }
+        offset = 10;
+        offsetMax = 90;
+        for (var i = 0; i < 4; i++) {
+            index = offset + i * 20;
+            this.boardGeo.faces[index].materialIndex = this.boardGeo.faces[index + 1].materialIndex = this.materialIndex;
+            index = offsetMax + i * 20;
+            this.boardGeo.faces[index].materialIndex = this.boardGeo.faces[index + 1].materialIndex = this.materialIndex;
+        }
+        // color the rest of the tiles black and white
+        this.materialIndex = this.materials.length - 1;
+        var n = 0;
+        for (var i = 0; i < this.faces; i += 2) {
+            if (this.boardGeo.faces[i].materialIndex != 3) {
+                this.boardGeo.faces[i].materialIndex = this.boardGeo.faces[i + 1].materialIndex = this.materialIndex;
+                n++;
+                if ((n >= 10 && (n - 10) % 6 != 0) || n < 10 || n > 40) {
+                    if (this.materialIndex == 0) {
+                        this.materialIndex = this.materials.length - 1;
+                    }
+                    else {
+                        this.materialIndex = 0;
+                    }
+                }
+            }
+        }
+        // reset the index for the changing tiles
+        this.materialIndex = this.boardGeo.faces[6].materialIndex;
+        // add board to the scene
+        this.boardMesh = new THREE.Mesh(this.boardGeo, new THREE.MeshFaceMaterial(this.materials));
+        this.boardMesh.rotateZ(-Math.PI / 2);
+    };
+    Board.prototype.initPowerFields = function () {
+        this.powerFields = new THREE.Group();
+        var powerboardGeo = new THREE.Geometry();
+        var powerRing = new THREE.RingGeometry(1.9, 2.4, 8);
+        var ringMesh = new THREE.Mesh(powerRing);
+        var powerCircle = new THREE.CircleGeometry(0.75, 8);
+        var circleMesh = new THREE.Mesh(powerCircle);
+        ringMesh.updateMatrix();
+        circleMesh.updateMatrix();
+        powerboardGeo.mergeMesh(ringMesh);
+        powerboardGeo.mergeMesh(circleMesh);
+        var powerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide, });
+        powerMaterial.depthTest = false;
+        var powerMeshMid = new THREE.Mesh(powerboardGeo, powerMaterial);
+        powerMeshMid.position.set(0, 0, 0.00);
+        var powerMeshTop = new THREE.Mesh(powerboardGeo, powerMaterial);
+        powerMeshTop.position.set(0, 20, 0.00);
+        var powerMeshBot = new THREE.Mesh(powerboardGeo, powerMaterial);
+        powerMeshBot.position.set(0, -20, 0.00);
+        var powerMeshLeft = new THREE.Mesh(powerboardGeo, powerMaterial);
+        powerMeshLeft.position.set(-20, 0, 0.00);
+        var powerMeshRight = new THREE.Mesh(powerboardGeo, powerMaterial);
+        powerMeshRight.position.set(20, 0, 0.00);
+        // grouping the powerfields (good for animating them later on)
+        this.powerFields.add(powerMeshBot);
+        this.powerFields.add(powerMeshLeft);
+        this.powerFields.add(powerMeshMid);
+        this.powerFields.add(powerMeshRight);
+        this.powerFields.add(powerMeshTop);
+    };
+    Board.prototype.getFieldFromXY = function (x, y) {
+    };
     Board.prototype.getMesh = function () {
-        return this.mesh;
+        return this.boardMesh;
     };
-    Board.prototype.update = function () {
+    Board.prototype.getPowerFields = function () {
+        return this.powerFields;
     };
-    Board.prototype.changeDirection = function () {
-        this.colorDirection *= -1;
+    Board.prototype.setColor = function (index) {
     };
     return Board;
 }());
