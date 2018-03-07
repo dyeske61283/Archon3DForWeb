@@ -1,6 +1,9 @@
 import { Overlay } from "./overlayInterface";
 
-export class WaitingForPlayerOverlay implements Overlay {
+export class OverlayImpl implements Overlay {
+	setText(text: string): void {
+		this.text = text;
+	}
 	private showing: boolean;
 
 	htmlElement: string;

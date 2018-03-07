@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ActionsWiring = /** @class */ (function () {
     function ActionsWiring() {
     }
@@ -9,4 +11,5 @@ var ActionsWiring = /** @class */ (function () {
     };
     return ActionsWiring;
 }());
+exports.ActionsWiring = ActionsWiring;
 //# sourceMappingURL=ActionWiring.js.map

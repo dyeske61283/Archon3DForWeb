@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Board = /** @class */ (function () {
     function Board(scale, maxFields) {
         this.materialIndex = 0;
@@ -93,16 +95,20 @@ var Board = /** @class */ (function () {
         this.powerFields.add(powerMeshRight);
         this.powerFields.add(powerMeshTop);
     };
-    Board.prototype.getFieldFromXY = function (x, y) {
+    Board.prototype.getFieldPosition = function (indexX, indexY) {
+        var tmpX = indexX * this.SCALE - (this.MAX_FIELDS - 1) * this.SCALE / 2;
+        var tmpY = indexY * this.SCALE - (this.MAX_FIELDS - 1) * this.SCALE / 2;
+        return [tmpX, tmpY];
     };
     Board.prototype.getMesh = function () {
         return this.boardMesh;
     };
-    Board.prototype.getPowerFields = function () {
+    Board.prototype.getGroup = function () {
         return this.powerFields;
     };
     Board.prototype.setColor = function (index) {
     };
     return Board;
 }());
+exports.Board = Board;
 //# sourceMappingURL=Board.js.map

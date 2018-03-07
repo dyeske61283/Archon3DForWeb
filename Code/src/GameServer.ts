@@ -10,6 +10,7 @@ export class GameServer implements SettingsInfo {
 	socket: SocketIO.Socket;
 	connectionManager: ConnectionManager;
 	players: [PlayerInfo, PlayerInfo];
+	playerConnections: number = 0;
 	turns: number = 0;
 	colorIndex: number = 3;
 	colorDir: number = 1;
@@ -29,6 +30,21 @@ export class GameServer implements SettingsInfo {
 
 	public nextAction(): void {
 
+	}
+
+	public newPlayerConnected(socketId: string): string {
+		if (this.playerConnections > 1) {
+			this.players[this.playerConnections] = new PlayerInfo(socketId);
+			this.playerConnections++;
+		}
+		switch (this.playerConnections) {
+			case 1:
+			return "Player1";
+			case 2:
+			return "Player2";
+			default:
+			return "TooManyPlayers";
+		}
 	}
 
 	private initGame(): void {

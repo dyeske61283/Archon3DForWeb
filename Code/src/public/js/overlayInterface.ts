@@ -6,6 +6,7 @@ export interface Overlay {
 	// type: e.g. warning, info, error ...
 	// ??
 	// controlling methods
+	setText(text: string): void;
 	on(): void;
 	off(): void;
 }

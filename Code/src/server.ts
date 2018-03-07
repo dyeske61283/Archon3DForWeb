@@ -6,6 +6,7 @@ import * as compression from "compression";
 import * as logger from "morgan";
 import * as errorhandler from "errorhandler";
 import { GameServer } from "./GameServer";
+import { PlayerInfo } from "./PlayerInfo";
 export const app = express();
 
 // Express configuration
@@ -36,8 +37,10 @@ io.serveClient(true);
 
 io.on("connection", (socket) => {
   console.log("Client connected on port " + app.get("port"));
-});
+  const msgType = gameServer.newPlayerConnected(socket.id);
+  io.emit(msgType);
 
-io.on("disconnect", () => {
-  console.log("Client disconnected.");
+  socket.on("disconnect", () => {
+    console.log("Client disconnected.");
+  });
 });

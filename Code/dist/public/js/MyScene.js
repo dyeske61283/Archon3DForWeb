@@ -1,8 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var MyScene = /** @class */ (function () {
     function MyScene(scalingFactor, domElement) {
         this.backgroundColor = new THREE.Color(0xbbbbbb);
         this.scaling = scalingFactor;
         this.domElement = domElement;
+        this.setupRenderer();
         this.renderLoop = this.renderLoop.bind(this);
         this.initCamera();
         this.initScene();
@@ -45,7 +48,7 @@ var MyScene = /** @class */ (function () {
     };
     MyScene.prototype.board = function (board) {
         this.add(board.getMesh());
-        this.add(board.getPowerFields());
+        this.add(board.getGroup());
         return this;
     };
     MyScene.prototype.cursor = function (cursor) {
@@ -61,4 +64,5 @@ var MyScene = /** @class */ (function () {
     };
     return MyScene;
 }());
+exports.MyScene = MyScene;
 //# sourceMappingURL=MyScene.js.map

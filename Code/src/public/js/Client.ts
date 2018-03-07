@@ -4,7 +4,7 @@ import { Cursor, direction } from "./Cursor";
 import { Figure } from "./Figure";
 import { ActionsWiring } from "./ActionWiring";
 import { CommunicationManager } from "./CommunicationManager";
-import { WaitingForPlayerOverlay } from "./WaitingForPlayerOverlay";
+import { OverlayImpl } from "./WaitingForPlayerOverlay";
 export class Client {
   // client needs to have..
   // scene
@@ -29,7 +29,7 @@ export class Client {
   public socket: SocketIOClient.Socket;
   public actionWirer: ActionsWiring;
   public commManager: CommunicationManager;
-  public pwOverlay: WaitingForPlayerOverlay;
+  public pwOverlay: OverlayImpl;
 
   public constructor() {
     this.init();
@@ -40,7 +40,21 @@ export class Client {
   }
 
   public handleAction(): void {
+    this.socket.on("TooManyPlayers", () => {
+      this.pwOverlay.setText("Sorry there are already people playing. I know this is poor and spectating is not possible :/");
+      this.pwOverlay.on();
+    });
 
+    this.socket.on("Player1", () => {
+      this.pwOverlay.setText("Hello Player 1! Waiting for player 2...");
+      console.log("got a msg from the server.");
+      this.pwOverlay.on();
+    });
+
+    this.socket.on("Player2", () => {
+      this.pwOverlay.setText("Hello Player 2! Waiting for player 1 to make settings...");
+      this.pwOverlay.on();
+    });
   }
 
   public sendMessage(msgType: string, content: object): void {
@@ -50,6 +64,7 @@ export class Client {
   private init(): void {
     // init communication
     this.socket = io();
+    this.handleAction();
     this.commManager = new CommunicationManager();
     // init scene
     this.scn = new MyScene(this.SCALING_FACTOR, this.DOM_ELEMENT);
@@ -71,6 +86,9 @@ export class Client {
     this.actionWirer = new ActionsWiring();
     this.actionWirer.addResizeListener(this.scn.handleResize);
     this.actionWirer.addKeyPressListener(this.onKeyPress.bind(this));
+
+    // init overlay
+    this.pwOverlay = new OverlayImpl("WaitingForPlayerOverlay", "");
   }
 
   public onKeyPress(ev: KeyboardEvent): void {

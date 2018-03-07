@@ -1,32 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var PlayerInfo_1 = require("./PlayerInfo");
 var GameServer = /** @class */ (function () {
     function GameServer() {
+        this.playerConnections = 0;
         this.turns = 0;
         this.colorIndex = 3;
         this.colorDir = 1;
     }
-    Object.defineProperty(GameServer.prototype, "Socket", {
-        set: function (socket) {
-            this.socket = socket;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    GameServer.prototype.nextTurn = function (socket) {
-        this.turns++;
-        console.log("executing next Turn: " + this.turns);
-        if ((this.turns % 2) === 0) {
-            console.log("sending color change event");
-            socket.emit("colorChange", this.colorIndex);
-            if (this.colorIndex == 5) {
-                this.colorDir = -1;
-            }
-            if (this.colorIndex == 0) {
-                this.colorDir = 1;
-            }
-            this.colorIndex += this.colorDir;
+    GameServer.prototype.whoGoesFirst = function (p) {
+        throw new Error("Method not implemented.");
+    };
+    GameServer.prototype.setColorForPlayer = function (p, c) {
+        throw new Error("Method not implemented.");
+    };
+    GameServer.prototype.nextAction = function () {
+    };
+    GameServer.prototype.newPlayerConnected = function (socketId) {
+        if (this.playerConnections > 1) {
+            this.players[this.playerConnections] = new PlayerInfo_1.PlayerInfo(socketId);
+            this.playerConnections++;
         }
+        switch (this.playerConnections) {
+            case 1:
+                return "Player1";
+            case 2:
+                return "Player2";
+            default:
+                return "TooManyPlayers";
+        }
+    };
+    GameServer.prototype.initGame = function () {
+    };
+    GameServer.prototype.allowSettings = function (n) {
+    };
+    GameServer.prototype.giveControlToPlayer = function (n) {
+    };
+    GameServer.prototype.resetGame = function () {
     };
     return GameServer;
 }());

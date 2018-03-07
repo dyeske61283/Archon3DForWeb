@@ -90011,6 +90011,7 @@ var Cursor_1 = require("./Cursor");
 var Figure_1 = require("./Figure");
 var ActionWiring_1 = require("./ActionWiring");
 var CommunicationManager_1 = require("./CommunicationManager");
+var WaitingForPlayerOverlay_1 = require("./WaitingForPlayerOverlay");
 var Client = /** @class */ (function () {
     function Client() {
         // client needs to have..
@@ -90033,12 +90034,27 @@ var Client = /** @class */ (function () {
     Client.prototype.nextStep = function () {
     };
     Client.prototype.handleAction = function () {
+        var _this = this;
+        this.socket.on("TooManyPlayers", function () {
+            _this.pwOverlay.setText("Sorry there are already people playing. I know this is poor and spectating is not possible :/");
+            _this.pwOverlay.on();
+        });
+        this.socket.on("Player1", function () {
+            _this.pwOverlay.setText("Hello Player 1! Waiting for player 2...");
+            console.log("got a msg from the server.");
+            _this.pwOverlay.on();
+        });
+        this.socket.on("Player2", function () {
+            _this.pwOverlay.setText("Hello Player 2! Waiting for player 1 to make settings...");
+            _this.pwOverlay.on();
+        });
     };
     Client.prototype.sendMessage = function (msgType, content) {
     };
     Client.prototype.init = function () {
         // init communication
         this.socket = io();
+        this.handleAction();
         this.commManager = new CommunicationManager_1.CommunicationManager();
         // init scene
         this.scn = new MyScene_1.MyScene(this.SCALING_FACTOR, this.DOM_ELEMENT);
@@ -90059,6 +90075,8 @@ var Client = /** @class */ (function () {
         this.actionWirer = new ActionWiring_1.ActionsWiring();
         this.actionWirer.addResizeListener(this.scn.handleResize);
         this.actionWirer.addKeyPressListener(this.onKeyPress.bind(this));
+        // init overlay
+        this.pwOverlay = new WaitingForPlayerOverlay_1.OverlayImpl("WaitingForPlayerOverlay", "");
     };
     Client.prototype.onKeyPress = function (ev) {
         ev.preventDefault();
@@ -90091,12 +90109,14 @@ var Client = /** @class */ (function () {
 }());
 exports.Client = Client;
 
-},{"./ActionWiring":4,"./Board":5,"./CommunicationManager":7,"./Cursor":8,"./Figure":9,"./MyScene":10}],7:[function(require,module,exports){
+},{"./ActionWiring":4,"./Board":5,"./CommunicationManager":7,"./Cursor":8,"./Figure":9,"./MyScene":10,"./WaitingForPlayerOverlay":11}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CommunicationManager = /** @class */ (function () {
     function CommunicationManager() {
     }
+    CommunicationManager.prototype.handleMessage = function () {
+    };
     return CommunicationManager;
 }());
 exports.CommunicationManager = CommunicationManager;
@@ -90292,6 +90312,33 @@ exports.MyScene = MyScene;
 },{}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var OverlayImpl = /** @class */ (function () {
+    function OverlayImpl(htmlElement, text) {
+        this.htmlElement = htmlElement;
+        this.showing = false;
+        this.text = text;
+    }
+    OverlayImpl.prototype.setText = function (text) {
+        this.text = text;
+    };
+    OverlayImpl.prototype.on = function () {
+        this.showing = true;
+        $("#" + this.htmlElement).show();
+    };
+    OverlayImpl.prototype.off = function () {
+        this.showing = false;
+        $("#" + this.htmlElement).hide();
+    };
+    OverlayImpl.prototype.initHTMLElement = function () {
+        $("#" + this.htmlElement).text(this.text);
+    };
+    return OverlayImpl;
+}());
+exports.OverlayImpl = OverlayImpl;
+
+},{}],12:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 ///<reference path="../../../src/types/threejs/three.d.ts"/>
 var THREE = require("three");
 var three_orbitcontrols_ts_1 = require("three-orbitcontrols-ts");
@@ -90320,4 +90367,4 @@ function onMouseMove(event) {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-},{"./Client":6,"three":3,"three-orbitcontrols-ts":1}]},{},[11]);
+},{"./Client":6,"three":3,"three-orbitcontrols-ts":1}]},{},[12]);
