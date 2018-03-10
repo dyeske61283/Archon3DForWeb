@@ -9,7 +9,7 @@ var PlayerInfo = /** @class */ (function () {
         this.hasControl = value;
     };
     // send msg to player()
-    PlayerInfo.prototype.sendMsgToPlayer = function () {
+    PlayerInfo.prototype.sendMsgToPlayer = function (msg) {
     };
     return PlayerInfo;
 }());

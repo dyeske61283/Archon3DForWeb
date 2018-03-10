@@ -7,6 +7,7 @@ import * as logger from "morgan";
 import * as errorhandler from "errorhandler";
 import { GameServer } from "./GameServer";
 import { PlayerInfo } from "./PlayerInfo";
+import { MsgTypes, OverlayMessages } from "./overlayMessages";
 export const app = express();
 
 // Express configuration
@@ -31,6 +32,8 @@ export const server = app.listen(app.get("port"), () => {
 // init game server
 const gameServer = new GameServer();
 
+const msgs = new OverlayMessages();
+
 // init socket io server
 export const io = SocketIO(server);
 io.serveClient(true);
@@ -38,9 +41,13 @@ io.serveClient(true);
 io.on("connection", (socket) => {
   console.log("Client connected on port " + app.get("port"));
   const msgType = gameServer.newPlayerConnected(socket.id);
-  io.emit(msgType);
-
+  socket.emit("playerMsg", msgs.getMessageByType(msgType));
+  io.sockets.connected[socket.id].emit("huhu");
   socket.on("disconnect", () => {
+    const msgType = gameServer.playerDisconnected(socket.id);
+    if (msgType !== undefined) {
+      socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
+    }
     console.log("Client disconnected.");
   });
 });

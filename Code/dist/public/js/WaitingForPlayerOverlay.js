@@ -8,6 +8,7 @@ var OverlayImpl = /** @class */ (function () {
     }
     OverlayImpl.prototype.setText = function (text) {
         this.text = text;
+        this.initHTMLElement();
     };
     OverlayImpl.prototype.on = function () {
         this.showing = true;
@@ -18,7 +19,7 @@ var OverlayImpl = /** @class */ (function () {
         $("#" + this.htmlElement).hide();
     };
     OverlayImpl.prototype.initHTMLElement = function () {
-        $("#" + this.htmlElement).text(this.text);
+        $("#" + this.htmlElement).find("div").text(this.text);
     };
     return OverlayImpl;
 }());

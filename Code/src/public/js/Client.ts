@@ -30,6 +30,7 @@ export class Client {
   public actionWirer: ActionsWiring;
   public commManager: CommunicationManager;
   public pwOverlay: OverlayImpl;
+  controlEnabled: boolean;
 
   public constructor() {
     this.init();
@@ -40,20 +41,14 @@ export class Client {
   }
 
   public handleAction(): void {
-    this.socket.on("TooManyPlayers", () => {
-      this.pwOverlay.setText("Sorry there are already people playing. I know this is poor and spectating is not possible :/");
+    this.socket.on("playerMsg", (msg: string) => {
+      this.pwOverlay.setText(msg);
+      console.log("got a msg from the server: " + msg);
       this.pwOverlay.on();
     });
 
-    this.socket.on("Player1", () => {
-      this.pwOverlay.setText("Hello Player 1! Waiting for player 2...");
-      console.log("got a msg from the server.");
-      this.pwOverlay.on();
-    });
-
-    this.socket.on("Player2", () => {
-      this.pwOverlay.setText("Hello Player 2! Waiting for player 1 to make settings...");
-      this.pwOverlay.on();
+    this.socket.on("huhu", () => {
+      console.log("got huhu msg from server");
     });
   }
 
@@ -62,6 +57,7 @@ export class Client {
   }
 
   private init(): void {
+    this.controlEnabled = false;
     // init communication
     this.socket = io();
     this.handleAction();
@@ -92,29 +88,31 @@ export class Client {
   }
 
   public onKeyPress(ev: KeyboardEvent): void {
-    ev.preventDefault();
-    switch (ev.key) {
-      case "ArrowUp":
-        this.cursor.move(direction.Up);
-      break;
-      case "ArrowDown":
-        this.cursor.move(direction.Down);
-      break;
-      case "ArrowLeft":
-      this.cursor.move(direction.Left);
-      break;
-      case "ArrowRight":
-      this.cursor.move(direction.Right);
-      break;
-      case " ":
-      if (this.figure.isSelected()) {
-        this.figure.setPositionWithCursor(this.cursor);
-        this.figure.deselect();
-      } else {
-        if (this.cursor.getMesh().position.distanceTo(this.figure.getMesh().position) < 2)
-          this.figure.select();
+    if (this.controlEnabled) {
+      ev.preventDefault();
+      switch (ev.key) {
+        case "ArrowUp":
+          this.cursor.move(direction.Up);
+          break;
+        case "ArrowDown":
+          this.cursor.move(direction.Down);
+          break;
+        case "ArrowLeft":
+          this.cursor.move(direction.Left);
+          break;
+        case "ArrowRight":
+          this.cursor.move(direction.Right);
+          break;
+        case " ":
+          if (this.figure.isSelected()) {
+            this.figure.setPositionWithCursor(this.cursor);
+            this.figure.deselect();
+          } else {
+            if (this.cursor.getMesh().position.distanceTo(this.figure.getMesh().position) < 2)
+              this.figure.select();
+          }
+          break;
       }
-      break;
     }
   }
 }

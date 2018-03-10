@@ -30,23 +30,19 @@ var Client = /** @class */ (function () {
     };
     Client.prototype.handleAction = function () {
         var _this = this;
-        this.socket.on("TooManyPlayers", function () {
-            _this.pwOverlay.setText("Sorry there are already people playing. I know this is poor and spectating is not possible :/");
+        this.socket.on("playerMsg", function (msg) {
+            _this.pwOverlay.setText(msg);
+            console.log("got a msg from the server: " + msg);
             _this.pwOverlay.on();
         });
-        this.socket.on("Player1", function () {
-            _this.pwOverlay.setText("Hello Player 1! Waiting for player 2...");
-            console.log("got a msg from the server.");
-            _this.pwOverlay.on();
-        });
-        this.socket.on("Player2", function () {
-            _this.pwOverlay.setText("Hello Player 2! Waiting for player 1 to make settings...");
-            _this.pwOverlay.on();
+        this.socket.on("huhu", function () {
+            console.log("got huhu msg from server");
         });
     };
     Client.prototype.sendMessage = function (msgType, content) {
     };
     Client.prototype.init = function () {
+        this.controlEnabled = false;
         // init communication
         this.socket = io();
         this.handleAction();
@@ -74,30 +70,32 @@ var Client = /** @class */ (function () {
         this.pwOverlay = new WaitingForPlayerOverlay_1.OverlayImpl("WaitingForPlayerOverlay", "");
     };
     Client.prototype.onKeyPress = function (ev) {
-        ev.preventDefault();
-        switch (ev.key) {
-            case "ArrowUp":
-                this.cursor.move(Cursor_1.direction.Up);
-                break;
-            case "ArrowDown":
-                this.cursor.move(Cursor_1.direction.Down);
-                break;
-            case "ArrowLeft":
-                this.cursor.move(Cursor_1.direction.Left);
-                break;
-            case "ArrowRight":
-                this.cursor.move(Cursor_1.direction.Right);
-                break;
-            case " ":
-                if (this.figure.isSelected()) {
-                    this.figure.setPositionWithCursor(this.cursor);
-                    this.figure.deselect();
-                }
-                else {
-                    if (this.cursor.getMesh().position.distanceTo(this.figure.getMesh().position) < 2)
-                        this.figure.select();
-                }
-                break;
+        if (this.controlEnabled) {
+            ev.preventDefault();
+            switch (ev.key) {
+                case "ArrowUp":
+                    this.cursor.move(Cursor_1.direction.Up);
+                    break;
+                case "ArrowDown":
+                    this.cursor.move(Cursor_1.direction.Down);
+                    break;
+                case "ArrowLeft":
+                    this.cursor.move(Cursor_1.direction.Left);
+                    break;
+                case "ArrowRight":
+                    this.cursor.move(Cursor_1.direction.Right);
+                    break;
+                case " ":
+                    if (this.figure.isSelected()) {
+                        this.figure.setPositionWithCursor(this.cursor);
+                        this.figure.deselect();
+                    }
+                    else {
+                        if (this.cursor.getMesh().position.distanceTo(this.figure.getMesh().position) < 2)
+                            this.figure.select();
+                    }
+                    break;
+            }
         }
     };
     return Client;

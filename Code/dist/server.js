@@ -7,6 +7,7 @@ var compression = require("compression");
 var logger = require("morgan");
 var errorhandler = require("errorhandler");
 var GameServer_1 = require("./GameServer");
+var overlayMessages_1 = require("./overlayMessages");
 exports.app = express();
 // Express configuration
 exports.app.set("port", process.env.PORT || 3000);
@@ -25,14 +26,20 @@ exports.server = exports.app.listen(exports.app.get("port"), function () {
 });
 // init game server
 var gameServer = new GameServer_1.GameServer();
+var msgs = new overlayMessages_1.OverlayMessages();
 // init socket io server
 exports.io = SocketIO(exports.server);
 exports.io.serveClient(true);
 exports.io.on("connection", function (socket) {
     console.log("Client connected on port " + exports.app.get("port"));
     var msgType = gameServer.newPlayerConnected(socket.id);
-    exports.io.emit(msgType);
+    socket.emit("playerMsg", msgs.getMessageByType(msgType));
+    exports.io.sockets.connected[socket.id].emit("huhu");
     socket.on("disconnect", function () {
+        var msgType = gameServer.playerDisconnected(socket.id);
+        if (msgType !== undefined) {
+            socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
+        }
         console.log("Client disconnected.");
     });
 });

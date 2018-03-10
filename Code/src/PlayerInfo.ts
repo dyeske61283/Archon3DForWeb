@@ -9,12 +9,19 @@ export class PlayerInfo {
 	// connection info
 	socketId: string;
 	// send msg to player()
-	sendMsgToPlayer(): void {
-
+	sendMsgToPlayer(msg: string): void {
 	}
 
-	constructor(socketId: string) {
-		this.socketId = socketId;
+	isConnected(): boolean {
+		return this.socketId !== "";
+	}
+
+	constructor(socketId?: string) {
+		if (arguments.length > 0) {
+			this.socketId = socketId;
+		} else {
+			this.socketId = "";
+		}
 		this.hasControl = false;
 	}
 }

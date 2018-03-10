@@ -3,6 +3,7 @@ import { Overlay } from "./overlayInterface";
 export class OverlayImpl implements Overlay {
 	setText(text: string): void {
 		this.text = text;
+		this.initHTMLElement();
 	}
 	private showing: boolean;
 
@@ -14,7 +15,7 @@ export class OverlayImpl implements Overlay {
 	}
 	off(): void {
 		this.showing = false;
-		$("#" + this.htmlElement).hide();
+		$("#" + this.htmlElement).hide("fast");
 	}
 
 	constructor(htmlElement: string, text: string) {
@@ -24,6 +25,6 @@ export class OverlayImpl implements Overlay {
 	}
 
 	private initHTMLElement(): void {
-		$("#" + this.htmlElement).text(this.text);
+		$("#" + this.htmlElement).find("div").text(this.text);
 	}
 }
