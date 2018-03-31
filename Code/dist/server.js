@@ -24,22 +24,21 @@ exports.server = exports.app.listen(exports.app.get("port"), function () {
     console.log(("  App is running at http://localhost:%d in %s mode"), exports.app.get("port"), exports.app.get("env"));
     console.log("  Press CTRL-C to stop\n");
 });
-// init game server
-var gameServer = new GameServer_1.GameServer();
 var msgs = new overlayMessages_1.OverlayMessages();
 // init socket io server
 exports.io = SocketIO(exports.server);
 exports.io.serveClient(true);
+// init game server
+var gameServer = new GameServer_1.GameServer(exports.io);
 exports.io.on("connection", function (socket) {
     console.log("Client connected on port " + exports.app.get("port"));
-    var msgType = gameServer.newPlayerConnected(socket.id);
-    socket.emit("playerMsg", msgs.getMessageByType(msgType));
-    exports.io.sockets.connected[socket.id].emit("huhu");
+    // const msgType = gameServer.newPlayerConnected(socket.id);
+    // socket.emit("playerMsg", msgs.getMessageByType(msgType));
     socket.on("disconnect", function () {
-        var msgType = gameServer.playerDisconnected(socket.id);
-        if (msgType !== undefined) {
-            socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
-        }
+        // const msgType = gameServer.playerDisconnected(socket.id);
+        // if (msgType !== undefined) {
+        // socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
+        // }
         console.log("Client disconnected.");
     });
 });

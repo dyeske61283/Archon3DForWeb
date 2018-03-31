@@ -2,13 +2,15 @@ import { PlayerInfo } from "./PlayerInfo";
 
 export class ConnectionManager {
 
+
+	validConnectionState: boolean = false;
 	state: number;
 	constructor() {
 		this.state = 0;
 
 	}
 
-	playerConnects(id: string): PlayerInfo {
+	playerConnects(id: string, players: PlayerInfo[]): PlayerInfo {
 		switch (this.state) {
 			case 0:
 			case 1:
@@ -19,7 +21,7 @@ export class ConnectionManager {
 		}
 	}
 
-	playerDisconnects(id: string): void {
+	playerDisconnects(id: string, players: PlayerInfo[]): void {
 		this.state--;
 	}
 }

@@ -7,13 +7,14 @@ var MsgTypes;
     MsgTypes[MsgTypes["Player2Connected"] = 1] = "Player2Connected";
     MsgTypes[MsgTypes["Player1Disconnected"] = 2] = "Player1Disconnected";
     MsgTypes[MsgTypes["Player2Disconnected"] = 3] = "Player2Disconnected";
-    MsgTypes[MsgTypes["TooManyPlayers"] = 4] = "TooManyPlayers";
-    MsgTypes[MsgTypes["ReadyToPlay"] = 5] = "ReadyToPlay";
-    MsgTypes[MsgTypes["MakeSettings"] = 6] = "MakeSettings";
-    MsgTypes[MsgTypes["PublishSettings"] = 7] = "PublishSettings";
-    MsgTypes[MsgTypes["MakeTurn"] = 8] = "MakeTurn";
-    MsgTypes[MsgTypes["Update"] = 9] = "Update";
-    MsgTypes[MsgTypes["WaitingForPlayerN"] = 10] = "WaitingForPlayerN";
+    MsgTypes[MsgTypes["GameAborted"] = 4] = "GameAborted";
+    MsgTypes[MsgTypes["TooManyPlayers"] = 5] = "TooManyPlayers";
+    MsgTypes[MsgTypes["ReadyToPlay"] = 6] = "ReadyToPlay";
+    MsgTypes[MsgTypes["MakeSettings"] = 7] = "MakeSettings";
+    MsgTypes[MsgTypes["PublishSettings"] = 8] = "PublishSettings";
+    MsgTypes[MsgTypes["MakeTurn"] = 9] = "MakeTurn";
+    MsgTypes[MsgTypes["Update"] = 10] = "Update";
+    MsgTypes[MsgTypes["WaitingForPlayerN"] = 11] = "WaitingForPlayerN";
 })(MsgTypes = exports.MsgTypes || (exports.MsgTypes = {}));
 var OverlayMessages = /** @class */ (function () {
     // ctor
@@ -23,7 +24,7 @@ var OverlayMessages = /** @class */ (function () {
     }
     // get method
     OverlayMessages.prototype.getMessageByType = function (msgType) {
-        return this.dictionary[msgType];
+        return this.dictionary[msgType] ? this.dictionary[msgType] : "";
     };
     // init
     OverlayMessages.prototype.init = function () {
@@ -38,6 +39,7 @@ var OverlayMessages = /** @class */ (function () {
         this.dictionary[MsgTypes.MakeTurn] = "Your turn now";
         this.dictionary[MsgTypes.Update] = "updating your information";
         this.dictionary[MsgTypes.WaitingForPlayerN] = "Waiting for Player ";
+        this.dictionary[MsgTypes.GameAborted] = "The other player disconnected :/ Game is being aborted now...";
     };
     return OverlayMessages;
 }());

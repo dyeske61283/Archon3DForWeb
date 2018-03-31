@@ -2,14 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var PlayerInfo = /** @class */ (function () {
     function PlayerInfo(socketId) {
-        this.socketId = socketId;
+        this.message = -1;
+        if (arguments.length > 0) {
+            this.socketId = socketId;
+        }
+        else {
+            this.socketId = "";
+        }
         this.hasControl = false;
     }
     PlayerInfo.prototype.giveControl = function (value) {
         this.hasControl = value;
     };
-    // send msg to player()
-    PlayerInfo.prototype.sendMsgToPlayer = function (msg) {
+    PlayerInfo.prototype.isConnected = function () {
+        return this.socketId !== "";
     };
     return PlayerInfo;
 }());

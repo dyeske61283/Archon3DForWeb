@@ -90029,6 +90029,7 @@ var Client = /** @class */ (function () {
         this.MAX_FIELDS = 9;
         this.SCALING_FACTOR = 5;
         this.DOM_ELEMENT = "#game-holder";
+        this.settingsPrompt = $("#Settings-Prompt");
         this.init();
     }
     Client.prototype.nextStep = function () {
@@ -90039,9 +90040,9 @@ var Client = /** @class */ (function () {
             _this.pwOverlay.setText(msg);
             console.log("got a msg from the server: " + msg);
             _this.pwOverlay.on();
-        });
-        this.socket.on("huhu", function () {
-            console.log("got huhu msg from server");
+            if (msg) {
+                _this.settingsPrompt.show();
+            }
         });
     };
     Client.prototype.sendMessage = function (msgType, content) {
@@ -90069,7 +90070,7 @@ var Client = /** @class */ (function () {
         this.scn.board(this.board).cursor(this.cursor).figure(this.figure).figure(this.figure2).startRenderLoop();
         // init event/action handling
         this.actionWirer = new ActionWiring_1.ActionsWiring();
-        this.actionWirer.addResizeListener(this.scn.handleResize);
+        this.actionWirer.addResizeListener(this.scn.handleResize.bind(this));
         this.actionWirer.addKeyPressListener(this.onKeyPress.bind(this));
         // init overlay
         this.pwOverlay = new WaitingForPlayerOverlay_1.OverlayImpl("WaitingForPlayerOverlay", "");
@@ -90326,7 +90327,7 @@ var OverlayImpl = /** @class */ (function () {
     };
     OverlayImpl.prototype.off = function () {
         this.showing = false;
-        $("#" + this.htmlElement).hide();
+        $("#" + this.htmlElement).hide("fast");
     };
     OverlayImpl.prototype.initHTMLElement = function () {
         $("#" + this.htmlElement).find("div").text(this.text);

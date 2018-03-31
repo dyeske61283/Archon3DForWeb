@@ -31,6 +31,7 @@ export class Client {
   public commManager: CommunicationManager;
   public pwOverlay: OverlayImpl;
   controlEnabled: boolean;
+  settingsPrompt: JQuery<HTMLElement> = $("#Settings-Prompt");
 
   public constructor() {
     this.init();
@@ -45,10 +46,10 @@ export class Client {
       this.pwOverlay.setText(msg);
       console.log("got a msg from the server: " + msg);
       this.pwOverlay.on();
-    });
 
-    this.socket.on("huhu", () => {
-      console.log("got huhu msg from server");
+      if (msg) {
+        this.settingsPrompt.show();
+      }
     });
   }
 
@@ -80,7 +81,7 @@ export class Client {
     this.scn.board(this.board).cursor(this.cursor).figure(this.figure).figure(this.figure2).startRenderLoop();
     // init event/action handling
     this.actionWirer = new ActionsWiring();
-    this.actionWirer.addResizeListener(this.scn.handleResize);
+    this.actionWirer.addResizeListener(this.scn.handleResize.bind(this));
     this.actionWirer.addKeyPressListener(this.onKeyPress.bind(this));
 
     // init overlay

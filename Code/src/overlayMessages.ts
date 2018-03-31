@@ -19,7 +19,7 @@ export class OverlayMessages {
 	private dictionary: string[];
 	// get method
 	public getMessageByType(msgType: MsgTypes): string {
-		return this.dictionary[msgType];
+		return this.dictionary[msgType] ? this.dictionary[msgType] : "";
 	}
 	// ctor
 	constructor() {

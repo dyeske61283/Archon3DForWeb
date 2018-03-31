@@ -29,25 +29,24 @@ export const server = app.listen(app.get("port"), () => {
   console.log("  Press CTRL-C to stop\n");
 });
 
-// init game server
-const gameServer = new GameServer();
-
 const msgs = new OverlayMessages();
 
 // init socket io server
 export const io = SocketIO(server);
 io.serveClient(true);
 
+// init game server
+const gameServer = new GameServer(io);
+
 io.on("connection", (socket) => {
   console.log("Client connected on port " + app.get("port"));
-  const msgType = gameServer.newPlayerConnected(socket.id);
-  socket.emit("playerMsg", msgs.getMessageByType(msgType));
-  io.sockets.connected[socket.id].emit("huhu");
+  // const msgType = gameServer.newPlayerConnected(socket.id);
+  // socket.emit("playerMsg", msgs.getMessageByType(msgType));
   socket.on("disconnect", () => {
-    const msgType = gameServer.playerDisconnected(socket.id);
-    if (msgType !== undefined) {
-      socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
-    }
+    // const msgType = gameServer.playerDisconnected(socket.id);
+    // if (msgType !== undefined) {
+      // socket.broadcast.emit("playerMsg", msgs.getMessageByType(msgType));
+    // }
     console.log("Client disconnected.");
   });
 });

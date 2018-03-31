@@ -16,7 +16,7 @@ var OverlayImpl = /** @class */ (function () {
     };
     OverlayImpl.prototype.off = function () {
         this.showing = false;
-        $("#" + this.htmlElement).hide();
+        $("#" + this.htmlElement).hide("fast");
     };
     OverlayImpl.prototype.initHTMLElement = function () {
         $("#" + this.htmlElement).find("div").text(this.text);

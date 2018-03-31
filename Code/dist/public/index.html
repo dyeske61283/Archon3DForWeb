@@ -19,7 +19,36 @@
 	<div id="wrapper">
 		<h1 id="heading">Archon</h1>
 
-		<div id="WaitingForPlayerOverlay" hidden><div class="OverlayText"></div> </div>
+		<div id="WaitingForPlayerOverlay" style="display: none"><div class="OverlayText"></div> </div>
+		<div id="Settings-Prompt" class="Settings-Prompt" style="display: none">
+			<table>
+				<tr>
+					<th>Setting</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>
+						Which colour should start?
+					</td>
+					<td>
+						<label>Light</label><input type="radio" name="switchFirst" checked="checked"/></label>
+						<label>Dark</label><input type="radio" name="switchFirst"/></label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Which colour do you want?
+					</td>
+					<td>
+						<label>Light<input type="radio" name="switchColour" checked="checked"/></label>
+						<label>Dark<input type="radio" name="switchColour"/></label>
+					</td>
+				</tr>
+				<button>
+
+				<button id="btnDone" class="button" style="vertical-align: middle"><span>Done</span></button>
+			</table>
+		</div>
 		<div id="game-holder"></div>
 	</div>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>

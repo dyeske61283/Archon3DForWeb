@@ -2,15 +2,14 @@ export class PlayerInfo {
 	// has set of figures
 	// controls enabled / disabled
 	hasControl: boolean;
+	figureColor: boolean;
+	message: number = -1;
+	goesFirst: boolean;
 	giveControl(value: boolean): void {
 		this.hasControl = value;
 	}
-	// turn
 	// connection info
 	socketId: string;
-	// send msg to player()
-	sendMsgToPlayer(msg: string): void {
-	}
 
 	isConnected(): boolean {
 		return this.socketId !== "";

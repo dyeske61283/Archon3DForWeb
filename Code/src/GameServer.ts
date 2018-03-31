@@ -1,73 +1,95 @@
 import { PlayerInfo } from "./PlayerInfo";
 import { BoardInfo } from "./BoardInfo";
-import { SettingsInfo } from "./SettingsInfo";
 import { ConnectionManager } from "./ConnectionManager";
 import { CursorInfo } from "./CursorInfo";
-import { OverlayManager } from "./OverlayManager";
-import { MsgTypes } from "./overlayMessages";
-export class GameServer implements SettingsInfo {
+import { MsgTypes, OverlayMessages } from "./overlayMessages";
+export class GameServer {
 
-	socket: SocketIO.Socket;
+	socketServer: SocketIO.Server;
 	connectionManager: ConnectionManager;
 	players: PlayerInfo[] = [];
 	playerConnections: number = 0;
 	maxPlayers: number = 2;
 	turns: number = 0;
+	gameReady: boolean = false;
 	colorIndex: number = 3;
 	colorDir: number = 1;
 	board: BoardInfo;
 	cursor: CursorInfo;
-	overlayManager: OverlayManager;
+	messagePlayer: string[] = undefined;
+	openMessages: boolean = false;
+	messages: OverlayMessages;
 
-	constructor() {
+	constructor(socketServer: SocketIO.Server) {
+		this.messages = new OverlayMessages();
+		this.messagePlayer = [];
+		this.socketServer = socketServer;
+		this.socketServer.on("connection", this.newPlayerConnected);
 	}
 
-	public whoGoesFirst(p: PlayerInfo): void {
-		throw new Error("Method not implemented.");
+	private whoGoesFirst(p: number): void {
+		this.players[p].goesFirst = true;
 	}
-	public setColorForPlayer(p: PlayerInfo, c: boolean): void {
-		throw new Error("Method not implemented.");
-	}
-
-	public nextAction(): void {
-
+	private setColorForPlayer(p: number, c: boolean): void {
+		this.players[p].figureColor = c;
 	}
 
-	public newPlayerConnected(socketId: string): MsgTypes {
-		if (this.playerConnections < this.maxPlayers) {
-			for (let i = 0; i < this.maxPlayers; i++) {
-				if (this.players[i] === undefined) {
-					this.players[this.playerConnections] = new PlayerInfo(socketId);
+	public sendMessage(type: MsgTypes, socket: SocketIO.Socket): void {
+		const msg = this.messages.getMessageByType(type);
+		if (msg !== "") {
+			socket.emit("playerMsg", msg);
+		}
+	}
+
+	public newPlayerConnected(socket: SocketIO.Socket): void {
+		let msg: MsgTypes;
+		if (this.playerConnections === this.maxPlayers) {
+			// reject
+			msg = MsgTypes.TooManyPlayers;
+		} else {
+			this.players[this.playerConnections] = new PlayerInfo(socket.id);
+			socket.on("disconnect", () => {
+				if (this.playerConnections === 2) {
+					if (socket.id === this.players[1].socketId) {
+						this.players.splice(1, 1);
+						this.players[0].message = MsgTypes.Player2Disconnected;
+					} else {
+						this.players.splice(0, 1, this.players[1]);
+				 		this.players.splice(1, 1);
+				 		this.players[0].message = MsgTypes.Player1Disconnected;
+					}
+					this.openMessages = true;
+				} else {
+					this.players.splice(0, 1);
 				}
+				if (this.openMessages) {
+					this.sendMessage(this.players[0].message, this.socketServer.sockets.connected[this.players[0].socketId]);
+				}
+			});
+			if (this.playerConnections === 1) {
+				this.players[this.playerConnections].message = MsgTypes.Player1Connected;
+				msg = MsgTypes.Player1Connected;
+			} else {
+				this.players[0].message = MsgTypes.MakeSettings;
+				msg = MsgTypes.Player2Connected;
+				this.openMessages = true;
 			}
 			this.playerConnections++;
-		} else {
-			return MsgTypes.TooManyPlayers;
 		}
-		switch (this.playerConnections) {
-			case 1:
-			return MsgTypes.Player1Connected;
-			case 2:
-			return MsgTypes.Player2Connected;
-			default:
-			return MsgTypes.TooManyPlayers;
+		this.sendMessage(msg, socket);
+		if (this.openMessages) {
+			this.sendMessage(this.players[0].message, this.socketServer.sockets.connected[this.players[0].socketId]);
 		}
-	}
-
-	public playerDisconnected(socketId: string): MsgTypes {
-		for (let i = 0; i < this.maxPlayers; i++) {
-			if (this.players[i] !== undefined && this.players[i].socketId === socketId) {
-				this.playerConnections--;
-				this.players[i] = undefined;
-				if (i === 0) {return MsgTypes.Player1Disconnected; }
-				else { return MsgTypes.Player2Disconnected; }
-			}
-		}
-		return undefined;
 	}
 
 	private initGame(): void {
 
+	}
+
+	public updateSettings(goingFirst: number, color: boolean): void {
+		this.whoGoesFirst(goingFirst);
+		this.setColorForPlayer(goingFirst, color);
+		this.setColorForPlayer(1 - goingFirst, !color);
 	}
 
 	private allowSettings(n: number): void {
