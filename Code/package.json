@@ -7,7 +7,7 @@
     "url": "https://github.com/dyeske61283/Archon3DForWeb.git"
   },
   "author": "Kevin Dyes",
-  "license": "",
+  "license": "MIT",
   "scripts": {
     "createDiagrams": "tsviz -d -r ./src/ ../overview.png && tsviz -d ./src/ ../server.png && tsviz -d ./src/public/js/ ../client.png",
     "start": "npm run serve",

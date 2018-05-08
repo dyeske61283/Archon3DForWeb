@@ -1,8 +1,11 @@
+import { FigurInfo } from "./FigurInfo";
+
 export class PlayerInfo {
 	// has set of figures
 	// controls enabled / disabled
 	hasControl: boolean;
 	figureColor: boolean;
+	figures: FigurInfo[];
 	message: number = -1;
 	goesFirst: boolean;
 	giveControl(value: boolean): void {

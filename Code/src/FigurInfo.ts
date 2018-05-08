@@ -9,6 +9,4 @@ export interface FigurInfo {
 	name: string;
 	isFlying: boolean;
 	imprisoned: boolean;
-
-	move(): void;
 }

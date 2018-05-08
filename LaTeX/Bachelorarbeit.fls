@@ -546,7 +546,6 @@ INPUT Inhalt/Vorwort.tex
 OUTPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Erklaerung.tex
 INPUT Inhalt/Erklaerung.tex
-INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmri12.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmri12.tfm
 OUTPUT Inhalt/Einleitung.aux
@@ -554,10 +553,12 @@ INPUT Inhalt/Einleitung.tex
 INPUT Inhalt/Einleitung.tex
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmss10.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
 OUTPUT Inhalt/Hauptteil.aux
 INPUT Inhalt/Hauptteil.tex
 INPUT Inhalt/Hauptteil.tex
-INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex
@@ -565,6 +566,15 @@ INPUT Inhalt/Anhang.tex
 INPUT Inhalt/Anhang.tex
 INPUT Bachelorarbeit.bbl
 INPUT Bachelorarbeit.bbl
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmcsc10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/rm-lmr10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/lmmi10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/lmsy10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT Bachelorarbeit.lof
 INPUT Bachelorarbeit.lof
 OUTPUT Bachelorarbeit.lof
@@ -581,9 +591,6 @@ INPUT Inhalt/Glossar.tex
 INPUT Inhalt/Glossar.tex
 INPUT Bachelorarbeit.nls
 INPUT Bachelorarbeit.nls
-INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
-INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
-INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
 INPUT Bachelorarbeit.ind
 INPUT Bachelorarbeit.ind
 INPUT Bachelorarbeit.aux
