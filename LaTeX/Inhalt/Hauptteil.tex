@@ -14,6 +14,40 @@ The goal of every video game is to present the user(s) with a situation, accept 
 \label{subsec:spiel_analyse}\index{Spiel Analyse}
 
 \emph{Hier werden alle Aspekte des klassischen Spiels herausgearbeitet, gegliedert nach Teilen: Generelle Regeln, das Board, die Figuren, Abläufe und Wirkungen, mögliche Einstellungen\\Stichwort: Komponentendiagramm!}
+\\In diesem Abschnitt sollen nun die Anforderungen und Regeln aus Archon herausgearbeitet werden. Die Anforderungen und Regeln werden, der Übersicht halber, in folgende Kategorien unterteilt: 
+\begin{itemize}
+	\item Generelle Regeln und Ziele des Spiels\label{generalRules}
+	\item Spieleinstellungen und Start
+	\item Das Spielbrett
+	\item Das Kampfareal
+	\item Die Figuren
+\end{itemize}
+Die folgende Abschnitte enthalten eine kurze Zusammenfassung des Spiels und seinen Inhalten und Regeln anhand der obigen Aufteilung. Anschließend wird kurz zusammengefasst, welche Eigenschaften eine Realisierung des Spiels inne haben muss, um das Spiel ausreichend widerzuspiegeln. 
+\subsubsection{Generelle Regeln und Ziele des Spiels} 
+Archon ist ein Spiel, dass auf einem 9 x 9 Schachbrett stattfindet. Ähnlich wie beim Schach gibt es zwei Parteien, Licht und Dunkelheit, die sich im Wettstreit gegenüber stehen.
+Die Spieler ziehen dabei immer abwechselnd ihre Figuren auf dem Spielbrett, wobei kein Zug gepasst werden kann. Jeder Spieler beginnt mit 18 Figuren, die in acht verschiedene Typen gegliedert sind. Die Figuren von Licht und Dunkelheit sind vollständig unterschiedlich. Treffen zwei Figuren auf dem Spielbrett zusammen, stehen sie sich in einem Kampfareal gegenüber. Jede Figur hat dabei ihre eigenen Lebenspunkte und ihre eigene Angriffsstärke. Der Sieger dieses Kampfes bleibt auf dem Spielbrett, während der Verlierer aus dem Spiel genommen wird. Sollte der Kampf in einem Unentschieden ausgehen, werden beide Figuren aus dem Spiel genommen.
+\\Das generelle Ziel des Spiels ist es alle 5 speziellen Machtfelder gleichzeitig mit eigenen Figuren zu besetzen.
+Desweiteren kann das Spiel gewonnen werden, indem alle gegenerischen Figuren besiegt werden, oder die letzte Figur mit einem Gefängnis-Zauber belegt wird.
+Ein Unentschieden tritt auf wenn das Spiel zu lange "passiv" ist, also wenn für mindestens zwölf Züge kein Kampf stattfindet und kein Zauber gewirkt wird.
+\subsubsection{Das Spielbrett}
+Das Spielbrett besteht aus 9x9 Feldern von drei Typen: 
+\begin{itemize}
+	\item Permanent weiße Felder
+	\item Permanent schwarze Felder
+	\item Felder, die zwischen Schwarz, vier Grün-Tönen und Weiß wechseln
+\end{itemize}
+Jeder Spieler hat einen Zug mit jeder Farbe, sodass die Farbe nach jedem Zug des zweiten Spielers wechselt. Ein Farbzyklus dauert damit zwölf Züge pro Seite: Sechs von Weiß zu Schwarz und Sechs zurück.
+Die Farben werden fortan mit Zahlen von 1 bis 6 durchnummeriert, wobei 1 Weiß darstellt und 6 Schwarz.
+Wenn die Licht-Seite das Spiel beginnt, startet der Farbzyklus bei Farbe 4 und wird dunkler. Beginnt die Dunkelheit-Seite, so startet der Zyklus bei Farbe 3 und wird heller.\\
+Weiterhin gibt es die fünf Powerfelder, deren Einnahme die Siegbedingung darstellt. Diese Felder haben außerdem zwei spezielle Effekte auf Figuren, die darauf stehen. Zum einen können darauf stehende Figuren nicht Ziel eines Zaubers werden und zum Anderen werden die Figuren nach jedem eigenen Zug um einen gewissen Betrag geheilt. Diese fünf Powerfelder verteilen sich so, dass jeweils eines auf einem permanent schwarzen bzw. weißen Feld ist - dort wo der Zauberer bzw. die Zauberin ihre Ausgangsposition haben. Die anderen drei Felder sind auf farbwechselnden Feldern in der Mitte des Spielbretts verteilt.
+
+\subsubsection{Das Kampfareal}
+Das Kampfareal erscheint wenn zwei Figuren auf dem Spielbrett aufeinander treffen. Es stellt eine große Fläche dar, bei der von Zeit zu Zeit pflanzenähnliche Hindernisse erscheinen und wieder verschwinden. An den Seiten des Kampfareals werden die Lebenspunkte der kämpfenden Figuren in Form von Balken dargestellt.\\
+Die Figuren können sich hier frei bewegen und haben, je nach Typ, unterschiedliche Eigenschaften, Attacken und Geschwindigkeiten.
+
+\subsubsection{Die Figuren}
+
+\subsubsection{Die Zauber}
 
 \subsection{Anforderungsanalyse an neue Implementierung}
 \label{subsec:neueImpl_analyse}\index{Analyse neue Implementierung}
