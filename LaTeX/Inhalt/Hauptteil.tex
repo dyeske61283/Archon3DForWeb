@@ -28,7 +28,15 @@ Archon ist ein Spiel, dass auf einem 9 x 9 Schachbrett stattfindet. Ähnlich wie
 Die Spieler ziehen dabei immer abwechselnd ihre Figuren auf dem Spielbrett, wobei kein Zug gepasst werden kann. Jeder Spieler beginnt mit 18 Figuren, die in acht verschiedene Typen gegliedert sind. Die Figuren von Licht und Dunkelheit sind vollständig unterschiedlich. Treffen zwei Figuren auf dem Spielbrett zusammen, stehen sie sich in einem Kampfareal gegenüber. Jede Figur hat dabei ihre eigenen Lebenspunkte und ihre eigene Angriffsstärke. Der Sieger dieses Kampfes bleibt auf dem Spielbrett, während der Verlierer aus dem Spiel genommen wird. Sollte der Kampf in einem Unentschieden ausgehen, werden beide Figuren aus dem Spiel genommen.
 \\Das generelle Ziel des Spiels ist es alle 5 speziellen Machtfelder gleichzeitig mit eigenen Figuren zu besetzen.\todo{Bild von Machtfeld einfügen}
 Desweiteren kann das Spiel gewonnen werden, indem alle gegenerischen Figuren besiegt werden, oder die letzte Figur mit einem Gefängnis-Zauber belegt wird.
-Ein Unentschieden tritt auf wenn das Spiel zu lange passiv ist, also wenn für mindestens zwölf Züge kein Kampf stattfindet und kein Zauber gewirkt wird.
+Ein Unentschieden tritt auf wenn das Spiel zu lange passiv ist, also wenn für mindestens zwölf Züge kein Kampf stattfindet und kein Zauber gewirkt wird.\\
+Das Spiel kann prinzipiell in folgenden Modi gestartet werden: 
+\begin{itemize}
+	\item Spieler gegen Spieler
+	\item Spieler gegen Computer
+	\item Computer gegen Computer (Demo-Modus)
+\end{itemize}
+Wobei Spieler eins immer die Wahl der startenden Farbe, sowie der eigenen Farbe hat.\\Weitere Einstellungen hat das Spiel nicht.
+
 \subsubsection{Das Spielbrett}
 Das Spielbrett besteht aus 9x9 Feldern von drei Typen: 
 \begin{itemize}
@@ -78,59 +86,75 @@ Außerdem kann mit Hilfe eines Zaubers einer von vier Elementaren einmal pro Sei
 \subsubsection{Die Zauber}
 Der Zauberer und die Zauberin können, jeweils, einmal pro Spiel die folgenden sieben Zauber wirken:
 \begin{itemize}
-	\item Teleportieren
-	
+	\itemd{Teleportieren}
 	Teleportiert eine eigene Figur auf ein Feld der eigenen Wahl. Sollte das Feld belegt sein, startet direkt ein Kampf.
-	\item Heilen
-
+	\itemd{Heilen}
 	Heilt eine eigene, verwundete Figur vollständig.
-	\item Wiederbeleben
-
+	\itemd{Wiederbeleben}
 	Belebt eine eigene, tote Figur wieder. Die Figur muss auf eines der umliegenden Felder des Zauberers \bzw der Zauberin platziert werden, egal wo sich die Figur befindet.
-	\item Tauschen
-
+	\itemd{Tauschen}
 	Tauscht die Position zweier Figuren -- unabhängig ihrer Farbe.
-	\item Zeitumkehr
-
+	\itemd{Zeitumkehr}
 	Dreht den Farbzyklus um. Sollten die Felder jedoch Schwarz \bzw Weiß sein wenn der Zauber gewirkt wird, ändern sie ihre Farbe zur jeweils gegenteiligen Farbe beim nächsten Farbwechsel.
-	\item Bewegungsunfähigkeit
-
+	\itemd{Bewegungsunfähigkeit}
 	Eine Einheit wird unfähig gemacht Bewegungen auszuführen und Zauber zu wirken. Die Einheit bleibt bewegungsunfähig bis die Farb-Felder die eigene Team-Farbe erreicht haben. Die Einheit kann sich aber weiterhin normal im Kampfareal bewegen und angreifen.
-	\item Elementar beschwören
-
+	\itemd{Elementar beschwören}
 	Beschwört einen Elementar auf ein auf ein besetztes Feld, sodass direkt ein Kampf stattfindet.
 \end{itemize}
 Das wirken eines Zaubers ist nicht auf Machtfelder möglich. Außerdem schwächt das Wirken jedes Zaubers den Lebenspunkte-Bonus auf dem Heimat-Feld des Zauberers bzw. der Zauberin um einen Punkt, sodass nach dem Wirken aller Zauber in einem Spiel der Bonus auf null Punkte geht.
 
 \subsubsection{Zusammenfassung für die Realisierung}
+\todo{Review fällig}
+Alle vorher genannten Aspekte des Spiels bilden den Kern, der das Spiel ausmacht: Ein Strategiespiel auf einem 9x9 Schachbrett mit Action-Elementen in einem Kampfareal.\\
+Um nun also eine ausreichende Schnittmenge mit dem Original zu haben und die neue Realisierung als "Ableger von Archon" bezeichnen zu können, sollten alle Aspekte unter "generelle Regeln und Ziele des Spiels" auf jeden Fall implementiert werden. Eine Ausnahme bildet hier die Auswahl der Spielmodi: Das Spiel an sich bietet zwar drei Modi an, jedoch ist es für eine erste Realisierung nur wichtig einen der Modi zu implementieren.\\
+Das Spielbrett muss in seiner kompletten Funktionalität implementiert werden, da ganze Mechaniken sonst wegfallen und andere Mechaniken nutzlos machen.\\
+Das Kampfareal kann in einer ersten Version einfach implementiert sein. Wichtig ist hier nur das Vorhandensein an sich, sowie eine entsprechende Gewichtung der einzelnen Figuren nach ihrer Kampfkraft im Original.\\
+Bei den Figuren sollten zumindest einige Typen implementiert sein. Es müssen nicht alle Figuren originalgetreu nachgebildet werden, sondern es sollte eine gewichtete Auswahl von Figuren geben, sodass ein Spiel zustandekommen kann. Das Aussehen kann dabei nach belieben angepasst werden um so der Realisierung einen eigenen Charme zu geben. Wichtig ist hier, wieder einmal, nur die richtige Gewichtung von Kräften.
+Die Zauber machen beim Original einen großen Teil der strategischen Mechanik aus, sodass sie vollständig zu implementieren sind. Die Zauber an kritischen Zeitpunkten im Spiel zu wirken macht Archon und jede einzelne Partie besonders. Der Stil der Zauber ist auch hier nicht wichtig, sondern ausschließlich ihre Funktion.
+\subsection{Anforderungsanalyse an neue Realisierung}
+\label{subsec:neueReal_analyse}\index{Analyse neue Realisierung}
 
-\subsection{Anforderungsanalyse an neue Implementierung}
-\label{subsec:neueImpl_analyse}\index{Analyse neue Implementierung}
-
-\emph{Hier wird analysiert, welche Aspekte das Spiel von der Seite der technologisch gestellten Anforderungen erfüllen muss. Also: Es muss eine 3D- Engine geben, die irgendwie im Browser renderbar ist.\\ Es muss möglich sein, alle Spiel-Mechaniken mittels Server-Client-Kommunikation umzusetzen, etc.\\Stichwort: Komponentendiagramm!}
-
+\emph{Hier wird analysiert, welche Aspekte das Spiel von der Seite der technologisch gestellten Anforderungen erfüllen muss. Also: Es muss eine 3D- Engine geben, die irgendwie im Browser renderbar ist.\\ Es muss möglich sein, alle Spiel-Mechaniken mittels Server-Client-Kommunikation umzusetzen, etc.\\Stichwort: Komponentendiagramm!}\\
+Der Titel, sowie die Einleitung haben schon erläutert, dass bei dieser Realisierung zwei essentielle Technologien zum Einsatz kommen sollen: \todo{Hier ist noch Arbeit nötig!}
+\begin{enumerate}
+	\item 3D-Technologien
+	\item Web-Technologien
+\end{enumerate}
+Dieser Abschnitt soll nun darstellen welche Aspekte der einzelnen Spiel-Funktionalitäten durch welche Technologie umgesetzt werden kann, oder ob es \evtl Hürden auf technologischer Ebene gibt, die durch Kompromisse in der Spiel-Mechanik gelöst werden müssen.\\
+\subsubsection{Web-Technologien}
+Da das Spiel mittels Web-Technologien realisiert werden soll, muss jegliche Kommunikation, unabhängig vom umgesetzten Modus, mittels Server-Client-Mechanismen gelöst werden können. Die größten Anforderungen an Kommunikation stellt dabei der Action-Aspekt im Kampfareal dar. Hier wird Echtzeit-Kommunikation auf einem ziemlich hohen Niveau benötigt um möglichst kleine Latenzen zwischen Updates zu vermeiden und so das Spiel spielbar zu machen. Als Lösung für dieses Problem bietet sich der Websocket-Standard an, der von vielen Browsern unterstützt wird. Dieser Standard ermöglicht bidirektionale, asynchrone Kommunikation, ohne dass erneute TCP-Verbindungen aufgebaut werden müssen. Der Client muss sich dazu einmalig mit einem Websocket unterstützenden Server verbinden. Über Websockets können Nachrichten auch mit Daten versehen werden.\\
+Da Websockets, inklusive möglicher Frameworks\footnote{Framework -- softwaretechnischer Rahmen, der Funktionen und Programmstukturen bereitstellt}, in JavaScript implementiert werden ist das Dreieck der Webentwicklung die Wahl für Stil, Inhalt und Dynamisierung des Spiels.\todo{Das gefällt mir noch gar nicht.}\\
+Alle anderen Aspekte des Spiels sind sehr gut vereinbar mit einem webbasierten Server-Client-Modell:
+Daten können vom Server vorgehalten und, falls nötig auch gespeichert werden. Dadurch wird keine Peer-to-Peer-Kommunikation nötig und alle Synchronisation von Daten geschieht über den Webserver.
+Die weitere Dynamisierung, also auch die Reaktion auf Eingaben eines Nutzers kann durch JavaScript ausgeführt werden. Das erlaubt jede Kommunikation -- Server-Client und Spieler-Client über eine Schnittstelle abzufertigen.
+Auf dem Client können Inhalte durch HTML\footnote{HTML -- Hypertext Markup Language ist eine Sprache um Dokumente im Webbrowser in ihrem Inhalt zu strukturieren }-Elemente repräsentiert und der Stil mittels CSS\footnote{CSS -- Cascading Style Sheets bilden die Regeln zum Aussehen von Webdokumenten}-Regeln angepasst werden.\\
+Da aber auch 3D-Technologien in diese Realisierung einfließen sollen, bedarf er mehr als nur HTML und CSS zur Darstellung der Spielinhalte. Allein mit diesen Mitteln ist es sehr schwierig bis unmöglich teils komplexe Spielinhalte darzustellen.
+\subsubsection{3D-Technologien}
+Die Darstellung der Spielinhalte soll mittels 3D-Technologien stattfinden. Die Lösung für dieses Problem bieten "Canvas" und WebGL. Das HTML-Element "Canvas" ermöglicht es Inhalte im Webbrowser sehr frei zu gestalten. Das HTML-Element bietet dabei nur eine Leinwand und die Inhalte müssen mittels JavaScript programmiert werden. Gepaart mit dem WebGL-Standard ergibt sich die Möglichkeit vielfältige, aufwändige 3D-Darstellungen im Webbrowser zu synthetisieren. Der WebGl-Standard erlaubt es ohne weitere Erweiterungen hardwarebeschleunigte\footnote{Hardwarebeschleunigt -- Rechenintensive Aufgaben werden vom Hauptprozessor eines Computers an dafür dedizierte Hardware delegiert, heute vermehrt Grafikkarten und grafikintensive Aufgaben} 3D-Grafiken im Browser darzustellen.\\
+Das "Canvas"-Element bildet also die Grundlage für eine mittels WebGL programmierte Szenerie des Spiels Archon, die mit Daten aus der Echtzeitkommunikation über den WebSocket-Standard gespeist wird. Da es oberflächlich betrachtet keinerlei Showstopper, oder Einschränkungen für eine Realisierung von Archon mittels der oben genannten Technologien gibt folgt nun die Implementierung.
 \section{Implementierung}
 \label{sec:Umsetzung}\index{Implementierung}
 
-\emph{Hier soll dann aufgezeigt werden, welche Anforderungen vom Spiel durch welche Technologie umgesetzt werden und nötige Bedingungen/grundsätzliche Ausschlüsse aufgezeigt werden.\\Hier, oder im nächsten Abschnitt muss klar gestellt werden, dass ein KI-Modus nicht implementiert wird!}
-
-\subsection{Architektur}
-\label{subsec:Architektur}\index{Architektur}
-
-\emph{Aus dem Teil der Zusammenführung ergibt sich dann zwangsläufig eine Art Komponentenarchitektur, die hier verfeinert wird, bis zu dem Punkt, an dem eine Festlegung auf Frameworks und Technologien getätigt werden muss.}
+\emph{Hier soll dann aufgezeigt werden, welche Anforderungen vom Spiel durch welche Technologie umgesetzt werden und nötige Bedingungen/grundsätzliche Ausschlüsse aufgezeigt werden.\\Hier, oder im nächsten Abschnitt muss klar gestellt werden, dass ein KI-Modus nicht implementiert wird!}\\
+Die Implementierung von Archon wird im Folgenden gezeigt. Dabei wird zunächst betrachtet, welche Frameworks, Software-Bibliotheken, Werkzeuge und Hilfsmittel benutzt werden und welche Vereinfachungen bezüglich des Spiels getroffen werden. Anschließend wird aus den Anforderungen von Technologien und Spiel eine Grobarchitektur erstellt, die mit jedem Entwicklungsschritt verfeinert und \ggf angepasst wird.
 
 \subsection{benötigte Technologien und Frameworks}
 \label{subsec:Technologien}\index{Technologien}
 
-\emph{Hier wird dann von den benötigten Technologien die Festlegung auf eine bestimmte Implementierung getroffen, also Frameworks, Programmiersprachen, Toolsets etc. festgelegt.}
-
-
-\emph{Hier wird dann die Komponentenarchitektur vom vorherigen Teil weiter verfeinert, sodass evtl schon eine grobe Klassenarchitektur dabei herausspringen kann.}
+\emph{Hier wird dann von den benötigten Technologien die Festlegung auf eine bestimmte Implementierung getroffen, also Frameworks, Programmiersprachen, Toolsets etc. festgelegt.}\\
+Durch die bisherigen Ausarbeitungen steht fest, dass HTML, CSS und JavaScript zur Pflicht für die Implementierung des Clients werden um alle technologischen Anforderungen einhalten zu können.\\
+Desweiteren gibt es aber noch Bibliotheken, die die Entwicklung des Clients beschleunigen und vereinfachen, sowie den Umgang mit Websockets und WebGL erleichtern. Außerdem wurden muss noch die Festlegung auf einen Webserver stattfinden, der bisher lediglich der Einschränkung bedarf, dass Websockets unterstützt werden müssen.\\
+Die Liste an Webservern ist ähnlich groß, wie die von Programmiersprachen. Viele grundlegende Sprachen, wie die .NET-Umgebung, C++, php \ua unterstützen dabei über Bibliotheken, oder Module auch den Websocket-Standard. Um die Entwicklung möglichst aufwandsarm zu gestalten und schnelle Fortschritte zu ermöglichen wurde sich in diesem Fall auf die node.js-Umgebung festgelegt, da hier der Server mittels JavaScript programmiert wird, was das zusätzliche Erlernen einer weiteren Programmiersprache und damit verbundene Kontext-Wechsel und Einarbeitungen in Eigenheiten, Bibliotheken und Programmiertechniken erspart.\todo{Hier stehen geblieben.}
 
 \subsection{Hilfsmittel und Vereinfachungen}
 \label{subsec:Hilfsmittel}\index{Hilfsmittel}
 
 \emph{Hier würden Dinge zu lesen sein, wie die Benutzung von TypeScript, oder Browser-Beschränkungen etc, da diese nicht relevant für den eigentlichen Entwicklungsvorgang sind, aber dennoch nützlich sind und eben Vereinfachungen darstellen.}
+
+\subsection{Architektur}
+\label{subsec:Architektur}\index{Architektur}
+
+\emph{Aus dem Teil der Zusammenführung ergibt sich dann zwangsläufig eine Art Komponentenarchitektur, die hier verfeinert wird, bis zu dem Punkt, an dem eine Festlegung auf Frameworks und Technologien getätigt werden muss.}
 
 \subsection{Schritte der Implementierung}
 \label{subsec:Implementierung}\index{Implementierung}

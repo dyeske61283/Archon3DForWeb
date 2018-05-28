@@ -585,6 +585,7 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmr7.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmbx10.tfm
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex
@@ -634,6 +635,7 @@ INPUT ./Bachelorarbeit.out
 INPUT ./Bachelorarbeit.out
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr10.pfb
