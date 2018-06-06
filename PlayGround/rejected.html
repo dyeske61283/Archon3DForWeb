@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<title>Archon3D landing page</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Gaming classic Archon as a 3D implementation">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="./images/favicon.png" type="image/gif" sizes="16x16">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<style>
+		body {
+			background-color: darkslategrey;
+		}
+	</style>
+</head>
+<body>
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container text-center">
+		  <h1 class="display-3">Sorry, seats taken :/</h1>
+		  <p class="lead">This page will automatically refresh, once a game seat has freed up.</p>
+		</div>
+	  </div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+			const socket = io();
+			socket.on('reload', function (data) {
+    		location.reload();
+			});
+	</script>
+</body>
