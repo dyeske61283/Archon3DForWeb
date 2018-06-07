@@ -474,10 +474,10 @@ INPUT Bachelorarbeit.out
 INPUT Bachelorarbeit.out
 INPUT Bachelorarbeit.out
 INPUT Bachelorarbeit.out
+OUTPUT Bachelorarbeit.pdf
 INPUT ./Bachelorarbeit.out
 INPUT ./Bachelorarbeit.out
 OUTPUT Bachelorarbeit.out
-OUTPUT Bachelorarbeit.pdf
 OUTPUT Inhalt/Deckblatt.aux
 INPUT Inhalt/Deckblatt.tex
 INPUT Inhalt/Deckblatt.tex
