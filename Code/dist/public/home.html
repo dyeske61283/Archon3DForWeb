@@ -70,59 +70,9 @@
 		<!-- <footer class="container-fluid text-center">
 			<p>I am some Footer Text</p>
 		</footer> -->
-	<script>
-		$("#btnOwnColor").click((e) => {
-			let btn = $(e.target);
-			if(btn.hasClass("btn-light")) {
-				btn.html("Black");
-				btn.removeClass("btn-light").addClass("btn-dark");
-			} else {
-				btn.html("White");
-				btn.removeClass("btn-dark").addClass("btn-light");
-			}
-		});
-		$("#btnColorFirst").click((e) => {
-			let btn = $(e.target);
-			if(btn.hasClass("btn-light")) {
-				btn.html("Black");
-				btn.removeClass("btn-light").addClass("btn-dark");
-			} else {
-				btn.html("White");
-				btn.removeClass("btn-dark").addClass("btn-light");
-			}
-		});
-
-		$("#btnWin").click(() => {
-			$("#alertWin").show();
-			setTimeout(() => location.reload(), 5000);
-		});
-
-		$("#btnLose").click(() => {
-			let alertBox = $("#alertWin");
-			alertBox.removeClass("alert-success").addClass("alert-danger").html("<strong>Lose!</strong> Next time you'll win! The page will refresh in a few seconds for your next try.");
-			alertBox.show();
-			setTimeout(() => location.reload(), 5000);
-		});
-
-		$("#btnSend1").click(() => {
-			let messagePanel2 = $("#messagesOther ul");
-			removeOldMessages(messagePanel2);
-			messagePanel2.prepend($("<li class=\"list-group-item\">").text("A Message was delivered to you."));
-		});
-
-		$("#btnSend2").click(() => {
-			let messagePanel1 = $("#messagesOwn ul");
-			removeOldMessages(messagePanel1);
-			messagePanel1.prepend($("<li class=\"list-group-item\">").text("A Message was delivered to you."));
-		});
-
-		function removeOldMessages(msgPanel) {
-			msgPanel.children().slice(3).remove();
-		}
-	</script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="./js/lib/three.min.js"></script>
 	<script src="./js/lib/OrbitControls.js"></script>
-	<!-- <script src="./js/main.js"></script> -->
+	<script src="./js/bundle.js"></script>
 </body>
 </html>
