@@ -1,1 +1,1 @@
-{"version":3,"file":"CommandInvoker.js","sourceRoot":"","sources":["../../../src/public/js/CommandInvoker.ts"],"names":[],"mappings":";;AAAA;IAEC;IAEA,CAAC;IAED,mCAAU,GAAV,UAAW,OAAY;IAEvB,CAAC;IAED,uCAAc,GAAd,UAAe,GAAQ;IAEvB,CAAC;IACF,qBAAC;AAAD,CAAC,AAbD,IAaC;AAbY,wCAAc"}
+{"version":3,"file":"CommandInvoker.js","sourceRoot":"","sources":["../../../src/public/js/CommandInvoker.ts"],"names":[],"mappings":"AAAA,MAAM;IAGL;IACA,CAAC;IAED,UAAU,CAAC,OAAY;IAEvB,CAAC;IAED,cAAc,CAAC,GAAQ;IAEvB,CAAC;CACD"}

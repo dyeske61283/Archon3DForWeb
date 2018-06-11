@@ -1,13 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var CommandInvoker = /** @class */ (function () {
-    function CommandInvoker() {
+export class CommandInvoker {
+    constructor() {
     }
-    CommandInvoker.prototype.addCommand = function (command) {
-    };
-    CommandInvoker.prototype.executeCommand = function (key) {
-    };
-    return CommandInvoker;
-}());
-exports.CommandInvoker = CommandInvoker;
+    addCommand(command) {
+    }
+    executeCommand(key) {
+    }
+}
 //# sourceMappingURL=CommandInvoker.js.map

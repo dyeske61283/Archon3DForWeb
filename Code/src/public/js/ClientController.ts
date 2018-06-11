@@ -13,26 +13,40 @@ export class ClientController implements IClientController {
 
 	registerEvents(): void {
 		const btns = $("button");
-		btns.on("click", this.handleInput.bind(this));
+		btns.click(this.handleInput.bind(this));
 		// $(document.body).keyup(this.handleInput);
 	}
 	registerCommands(): void {
 	}
 
 	handleInput(ev: JQuery.Event): void {
-		const component = ev.target;
-		console.log("button {0} pressed!", component);
+		const component = ev.target as Element;
+		console.log("button pressed: ", component.id);
 		// command execute
+		switch (component.id) {
+			case "btnColorFirst":
+				this._model.settings().colorFirst = !this._model.settings().colorFirst;
+				break;
+			case "btnOwnColor":
+				this._model.settings().color = !this._model.settings().color;
+				break;
+			case "btnSettingsDone":
+				console.log("am I reaching the call?");
+				this.settingsDone();
+				break;
+			default:
+				console.log("This is the default switch-statement");
+		}
 	}
 
 	turnFinished() {
 		// disable control
-
 		this._socket.emit("turn finished");
 	}
 
-	settingsDone(ev: JQuery.Event) {
-		this._socket.emit("settingsDone", this._model.settings);
+	settingsDone() {
+		console.log("sending settings to server");
+		this._socket.emit("settings", this._model.settings());
 	}
 
 

@@ -6,15 +6,27 @@ import { ServerAdapter } from "./implementations/ServerAdapter";
 import { GameModel } from "./implementations/GameModel";
 
 export class Fabrik {
-	static createServerController(model: IGameModel, p1: SocketIO.Socket, p2: SocketIO.Socket): IServerController {
-		return new ServerController(model, p1, p2);
+	private static _sockets: SocketIO.Socket[] = [];
+
+	static createServerController(model: IGameModel): IServerController {
+		return new ServerController(model, this._sockets[0], this._sockets[1]);
 	}
 
-	static createServerAdapter(model: IGameModel, p1: SocketIO.Socket, p2: SocketIO.Socket, server: SocketIO.Server): IServerAdapter {
-		return new ServerAdapter(server, p1, p2, model);
+	static createServerAdapter(model: IGameModel, server: SocketIO.Server): IServerAdapter {
+		return new ServerAdapter(server, this._sockets[0], this._sockets[1], model);
 	}
 
 	static createModel(): IGameModel {
 		return new GameModel();
+	}
+
+	static provideSocket(socket: SocketIO.Socket) {
+		if (this._sockets.length < 2) {
+			this._sockets.push(socket);
+		}
+	}
+
+	static readyToCreate(): boolean {
+		return this._sockets.length === 2;
 	}
 }

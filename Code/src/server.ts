@@ -85,13 +85,12 @@ export class Server {
   userConnects(socket: SocketIO.Socket): void {
     if (this.connectionsIO < 2) {
       console.log("adding socket to active players: " + socket.id);
-      this._playerSockets[this.connectionsIO] = socket;
+      Fabrik.provideSocket(socket);
     }
-    if (this._playerSockets.length === 2) {
-      this._controller = Fabrik.createServerController(undefined, this._playerSockets[0], this._playerSockets[1]);
+    if (Fabrik.readyToCreate()) {
+      this._controller = Fabrik.createServerController(undefined);
       this._controller.registerMsgListeners();
-
-      this._adapter = Fabrik.createServerAdapter(undefined, this._playerSockets[0], this._playerSockets[1], this.ioServer);
+      this._adapter = Fabrik.createServerAdapter(undefined,  this.ioServer);
     }
     this.connectionsIO++;
     this.connections = this.connectionsIO;

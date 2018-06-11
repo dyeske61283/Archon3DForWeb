@@ -24,4 +24,8 @@ export class ClientAdapter implements IClientAdapter {
 	private playerUpdate(info: IPlayerInfo) {
 		console.log("Got updated PlayerInfo" + info);
 	}
+
+	private secondPlayerConnected() {
+
+	}
 }

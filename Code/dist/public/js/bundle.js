@@ -6426,22 +6426,38 @@ var ClientController = /** @class */ (function () {
         this.registerEvents();
     }
     ClientController.prototype.registerEvents = function () {
-        $("button").click(this.handleInput);
-        $(document.body).keyup(this.handleInput);
+        var btns = $("button");
+        btns.click(this.handleInput);
+        // $(document.body).keyup(this.handleInput);
     };
     ClientController.prototype.registerCommands = function () {
     };
     ClientController.prototype.handleInput = function (ev) {
         var component = ev.target;
-        console.log("button {0} pressed!", component);
+        console.log("button pressed: ", component.id);
         // command execute
+        switch (component.id) {
+            case "btnColorFirst":
+                this._model.settings().colorFirst = !this._model.settings().colorFirst;
+                break;
+            case "btnOwnColor":
+                this._model.settings().color = !this._model.settings().color;
+                break;
+            case "btnSettingsDone":
+                console.log("am I reaching the call?");
+                this.settingsDone();
+                break;
+            default:
+                console.log("This is the default switch-statement");
+        }
     };
     ClientController.prototype.turnFinished = function () {
         // disable control
         this._socket.emit("turn finished");
     };
-    ClientController.prototype.settingsDone = function (ev) {
-        this._socket.emit("settingsDone", this._model.settings);
+    ClientController.prototype.settingsDone = function () {
+        console.log("sending settings to server");
+        this._socket.emit("settings", this._model.settings());
     };
     return ClientController;
 }());

@@ -1,7 +1,10 @@
+import { Colors } from "./Colors";
+
+
 export interface IFieldInfo {
  x: number;
  y: number;
- color: any;
+ color: Colors;
  changeable: boolean;
  isPowerfield: boolean;
 }
