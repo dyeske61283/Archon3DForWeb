@@ -5,7 +5,29 @@
 \label{sec:hinfuhrung}\index{Hinführung}
 
 \emph{Die Hinführung soll den Leser an das Thema 3D-Technologien, Web-Entwicklung und Spieleklassiker, wie Archon heranführen. Hier sind Quellen und Recherchen zu ein paar Zahlen, wie Remakes, Umsätze zu Uralt-Spielen aktuell und Beliebtheit/Zahlen zum Webbrowser als Spieleplattform angebracht, um Wichtigkeit der Plattform und Technologien, aber auch Relevanz für Spieleklassiker zu zeigen.}
+Im Jahr 2017 wurden mehr als 1,8 Milliarden browser-fähige Endgeräte weltweit verkauft. Der technologische Fortschritt in Hardware und Software geben dieser großen Masse an Zugängen zum Internet eine große Vielfalt an Applikationen, die nahezu überall auf der Welt benutzbar sind. Seien es Business- und Unterhaltungs-Applikationen, oder Spiele.\\
+Dem gegenüber steht ein immer noch riesiger Markt für Retro-Spiele und Handhelden, die dem Drang nach mehr Grafikdetails und Leistungshunger aus dem Weg gehen und durch Charme mit Pixeln und Kindheitserinnerungen punkten. Spiele-Klassiker wie PacMan, Tetris, Mario und \uvm sind auch heute noch auf jedem Handhelden zu finden. Es gibt weiterhin Absatz auch für alte Plattformen wie die Atari, oder den C64. Wer den C64 und Spiele in einem Satz nennt muss auch eines der meistverkauften Spiele für den als "Brotkasten" bekannten Computer nennen: \emph{Archon}.\\
+\index{Archon!Cover}
+\begin{figure}[htp]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.50\textwidth]{Archon.jpg}
+\caption[Archon - Cover]{Archon - Cover\footnotemark}
+\label{fig:Archon_Cover}
+\end{figure}
+\footnotetext{\Quelle{C64-Wiki, \url{https://www.c64-wiki.com/wiki/Archon}}}
 
+
+Der Schwerpunkt dieser Arbeit befasst sich mit der Umsetzung des bekannten Retro-Spiels Archon mit Web- und 3D-Technologien
+
+
+Die klaren Vorteile des Web als Plattform, auch für Spiele, sind die Offenheit, der einfache Zugang und die immer weiter steigende Unterstützung neuer Technologien.\\
+Sogenannte Spiele-Engines, also Bibliotheken die sich um die meisten, generellen Problemstellungen eines Spiels und seiner Entwicklung kümmern, gibt es daher allerlei.
+So sind heutzutage hardwarebeschleunigte 3D-Visualisierung und Echtzeitkommunikation im Webbrowser Stand der Technik.
+In dieser Arbeit soll die Verschmelzung von State of the Art Webtechnologien mit einem Retro-Spiel erfolgen.\\
+"Archon" genoss für Atari und C64 großen Erfolg, ähnlich vieler anderer Spiele für die Konsolen der 80er.
+\todo{Anmerkung \& Recherche zu Erfolg von Archon belegen!}
+Das Spiel dient daher als sehr gutes Exempel für die Möglichkeiten des Webs als Spieleplattform, aber auch der Möglichkeiten und Freiheiten des Webs für jede andere Art von Applikation.
 \begin{itemize}
 	\item Verkaufte Konsolen
 	\item Produzierte Spiele und Verkäufe
@@ -19,17 +41,6 @@
 	\item Beispiele zu 3D-Möglichkeiten im Web, Stichwort: THREE.JS-Demos
 \end{itemize}
 
-\section{Motivation / Problemstellung}
-\label{sec:motivation}\index{Motivation}
-\emph{ Diese Sektion soll vom vorherigen Stand der Forschung und Möglichkeiten auf Anwendbarkeit überleiten und zeigen, dass die evtl. surreal erscheinende Vermischung von Genres, Plattformen und Technologien anwendbar ist, und das sogar mit beschränktem Aufwand. Vereinbarkeit von aktuellen Technologien mit Spiele-Klassikern und Spiele-Klassiker als Anwendungsbeispiele dafür.}
-Bisher sind oftmals nur Demonstrationen der einzelnen Technologien zu finden, oder kurze Starter-Kits bzw. Einstiegspunkte in die jeweilige Technologie, ...\\
-Versionen, Ableger und Kopien des Spieleklassikers Archon gibt es zahlreich. Meist sind diese jedoch auf ein System beschränkt, oder tatsächlich nur mit einem Emulator ausführbar. Das Web leistet an dieser Stelle die perfekte Abhilfe: Es gibt unzählige Geräte, die heutzutage einen Webbrowser installiert haben, somit hat jeder Zugriff auf diesen Ableger, der ein webfähiges Gerät besitzt.
-
-\section{Ziele dieser Arbeit}
-\label{sec:ziele_dieser_arbeit}\index{Ziele}
-
-\emph{Hier soll bloß kurz und prägnant die Fragestellung genannt werden und eine kurze Analyse der einzelnen Worte des Titels stattfinden. Ein Satz, wie "Die exakten Anforderungen für die Umsetzung dieser groben Ziele werden zu einem späteren Zeitpunkt herausgearbeitet", oder "... Anforderungen werden aus dem Aufbau der Arbeit heraus klar." muss hier hinein.}
-
 \section{Aktueller Forschungsstand}
 \label{sec:aktueller_forschungsstand}\index{Forschungsstand}
 
@@ -37,11 +48,19 @@ Versionen, Ableger und Kopien des Spieleklassikers Archon gibt es zahlreich. Mei
 
 Fliegt vermutlich raus, oder kommt an andere Position.
 
+\section{Motivation / Problemstellung}
+\label{sec:motivation}\index{Motivation}
+\emph{ Diese Sektion soll vom vorherigen Stand der Forschung und Möglichkeiten auf Anwendbarkeit überleiten und zeigen, dass die evtl. surreal erscheinende Vermischung von Genres, Plattformen und Technologien anwendbar ist, und das sogar mit beschränktem Aufwand. Vereinbarkeit von aktuellen Technologien mit Spiele-Klassikern und Spiele-Klassiker als Anwendungsbeispiele dafür.}
+Bisher sind oftmals nur Demonstrationen, kurze Starter-Kits \bzw Einstiegspunkte einzelner Web-Technologien und Frameworks im Web zu finden.\\
+Als Entwickler bietet es sich jedoch an auf gleiche, oder ähnliche gelöste Problemstellungen zurückgreifen zu können.
+Anhand der Webapplikation sollen die Möglichkeiten des Webs dargestellt werden und weiterhin kann das Retro-Spiel als Beispiel für typische Problemstellungen eines Entwicklers für Browserspiele dienen.
+Versionen, Ableger und Kopien des Spieleklassikers Archon gibt es zahlreich. Meist sind diese jedoch auf ein System beschränkt, oder tatsächlich nur mit einem Emulator ausführbar. Das Web leistet an dieser Stelle die perfekte Abhilfe: Es gibt unzählige Geräte, die heutzutage einen Webbrowser installiert haben, somit hat jeder Zugriff auf diesen Ableger, der ein webfähiges Gerät besitzt.
+
 \section{Zentrale Begriffe}
 \label{sec:zentrale_begriffe}\index{Zentrale Begriffe}
 
 \subsection{Was versteht man unter Webtechnologien?}
-Webtechnologien betiteln die Sammlung aller nötigen Aspekte zum Erstellen einer Webanwendung.\\
+Webtechnologien betiteln meist die Sammlung aller Aspekte zum Erstellen, Warten und Entwickeln einer Webanwendung.\\
 Webanwendungen selbst bestehen aus einem Client-Server-Modell.
 Typische Bestandteile des Clients sind: 
 \begin{itemize}
@@ -52,12 +71,24 @@ Typische Bestandteile des Clients sind:
 Ein Webserver gibt auf HTTP-Anfragen die entsprechenden Inhalte und Medien an den Client heraus, welcher durch einen Webbrowser angezeigt wird. Außerdem können hier Daten des Clients verarbeitet, gespeichert und verteilt werden werden.
 \subsection{Was versteht man unter 3D-Technologien?}
 Da ein Bildschirm, beispielweise eines Computers, nur zweidimensional ist, muss durch andere Methodiken der Effekt einer dritten Dimension geschaffen werden.\\Objekte im 3D-Raum werden über ihre Eckpunkte aufgespannt und im Code somit in einem 3D-Raum mit normalem 3-Achsen-Koordinatensystem dargestellt. Anschließend folgt der Prozess des Renderns, bei dem zunächst aus den einzelnen Punkten der Objekte die Formen errechnet werden, indem die Eckpunkte zu Flächen verbunden werden. Anschließend erfolgt eine Ausrichtung aller Flächenpunkte am Pixel-Raster, sodass eine 3D-Projektion der 2D Pixel entsteht. Der nächste Schritt, Fragment-Bearbeitung, behandelt die Einfärbung der, im vorherigen Schritt gebildeten, "Fragmente" anhand von Licht und verwendeten Texturen. Der finale Schritt des Renderns wandelt die 3D-Projektion in ein 2D-Pixel-Bild, dass dann auf dem Bildschirm angezeigt wird. Außerdem werden hier Prüfungen für die Sichtbarkeit von Objekten unternommen, sodass nicht sichtbare Objekte, oder Teile von ihnen, auch nicht weiter verarbeitet werden.
+
+\section{Ziel dieser Arbeit}
+\label{sec:ziel_dieser_arbeit}\index{Ziel}
+
+Ziel dieser Arbeit ist es eine Webapplikation zu erstellen, die das Retro-Spiel Archon in einem 3D-Stil widerspiegelt.
+Die Webapplikation soll dabei folgende generelle Anforderungen erfüllen, die im Laufe dieser Arbeit näher spezifiziert werden:
+\begin{itemize}
+	\item Es muss mittels Webtechnologien implementiert werden
+	\item Das Spiel muss in einem 3D-Stil angezeigt werden
+	\item Das Spiel muss als solches wiedererkennbar sein
+\end{itemize}
+
 \section{Aufbau}
 \label{sec:aufbau}\index{Aufbau}
 
-\emph{Hier wird dann auf den Aufbau des Haupt- und Schlussteils eingegangen. Also der erste Abschnitt beschäftigt sich mit Anforderungsanalyse beider Plattformen/Seiten. Der zweite Abschnitt dreht sich dann rund um Zusammenführung der Anforderungen und Tool-Auswahl, und somit darum einen Einstiegspunkt und eine Architektur für die weitere Entwicklung festzulegen. }
-
 Im ersten Teil dieser Arbeit sollen die Anforderungen an eine Neuauflage von "Archon" erfasst werden und eine Beschreibung der Features und Spielmechaniken zur Umsetzung erstellt werden.
-Anschließend werden die Anforderungen der technologischen Seite herausgearbeitet, sodass eine Liste an Funktionalitäten entsteht, die von den 3D- und Webtechnologien erfüllt werden muss.
-Alle Anforderungen werden dann in eine Beschreibung zur Umsetzung und eine entsprechende Architektur ausgearbeitet.
-Den Abschluss bildet eine Überprüfung der fertigen Neuauflage auf die Erfüllung der Anforderungen, sowie eine Präsentation und eine Reflexion des Ergebnisses.
+Darauffolgend werden die Anforderungen der technologischen Seite herausgearbeitet, sodass eine Liste an Funktionalitäten entsteht, die von den 3D- und Webtechnologien erfüllt werden muss.
+Anschließend wird der Aufbau der Entwicklungsumgebung, sowie benutzte Hilftmittel und getroffene Vereinfachungen beschrieben.
+Alle Anforderungen werden dann in eine Beschreibung zur Umsetzung und in eine entsprechende Architektur ausgearbeitet.
+Die Implementierung wird in Ausschnitten gezeigt, die die einzelnen Schritte und die Vorgehensweise bei der Umsetzung von Architektur und Programmierung aufzeigen sollen.
+Den Abschluss bildet eine Überprüfung auf die Erfüllung der Anforderungen mit kurzem Einblick auf den abschließenden Stand und eine Reflexion des Ergebnisses mit Ausblick auf Folgearbeiten an der Webapplikation.

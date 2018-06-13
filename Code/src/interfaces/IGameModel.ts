@@ -1,6 +1,7 @@
 import { IPlayerInfo } from "../informationmodel/IPlayerInfo";
 import { ISettingsInfo } from "../informationmodel/ISettingsInfo";
 import { IServerAdapter } from "./IServerAdapter";
+import { IBoardInfo } from "../informationmodel/IBoardInfo";
 
 // owns all Info-objects from the server
 export interface IGameModel {
@@ -8,7 +9,7 @@ export interface IGameModel {
 	settings(): ISettingsInfo;
 	setSettings(settings: ISettingsInfo): void;
 	setPlayer(p: IPlayerInfo, index: number): void;
-	// board(): IBoardInfo;
+	board(): IBoardInfo;
 	// figures(): IFigureInfo[];
 
 
