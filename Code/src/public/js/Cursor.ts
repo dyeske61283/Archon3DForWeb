@@ -3,7 +3,8 @@ import { ICursorInfo } from "../../informationmodel/ICursorInfo";
 export class Cursor {
 	private _info: ICursorInfo;
 
-	constructor() {
+	constructor(info: ICursorInfo) {
+		this._info = info;
 	}
 
 	public move(x: number, y: number) {

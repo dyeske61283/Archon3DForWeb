@@ -86,6 +86,7 @@ export class Server {
     if (this.connectionsIO < 2) {
       console.log("adding socket to active players: " + socket.id);
       Fabrik.provideSocket(socket);
+      this._playerSockets.push(socket);
     }
     if (Fabrik.readyToCreate()) {
       this._controller = Fabrik.createServerController(undefined);

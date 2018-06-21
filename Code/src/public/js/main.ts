@@ -64,15 +64,11 @@ $("#btnColorFirst").click((e) => {
 });
 
 $("#btnWin").click(() => {
-  $("#alertWin").show();
-  setTimeout(() => location.reload(), 5000);
+
 });
 
 $("#btnLose").click(() => {
-  const alertBox = $("#alertWin");
-  alertBox.removeClass("alert-success").addClass("alert-danger").html("<strong>Lose!</strong> Next time you'll win! The page will refresh in a few seconds for your next try.");
-  alertBox.show();
-  setTimeout(() => location.reload(), 5000);
+
 });
 
 $("#btnSend1").click(() => {

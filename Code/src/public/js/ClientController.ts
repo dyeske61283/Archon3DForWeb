@@ -9,6 +9,7 @@ export class ClientController implements IClientController {
 	constructor(socket: SocketIOClient.Socket) {
 		this._socket = socket;
 		this.registerEvents();
+		this.sendPlayerConnected();
 	}
 
 	registerEvents(): void {
@@ -47,7 +48,11 @@ export class ClientController implements IClientController {
 	settingsDone() {
 		console.log("sending settings to server");
 		this._socket.emit("settings", this._model.settings());
+		$("#myModal").modal("hide");
 	}
 
+	sendPlayerConnected() {
+		this._socket.emit("playerConnected");
+	}
 
 }

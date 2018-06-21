@@ -2,11 +2,13 @@ import { IClientAdapter } from "./IClientAdapter";
 import { IClientController } from "./IClientController";
 import { IViewBuilder } from "./IViewBuilder";
 import { ClientFabrik } from "./ClientFabrik";
+import { IGameModel } from "../../interfaces/IGameModel";
 
 export class Client {
 	private _adapter: IClientAdapter;
 	private _controller: IClientController;
 	private _viewBuilder: IViewBuilder;
+	private _model: IGameModel;
 
 	constructor(fabrik: ClientFabrik, socket: SocketIOClient.Socket) {
 		this._adapter = fabrik.createClientAdapter(socket);
@@ -22,7 +24,10 @@ export class Client {
 		return this._controller;
 	}
 
-	getScene() {
+	getModel() {
+		return this._model;
+	}
 
+	getScene() {
 	}
 }

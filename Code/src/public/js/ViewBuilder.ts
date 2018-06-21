@@ -1,23 +1,27 @@
 import { IView } from "./IView";
 import { IViewBuilder } from "./IViewBuilder";
+import { ICursorInfo } from "../../informationmodel/ICursorInfo";
+import { IActionBoardInfo } from "../../informationmodel/IActionBoardInfo";
+import { IBoardInfo } from "../../informationmodel/IBoardInfo";
+import { IFigureInfo } from "../../informationmodel/IFigureInfo";
 
 export class ViewBuilder implements IViewBuilder {
 	buildBackground(): IView {
-		throw new Error("Method not implemented.");
+		return undefined;
 	}
-	buildFigures(): IView {
-		throw new Error("Method not implemented.");
+	buildFigures(figures: IFigureInfo[]): IView  {
+		return undefined;
 	}
 	buildScene(): IView {
-		throw new Error("Method not implemented.");
+		return undefined;
 	}
-	buildBoard(): IView {
-		throw new Error("Method not implemented.");
+	buildBoard(board: IBoardInfo): IView {
+		return undefined;
 	}
-	buildFightingBoard(): IView {
-		throw new Error("Method not implemented.");
+	buildFightingBoard(aBoard: IActionBoardInfo): IView {
+		return undefined;
 	}
-	buildCursor(): IView {
-		throw new Error("Method not implemented.");
+	buildCursor(cursor: ICursorInfo): IView {
+		return undefined;
 	}
 }
