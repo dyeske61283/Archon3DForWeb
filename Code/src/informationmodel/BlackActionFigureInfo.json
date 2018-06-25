@@ -1,0 +1,76 @@
+[
+	{
+		"prototype": "Goblin",
+		"BaseHP": 4.5,
+		"Speed": 1,
+		"AttackPower": 5,
+		"Shot Speed": -1,
+		"Attack Rate": 1.5,
+		"HProjectileWidth": 2,
+		"VProjectileWidth": 4
+	},
+	{
+		"prototype": "Manticore",
+		"BaseHP": 7.5,
+		"Speed": 1,
+		"AttackPower": 4,
+		"Shot Speed": 0.5,
+		"Attack Rate": 0.75,
+		"HProjectileWidth": 5,
+		"VProjectileWidth": 10
+	},
+	{
+		"prototype": "Banshee",
+		"BaseHP": 7.5,
+		"Speed": 1,
+		"AttackPower": 1,
+		"Shot Speed": -1,
+		"Attack Rate": 0.6,
+		"HProjectileWidth": 32,
+		"VProjectileWidth": 64
+	},
+	{
+		"prototype": "Troll",
+		"BaseHP": 13.5,
+		"Speed": 0.75,
+		"AttackPower": 10,
+		"Shot Speed": 0.5,
+		"Attack Rate": 0.6,
+		"HProjectileWidth": 8,
+		"VProjectileWidth": 12
+	},
+	{
+		"prototype": "Basilisk",
+		"BaseHP": 5.5,
+		"Speed": 1,
+		"AttackPower": 9,
+		"Shot Speed": 1,
+		"Attack Rate": 1,
+		"HProjectileWidth": 3,
+		"VProjectileWidth": 10
+	},
+	{
+		"prototype": "Shapeshifter",
+		"BaseHP": 9.5
+	},
+	{
+		"prototype": "Dragon",
+		"BaseHP": 16.5,
+		"Speed": 1,
+		"AttackPower": 11,
+		"Shot Speed": 0.7,
+		"Attack Rate": 0.5,
+		"HProjectileWidth": 4,
+		"VProjectileWidth": 6
+	},
+	{
+		"prototype": "Sorceress",
+		"BaseHP": 9.5,
+		"Speed": 1,
+		"AttackPower": 8,
+		"Shot Speed": 0.9,
+		"Attack Rate": 0.75,
+		"HProjectileWidth": 2,
+		"VProjectileWidth": 4
+	}
+]

@@ -15,4 +15,23 @@ export class Cursor {
 	public control(enable: boolean) {
 		this._info.enabled = enable;
 	}
+
+	public action() {
+		// got a figure selected
+		if (this._info.selectedFigure) {
+			// if this is the same field and the sorc got selected
+			// bring up spell list
+		}
+
+		// selected a spell => cast it aka send telegram to server
+
+		// no figure selected and the current field has a Figure => select Figure
+		if (!this._info.selectedFigure) {
+			this._info.controllingPlayer.figures.forEach((value) => {
+				if (value.pos === this._info.pos) {
+					this._info.selectedFigure = value;
+				}
+			});
+		}
+	}
 }

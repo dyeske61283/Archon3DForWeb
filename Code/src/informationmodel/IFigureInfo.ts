@@ -1,4 +1,5 @@
 import { IFieldInfo } from "./IFieldInfo";
+import { IActionFigureInfo } from "./IActionFigureInfo";
 
 export interface IFigureInfo {
 	name: string;
@@ -7,4 +8,5 @@ export interface IFigureInfo {
 	movementType: any;
 	color: boolean;
 	field: IFieldInfo;
+	actionInfo: IActionFigureInfo;
 }

@@ -5,17 +5,30 @@ import { IServerAdapter } from "../interfaces/IServerAdapter";
 import { IBoardInfo } from "../informationmodel/IBoardInfo";
 import { Colors } from "../informationmodel/Colors";
 import { ModelBuilder } from "./ModelBuilder";
+import { IFigureInfo } from "../informationmodel/IFigureInfo";
+import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
 
 export class GameModel implements IGameModel {
 	private _players: IPlayerInfo[];
 	private _settings: ISettingsInfo;
 	private _observers: IServerAdapter[];
 	private _board: IBoardInfo;
+	private _blackFigures: IFigureInfo[];
+	private _whiteFigures: IFigureInfo[];
+	private _defeatedFiguresWhite: IFigureInfo[];
+	private _defeatedFiguresBlack: IFigureInfo[];
+	private _actionField: IActionBoardInfo;
+
 	constructor(builder: ModelBuilder) {
 		this._players = [];
 		this._observers = [];
-		this._settings = {color: false, colorFirst: false};
+		this._settings = builder.buildSettings();
 		this._board = builder.buildBoard();
+		this._actionField = builder.buildActionBoard();
+		this._players.push(builder.buildPlayer());
+		this._players.push(builder.buildPlayer());
+		this._blackFigures = builder.buildFigureBlack();
+		this._whiteFigures = builder.buildFiguresWhite();
 	}
 
 	players(): IPlayerInfo[] {
@@ -27,6 +40,18 @@ export class GameModel implements IGameModel {
 
 	board(): IBoardInfo {
 		return this._board;
+	}
+
+	blackFigures(): IFigureInfo[] {
+		return this._blackFigures;
+	}
+
+	whiteFigures(): IFigureInfo[] {
+		return this._whiteFigures;
+	}
+
+	actionBoard(): IActionBoardInfo {
+		return this._actionField;
 	}
 
 	setSettings(settings: ISettingsInfo): void {

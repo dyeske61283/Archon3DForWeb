@@ -10,6 +10,10 @@ import { IServerController } from "./interfaces/IServerController";
 import { IServerAdapter } from "./interfaces/IServerAdapter";
 import { Fabrik } from "./serverFabrik";
 import { IGameModel } from "./interfaces/IGameModel";
+import { ModelBuilder } from "./implementations/ModelBuilder";
+import * as fs from "fs";
+import { IFigureInfo } from "./informationmodel/IFigureInfo";
+
 export const app = express();
 
 // utility functions
@@ -33,7 +37,9 @@ export class Server {
     this.ioServer = this.setupSocketServer(this.httpServer);
     this.ioServer.on("connection", this.userConnects.bind(this));
     this._playerSockets = [];
+    this._model = Fabrik.createModel(new ModelBuilder());
   }
+
   // sets up a http express server including the routing and options
   setupExpressServer(): http.Server {
     // Express configuration

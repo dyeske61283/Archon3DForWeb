@@ -1,7 +1,9 @@
+import { IFigureInfo } from "./IFigureInfo";
+
 export interface IPlayerInfo {
 	connection: boolean;
 	socket: SocketIO.Socket;
-	figures: {};
+	figures: IFigureInfo[];
 	hasControl: boolean;
 	figureColor: boolean;
 }

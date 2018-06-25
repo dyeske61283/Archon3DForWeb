@@ -1,0 +1,50 @@
+[
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false
+	},
+	{
+		"name": "Manticore",
+		"range": 3,
+		"movementType": "ground",
+		"color": false
+	},
+	{
+		"name": "Banshee",
+		"range": 3,
+		"movementType": "fly",
+		"color": false
+	},
+	{
+		"name": "Troll",
+		"range": 3,
+		"movementType": "ground",
+		"color": false
+	},
+	{
+		"name": "Basilisk",
+		"range": 3,
+		"movementType": "ground",
+		"color": false
+	},
+	{
+		"name": "Shapeshifter",
+		"range": 5,
+		"movementType": "fly",
+		"color": false
+	},
+	{
+		"name": "Dragon",
+		"range": 4,
+		"movementType": "fly",
+		"color": false
+	},
+	{
+		"name": "Sorceress",
+		"range": 3,
+		"movementType": "teleport",
+		"color": false
+	}
+]

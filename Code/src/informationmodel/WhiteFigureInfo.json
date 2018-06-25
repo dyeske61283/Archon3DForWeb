@@ -1,0 +1,50 @@
+[
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true
+	},
+	{
+		"name": "Archer",
+		"range": 3,
+		"movementType": "ground",
+		"color": true
+	},
+	{
+		"name": "Valkyrie",
+		"range": 3,
+		"movementType": "fly",
+		"color": true
+	},
+	{
+		"name": "Golem",
+		"range": 3,
+		"movementType": "ground",
+		"color": true
+	},
+	{
+		"name": "Unicorn",
+		"range": 4,
+		"movementType": "ground",
+		"color": true
+	},
+	{
+		"name": "Phoenix",
+		"range": 5,
+		"movementType": "fly",
+		"color": true
+	},
+	{
+		"name": "Djinn",
+		"range": 4,
+		"movementType": "fly",
+		"color": true
+	},
+	{
+		"name": "Wizard",
+		"range": 3,
+		"movementType": "teleport",
+		"color": true
+	}
+]

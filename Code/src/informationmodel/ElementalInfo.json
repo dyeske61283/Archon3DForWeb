@@ -1,0 +1,42 @@
+[
+	{
+		"prototype": "Air",
+		"BaseHp": 11.5,
+		"Speed": 1,
+		"AttackPower": 5,
+		"ShotSpeed": 0.7,
+		"ShotRate": 0.85,
+		"HProjectileWidth": 6,
+		"VProjectileWidth": 8
+	},
+	{
+		"prototype": "Water",
+		"BaseHp": 13.5,
+		"Speed": 1,
+		"AttackPower": 6,
+		"ShotSpeed": 0.5,
+		"ShotRate": 0.6,
+		"HProjectileWidth": 4,
+		"VProjectileWidth": 7
+	},
+	{
+		"prototype": "Earth",
+		"BaseHp": 16.5,
+		"Speed": 0.75,
+		"AttackPower": 9,
+		"ShotSpeed": 0.5,
+		"ShotRate": 0.6,
+		"HProjectileWidth": 8,
+		"VProjectileWidth": 12
+	},
+	{
+		"prototype": "Fire",
+		"BaseHp": 9.5,
+		"Speed": 1,
+		"AttackPower": 9,
+		"ShotSpeed": 0.8,
+		"ShotRate": 1,
+		"HProjectileWidth": 4,
+		"VProjectileWidth": 7
+	}
+]

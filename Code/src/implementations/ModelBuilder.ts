@@ -1,5 +1,11 @@
 import { IBoardInfo } from "../informationmodel/IBoardInfo";
 import { Colors } from "../informationmodel/Colors";
+import { ISettingsInfo } from "../informationmodel/ISettingsInfo";
+import { IFigureInfo } from "../informationmodel/IFigureInfo";
+import { IPlayerInfo } from "../informationmodel/IPlayerInfo";
+import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
+import { readFileSync, read } from "fs";
+import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
 
 export class ModelBuilder {
 
@@ -58,6 +64,64 @@ export class ModelBuilder {
 		_board.fields[8][4].isPowerfield = true;
 
 		return _board;
+	}
+
+	buildSettings(): ISettingsInfo {
+		return {color: true, colorFirst: false};
+	}
+
+	buildFiguresWhite(): IFigureInfo[] {
+		let figures: IFigureInfo[];
+		let actionInfos: IActionFigureInfo[];
+		actionInfos = [];
+		figures = [];
+		// read in json
+		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteFigureInfo.json", "UTF-8");
+		const actionContent = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteActionFigureInfo.json", "UTF-8");
+		// fill array with objects
+		figures = JSON.parse(content.toString());
+		actionInfos = JSON.parse(actionContent.toString());
+		figures.forEach( (value, index) => {
+			value.actionInfo = actionInfos[index];
+		});
+		return figures;
+	}
+
+	buildFigureBlack(): IFigureInfo[] {
+		let figures: IFigureInfo[];
+		let actionInfos: IActionFigureInfo[];
+		actionInfos = [];
+		figures = [];
+		// read in json
+		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackFigureInfo.json", "UTF-8");
+		const actionContent = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackActionFigureInfo.json", "UTF-8");
+
+		// fill array with objects
+		figures = JSON.parse(content.toString());
+		actionInfos = JSON.parse(actionContent.toString());
+		figures.forEach( (value, index) => {
+			value.actionInfo = actionInfos[index];
+		});
+		return figures;
+	}
+
+	buildElementals(): IActionFigureInfo[] {
+		let elementals: IActionFigureInfo[];
+		elementals = [];
+
+		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/ElementalInfo.json", "UTF-8");
+		elementals = JSON.parse(content.toString());
+		return elementals;
+	}
+
+	buildPlayer(): IPlayerInfo {
+		const player: IPlayerInfo = {connection: false, figureColor: undefined, figures: [], hasControl: undefined, socket: undefined};
+		return player;
+	}
+
+	buildActionBoard(): IActionBoardInfo {
+		const actionBoard: IActionBoardInfo =  {isActive: false, hp1: 0, hp2: 0, hindernisse: [], figure1: undefined, figure2: undefined, maxHP: 25};
+		return actionBoard;
 	}
 
 }

@@ -4,6 +4,7 @@ import { IGameModel } from "./interfaces/IGameModel";
 import { IServerAdapter } from "./interfaces/IServerAdapter";
 import { ServerAdapter } from "./implementations/ServerAdapter";
 import { GameModel } from "./implementations/GameModel";
+import { ModelBuilder } from "./implementations/ModelBuilder";
 
 export class Fabrik {
 	private static _sockets: SocketIO.Socket[] = [];
@@ -16,8 +17,8 @@ export class Fabrik {
 		return new ServerAdapter(server, this._sockets[0], this._sockets[1], model);
 	}
 
-	static createModel(): IGameModel {
-		return new GameModel();
+	static createModel(builder: ModelBuilder): IGameModel {
+		return new GameModel(builder);
 	}
 
 	static provideSocket(socket: SocketIO.Socket) {
