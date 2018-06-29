@@ -15,7 +15,7 @@ export class ClientController implements IClientController {
 	registerEvents(): void {
 		const btns = $("button");
 		btns.click(this.handleInput.bind(this));
-		// $(document.body).keyup(this.handleInput);
+		$(document.body).keyup(this.handleInput);
 	}
 	registerCommands(): void {
 	}
@@ -53,6 +53,10 @@ export class ClientController implements IClientController {
 
 	sendPlayerConnected() {
 		this._socket.emit("playerConnected");
+	}
+
+	injectModel(model: IGameModel) {
+		this._model = model;
 	}
 
 }

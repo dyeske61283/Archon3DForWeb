@@ -9,6 +9,8 @@ export class ServerAdapter implements IServerAdapter {
 		this._players = [p1, p2];
 		this._model = model;
 		this._sendServer = server;
+		this._sendServer.sockets.emit("PlayersReady");
+		this._players[0].emit("doSettings");
 	}
 
 	model(): IGameModel {

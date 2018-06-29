@@ -3,10 +3,10 @@ import { ISettingsInfo } from "../informationmodel/ISettingsInfo";
 import { IPlayerInfo } from "../informationmodel/IPlayerInfo";
 import { IServerAdapter } from "../interfaces/IServerAdapter";
 import { IBoardInfo } from "../informationmodel/IBoardInfo";
-import { Colors } from "../informationmodel/Colors";
 import { ModelBuilder } from "./ModelBuilder";
 import { IFigureInfo } from "../informationmodel/IFigureInfo";
 import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
+import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
 
 export class GameModel implements IGameModel {
 	private _players: IPlayerInfo[];
@@ -17,18 +17,14 @@ export class GameModel implements IGameModel {
 	private _whiteFigures: IFigureInfo[];
 	private _defeatedFiguresWhite: IFigureInfo[];
 	private _defeatedFiguresBlack: IFigureInfo[];
+	private _elementals: IActionFigureInfo[];
 	private _actionField: IActionBoardInfo;
+	private _spells: any[];
+	private _builder: ModelBuilder;
 
 	constructor(builder: ModelBuilder) {
-		this._players = [];
-		this._observers = [];
-		this._settings = builder.buildSettings();
-		this._board = builder.buildBoard();
-		this._actionField = builder.buildActionBoard();
-		this._players.push(builder.buildPlayer());
-		this._players.push(builder.buildPlayer());
-		this._blackFigures = builder.buildFigureBlack();
-		this._whiteFigures = builder.buildFiguresWhite();
+		this._builder = builder;
+		this.init();
 	}
 
 	players(): IPlayerInfo[] {
@@ -54,6 +50,22 @@ export class GameModel implements IGameModel {
 		return this._actionField;
 	}
 
+	defeatedBlackFigures(): IFigureInfo[] {
+		return this._defeatedFiguresBlack;
+	}
+
+	spells(): any[] {
+		return this._spells;
+	}
+
+	elementals(): IActionFigureInfo[] {
+		return this._elementals;
+	}
+
+	defeatedWhiteFigures(): IFigureInfo[] {
+		return this._defeatedFiguresWhite;
+	}
+
 	setSettings(settings: ISettingsInfo): void {
 		this._settings = settings;
 		this.notify(this._settings, "settingsChanged");
@@ -74,4 +86,25 @@ export class GameModel implements IGameModel {
 	public notify(entity: any, event: string): void {
 		this._observers.forEach(item => item.onNotify(entity, event));
 	}
+
+	public reset(): void {
+		this.init();
+	}
+
+	private init(): void {
+		this._players = [];
+		this._observers = [];
+		this._defeatedFiguresBlack = [];
+		this._defeatedFiguresWhite = [];
+		this._spells = [];
+		this._settings = this._builder.buildSettings();
+		this._board = this._builder.buildBoard();
+		this._actionField = this._builder.buildActionBoard();
+		this._players.push(this._builder.buildPlayer());
+		this._players.push(this._builder.buildPlayer());
+		this._blackFigures = this._builder.buildFigureBlack();
+		this._whiteFigures = this._builder.buildFiguresWhite();
+		this._elementals = this._builder.buildElementals();
+	}
+
 }

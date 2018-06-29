@@ -7,28 +7,30 @@ import { ClientFabrik } from "./ClientFabrik";
 import { ISettingsInfo } from "../../informationmodel/ISettingsInfo";
 
 const socket = io();
-const fabrik: ClientFabrik = new ClientFabrik();
-const client: Client = new Client(fabrik, socket);
+let fabrik: ClientFabrik;
+let client: Client;
 let color: boolean = true;
 let colorFirst: boolean = false;
 
 $(document).ready(function () {
+  socket.on("reload", function () {
+    location.reload();
+  });
   setup();
 });
 
 function setup(): void {
+  fabrik = new ClientFabrik();
+  client = new Client(fabrik, socket);
 }
-
-socket.on("reload", function () {
-  location.reload();
-});
 socket.on("settings", () => {
   $("#Settings-Prompt").show();
 });
-socket.on("publishSettings", (settings: ISettingsInfo) => {
-  // $("#Settings-Prompt").hide();
-  console.log("the following settings have been made: 1. Color = %s 2. ColorFirst = %s. ", boolToColor(settings.color), boolToColor(settings.colorFirst));
-});
+
+// socket.on("publishSettings", (settings: ISettingsInfo) => {
+//  $("#Settings-Prompt").hide();
+//  console.log("the following settings have been made: 1. Color = %s 2. ColorFirst = %s. ", boolToColor(settings.color), boolToColor(settings.colorFirst));
+// });
 
 $("#btnSettingsDone").on("click", () => {
   const settings: ISettingsInfo = {colorFirst: colorFirst, color: color};

@@ -35,9 +35,9 @@ export class Server {
   constructor() {
     this.httpServer = this.setupExpressServer();
     this.ioServer = this.setupSocketServer(this.httpServer);
-    this.ioServer.on("connection", this.userConnects.bind(this));
     this._playerSockets = [];
     this._model = Fabrik.createModel(new ModelBuilder());
+    this.ioServer.on("connection", this.userConnects.bind(this));
   }
 
   // sets up a http express server including the routing and options
@@ -93,11 +93,19 @@ export class Server {
       console.log("adding socket to active players: " + socket.id);
       Fabrik.provideSocket(socket);
       this._playerSockets.push(socket);
-    }
-    if (Fabrik.readyToCreate()) {
-      this._controller = Fabrik.createServerController(undefined);
-      this._controller.registerMsgListeners();
-      this._adapter = Fabrik.createServerAdapter(undefined,  this.ioServer);
+      socket.once("playerConnected", () => {
+        socket.emit("Player1");
+        socket.once("playerConnected", () => {
+          socket.emit("Player2");
+          if (Fabrik.readyToCreate()) {
+            this._controller = Fabrik.createServerController(this._model);
+            this._controller.registerMsgListeners();
+            this._adapter = Fabrik.createServerAdapter(this._model,  this.ioServer);
+          } else {
+            throw new Error("Something is fishy: 2nd playerConnected received but no 2 sockets in fabrik to create comm objects");
+          }
+        });
+      });
     }
     this.connectionsIO++;
     this.connections = this.connectionsIO;
@@ -107,7 +115,14 @@ export class Server {
       this.connectionsIO--;
       this.connections = this.connectionsIO;
       if (this.connections > 1 && checkContains(this._playerSockets, socket)) {
+        // an active player disconnected
+        // let all clients reload
         this.ioServer.sockets.emit("reload");
+        // clean up comm objects to recreate them as needed
+        Fabrik.resetSockets();
+        this._controller.removeMsgListeners();
+        this._controller = undefined;
+        this._adapter = undefined;
       }
       console.log("user " + socket.id + " disconnected");
       this.logConnections();
@@ -120,11 +135,9 @@ export class Server {
 
 }
 
-(function () {
-  function main() {
-    // instantiate server
-    const server = new Server();
-  }
+function main() {
+  // instantiate server
+  const server = new Server();
+}
 
-  main(); // Start the cycle
-})();
+main(); // Start the cycle

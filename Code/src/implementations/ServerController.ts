@@ -15,9 +15,17 @@ export class ServerController implements IServerController {
 	}
 
 	registerMsgListeners(): void {
+		if ( (this._p1 === undefined) || (this._p2 === undefined)) {
+			throw new Error("controller got not sockets provided.");
+		}
 		this._p1.on("input", this.inputP1ToModel.bind(this));
 		this._p1.on("settings", this.settingsToModel.bind(this));
 		this._p2.on("input", this.inputP2ToModel.bind(this));
+	}
+
+	removeMsgListeners(): void {
+		this._p1.removeAllListeners();
+		this._p2.removeAllListeners();
 	}
 
 	model(): IGameModel {

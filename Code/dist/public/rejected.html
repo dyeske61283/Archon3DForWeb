@@ -29,7 +29,7 @@
 	<script>
 			const socket = io();
 			socket.on('reload', function (data) {
-    		location.reload();
+    		setTimeout(location.reload, 3000);
 			});
 	</script>
 </body>

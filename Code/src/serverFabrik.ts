@@ -10,18 +10,20 @@ export class Fabrik {
 	private static _sockets: SocketIO.Socket[] = [];
 
 	static createServerController(model: IGameModel): IServerController {
-		return new ServerController(model, this._sockets[0], this._sockets[1]);
+		if ( this.readyToCreate()) return new ServerController(model, this._sockets[0], this._sockets[1]);
+		return undefined;
 	}
 
 	static createServerAdapter(model: IGameModel, server: SocketIO.Server): IServerAdapter {
-		return new ServerAdapter(server, this._sockets[0], this._sockets[1], model);
+		if ( this.readyToCreate()) return new ServerAdapter(server, this._sockets[0], this._sockets[1], model);
+		else return undefined;
 	}
 
 	static createModel(builder: ModelBuilder): IGameModel {
 		return new GameModel(builder);
 	}
 
-	static provideSocket(socket: SocketIO.Socket) {
+	static provideSocket(socket: SocketIO.Socket): void {
 		if (this._sockets.length < 2) {
 			this._sockets.push(socket);
 		}
@@ -29,5 +31,9 @@ export class Fabrik {
 
 	static readyToCreate(): boolean {
 		return this._sockets.length === 2;
+	}
+
+	static resetSockets(): void {
+		this._sockets.length = 0;
 	}
 }

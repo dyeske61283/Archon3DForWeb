@@ -9,11 +9,14 @@ export class Client {
 	private _controller: IClientController;
 	private _viewBuilder: IViewBuilder;
 	private _model: IGameModel;
+	private _scene: any;
+	private _playerOne: boolean;
 
 	constructor(fabrik: ClientFabrik, socket: SocketIOClient.Socket) {
-		this._adapter = fabrik.createClientAdapter(socket);
+		this._adapter = fabrik.createClientAdapter(socket, this);
 		this._controller = fabrik.createClientController(socket);
 		this._viewBuilder = fabrik.createViewBuilder();
+		this._adapter.registerListeners();
 	}
 
 	getAdapter() {
@@ -29,5 +32,15 @@ export class Client {
 	}
 
 	getScene() {
+		return this._scene;
+	}
+
+	injectPlayerNumber(playerOne: boolean) {
+		this._playerOne = playerOne;
+	}
+
+	injectModel(model: IGameModel) {
+		this._model = model;
+		this._controller.injectModel(model);
 	}
 }

@@ -119,6 +119,10 @@ export class ModelBuilder {
 		return player;
 	}
 
+	buildSpells(): any[] {
+		throw new Error("not implemented function");
+	}
+
 	buildActionBoard(): IActionBoardInfo {
 		const actionBoard: IActionBoardInfo =  {isActive: false, hp1: 0, hp2: 0, hindernisse: [], figure1: undefined, figure2: undefined, maxHP: 25};
 		return actionBoard;
