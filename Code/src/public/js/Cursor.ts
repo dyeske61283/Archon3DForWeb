@@ -19,7 +19,8 @@ export class Cursor {
 		this._info.enabled = enable;
 	}
 
-	public injectModel(model: IGameModel) {
+	public injectModelInfo(model: IGameModel) {
+		this._info.board = model.board();
 		this._model = model;
 	}
 
@@ -34,7 +35,7 @@ export class Cursor {
 
 		// no figure selected and the current field has a Figure => select Figure
 		if (!this._info.selectedFigure) {
-			this._info.controllingPlayer.figures.forEach((value) => {
+			this._info.figures.forEach((value) => {
 				if (value.pos === this._info.pos) {
 					this._info.selectedFigure = value;
 				}

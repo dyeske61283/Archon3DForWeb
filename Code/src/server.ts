@@ -94,9 +94,9 @@ export class Server {
       Fabrik.provideSocket(socket);
       this._playerSockets.push(socket);
       socket.once("playerConnected", () => {
-        socket.emit("Player1");
+        socket.emit("Player1", this._model);
         socket.once("playerConnected", () => {
-          socket.emit("Player2");
+          socket.emit("Player2", this._model);
           if (Fabrik.readyToCreate()) {
             this._controller = Fabrik.createServerController(this._model);
             this._controller.registerMsgListeners();
