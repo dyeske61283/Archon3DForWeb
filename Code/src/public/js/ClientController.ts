@@ -15,7 +15,7 @@ export class ClientController implements IClientController {
 	registerEvents(): void {
 		const btns = $("button");
 		btns.click(this.handleInput.bind(this));
-		$(document.body).keyup(this.handleInput);
+		$(document.body).keyup(this.handleKeyInput);
 	}
 	registerCommands(): void {
 	}
@@ -36,7 +36,14 @@ export class ClientController implements IClientController {
 				this.settingsDone();
 				break;
 			default:
-				console.log("This is the default switch-statement");
+				console.log("This is the default action for the button handler in the clientController");
+		}
+	}
+
+	handleKeyInput(ev: JQuery.Event): void {
+		switch (ev.key) {
+			default:
+				console.log("This is the default action for the keyup-Event in the clientController");
 		}
 	}
 

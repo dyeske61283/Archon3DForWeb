@@ -1,7 +1,10 @@
 import { ICursorInfo } from "../../informationmodel/ICursorInfo";
+import { IBoardInfo } from "../../informationmodel/IBoardInfo";
+import { IGameModel } from "../../interfaces/IGameModel";
 
 export class Cursor {
 	private _info: ICursorInfo;
+	private _model: IGameModel;
 
 	constructor(info: ICursorInfo) {
 		this._info = info;
@@ -16,10 +19,14 @@ export class Cursor {
 		this._info.enabled = enable;
 	}
 
+	public injectModel(model: IGameModel) {
+		this._model = model;
+	}
+
 	public action() {
 		// got a figure selected
 		if (this._info.selectedFigure) {
-			// if this is the same field and the sorc got selected
+			// if this is the same field and the magician got selected
 			// bring up spell list
 		}
 

@@ -5,6 +5,8 @@ import { ClientController } from "./ClientController";
 import { IViewBuilder } from "./IViewBuilder";
 import { ViewBuilder } from "./ViewBuilder";
 import { Client } from "./Client";
+import { Cursor } from "./Cursor";
+import { ICursorInfo } from "../../informationmodel/ICursorInfo";
 
 export class ClientFabrik {
 	createClientAdapter(socket: SocketIOClient.Socket, client: Client): IClientAdapter {
@@ -12,6 +14,11 @@ export class ClientFabrik {
 	}
 	createClientController(socket: SocketIOClient.Socket): IClientController {
 		return new ClientController(socket);
+	}
+
+	createCursor(): Cursor {
+		const cInfo: ICursorInfo = {pos: [5, 5], enabled: false, board: undefined};
+		return new Cursor(cInfo);
 	}
 
 	createViewBuilder(): IViewBuilder {

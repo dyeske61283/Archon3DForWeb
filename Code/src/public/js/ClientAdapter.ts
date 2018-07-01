@@ -16,7 +16,8 @@ export class ClientAdapter implements IClientAdapter {
 		this._socket.on("boardUpdate", this.boardUpdate);
 		this._socket.on("playerInstantiated", this.playerUpdate);
 		this._socket.on("playerTwoConnected", this.secondPlayerUpdate);
-		this._socket.on("doSetttings", this.doSettings);
+		this._socket.on("doSettings", this.doSettings);
+		this._socket.on("settingsChanged", this.settingsUpdate);
 		this._socket.on("Player1", this.playerOne);
 		this._socket.on("Player2", this.playerTwo);
 		this._socket.on("PlayersReady", this.playersReady);
@@ -35,10 +36,16 @@ export class ClientAdapter implements IClientAdapter {
 
 	private boardUpdate(info: IBoardInfo) {
 		console.log("Got updated BoardInfo: " + info);
+		const board = this._client.getModel().board();
+		board.isActive = info.isActive;
+		board.fields = info.fields;
 	}
 
 	private settingsUpdate(info: ISettingsInfo) {
 		console.log("Got updated SettingsInfo: " + info);
+		const settings = this._client.getModel().settings();
+		settings.color = info.color;
+		settings.colorFirst = info.colorFirst;
 	}
 
 
@@ -68,6 +75,6 @@ export class ClientAdapter implements IClientAdapter {
 	}
 
 	private doSettings() {
-		$("#myModal").modal("show");
+		$("#settingsPrompt").modal("show");
 	}
 }

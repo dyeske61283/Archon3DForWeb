@@ -5,8 +5,8 @@ import { IFigureInfo } from "./IFigureInfo";
 export interface ICursorInfo {
 
 	enabled: boolean;
-	controllingPlayer: IPlayerInfo;
 	board: IBoardInfo;
 	selectedFigure?: IFigureInfo;
+	figures?: IFigureInfo[];
 	pos: [number, number];
 }
