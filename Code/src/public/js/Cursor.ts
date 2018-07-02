@@ -1,12 +1,14 @@
 import { ICursorInfo } from "../../informationmodel/ICursorInfo";
 import { IBoardInfo } from "../../informationmodel/IBoardInfo";
 import { IGameModel } from "../../interfaces/IGameModel";
+import { IFigureInfo } from "../../informationmodel/IFigureInfo";
+import { EventEmitter } from "events";
 
-export class Cursor {
+export class Cursor extends EventEmitter {
 	private _info: ICursorInfo;
-	private _model: IGameModel;
 
 	constructor(info: ICursorInfo) {
+		super();
 		this._info = info;
 	}
 
@@ -21,7 +23,10 @@ export class Cursor {
 
 	public injectModelInfo(model: IGameModel) {
 		this._info.board = model.board();
-		this._model = model;
+	}
+
+	public injectFigures(figures: IFigureInfo[]) {
+		this._info.figures = figures;
 	}
 
 	public action() {
@@ -29,6 +34,16 @@ export class Cursor {
 		if (this._info.selectedFigure) {
 			// if this is the same field and the magician got selected
 			// bring up spell list
+			switch (this._info.selectedFigure.name) {
+				case "Sorceress":
+				case "Wizard":
+				 	this.emit("showSpells");
+					break;
+				default:
+					this._info.selectedFigure;
+			}
+			// if it is a regular figure, check
+			// possible movement and move the figure
 		}
 
 		// selected a spell => cast it aka send telegram to server

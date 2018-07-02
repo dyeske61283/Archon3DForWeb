@@ -17,7 +17,7 @@ export class ClientFabrik {
 	}
 
 	createCursor(): Cursor {
-		const cInfo: ICursorInfo = {pos: [5, 5], enabled: false, board: undefined};
+		const cInfo: ICursorInfo = {pos: [5, 5], enabled: false, board: undefined, selectedFigure: undefined};
 		return new Cursor(cInfo);
 	}
 

@@ -16,8 +16,8 @@ export class ClientAdapter implements IClientAdapter {
 		this._socket.on("boardUpdate", this.boardUpdate);
 		this._socket.on("playerInstantiated", this.playerUpdate);
 		this._socket.on("playerTwoConnected", this.secondPlayerUpdate);
-		this._socket.on("doSettings", this.doSettings);
-		this._socket.on("settingsChanged", this.settingsUpdate);
+		this._socket.once("doSettings", this.doSettings);
+		this._socket.once("settingsChanged", this.settingsUpdate);
 		this._socket.on("Player1", this.playerOne);
 		this._socket.on("Player2", this.playerTwo);
 		this._socket.on("PlayersReady", this.playersReady);
@@ -27,11 +27,13 @@ export class ClientAdapter implements IClientAdapter {
 		// this._socket.on("Player2Connected");
 	}
 
-	playerTwo(): any {
+	playerTwo(model: IGameModel): void {
 		this._client.injectPlayerNumber(false);
+		this._client.injectModel(model);
 	}
-	playerOne(): any {
+	playerOne(model: IGameModel): void {
 		this._client.injectPlayerNumber(true);
+		this._client.injectModel(model);
 	}
 
 	private boardUpdate(info: IBoardInfo) {
@@ -46,12 +48,12 @@ export class ClientAdapter implements IClientAdapter {
 		const settings = this._client.getModel().settings();
 		settings.color = info.color;
 		settings.colorFirst = info.colorFirst;
+		info.color ? this._client.getCursor().injectFigures(this._client.getModel().whiteFigures()) : this._client.getCursor().injectFigures(this._client.getModel().blackFigures());
 	}
 
 
-
 	private playersReady(model: IGameModel) {
-		this._client.injectModel(model);
+		// ??
 	}
 
 	private playerUpdate(info: IPlayerInfo) {

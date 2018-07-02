@@ -1,12 +1,14 @@
 import { IClientController } from "./IClientController";
 import { IGameModel } from "../../interfaces/IGameModel";
+import { EventEmitter } from "events";
 
-export class ClientController implements IClientController {
+export class ClientController extends EventEmitter implements IClientController {
 	private _socket: SocketIOClient.Socket;
 	private _model: IGameModel;
 	private _view: any;
 	private _context: any; // most times cursor
 	constructor(socket: SocketIOClient.Socket) {
+		super();
 		this._socket = socket;
 		this.registerEvents();
 		this.sendPlayerConnected();

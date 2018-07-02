@@ -10,15 +10,18 @@ export class Client {
 	private _controller: IClientController;
 	private _viewBuilder: IViewBuilder;
 	private _model: IGameModel;
-	private _scene: any;
+	private _scene: THREE.Scene;
 	private _playerOne: boolean;
 	private _cursor: Cursor;
+	private _fabrik: ClientFabrik;
 
 	constructor(fabrik: ClientFabrik, socket: SocketIOClient.Socket) {
+		this._fabrik = fabrik;
 		this._adapter = fabrik.createClientAdapter(socket, this);
 		this._controller = fabrik.createClientController(socket);
 		this._viewBuilder = fabrik.createViewBuilder();
 		this._adapter.registerListeners();
+		this._cursor = fabrik.createCursor();
 	}
 
 	getAdapter() {
@@ -41,9 +44,18 @@ export class Client {
 		this._playerOne = playerOne;
 	}
 
+	getCursor() {
+		return this._cursor;
+	}
+
 	injectModel(model: IGameModel) {
 		this._model = model;
 		this._controller.injectModel(model);
+		this._viewBuilder.injectModel(model);
+	}
+
+	buildView(): void {
+
 	}
 
 	messageToSelf(msg: string): void {

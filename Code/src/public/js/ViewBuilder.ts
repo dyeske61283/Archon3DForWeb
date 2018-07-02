@@ -4,8 +4,11 @@ import { ICursorInfo } from "../../informationmodel/ICursorInfo";
 import { IActionBoardInfo } from "../../informationmodel/IActionBoardInfo";
 import { IBoardInfo } from "../../informationmodel/IBoardInfo";
 import { IFigureInfo } from "../../informationmodel/IFigureInfo";
+import { IGameModel } from "../../interfaces/IGameModel";
 
 export class ViewBuilder implements IViewBuilder {
+	private _model: IGameModel;
+
 	buildBackground(): IView {
 		return undefined;
 	}
@@ -23,5 +26,9 @@ export class ViewBuilder implements IViewBuilder {
 	}
 	buildCursor(cursor: ICursorInfo): IView {
 		return undefined;
+	}
+
+	injectModel(model: IGameModel): void {
+		this._model = model;
 	}
 }
