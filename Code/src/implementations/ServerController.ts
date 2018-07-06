@@ -21,6 +21,7 @@ export class ServerController implements IServerController {
 		this._p1.on("input", this.inputP1ToModel.bind(this));
 		this._p1.on("settings", this.settingsToModel.bind(this));
 		this._p2.on("input", this.inputP2ToModel.bind(this));
+		this._p1.once("handedFiguresOut", this.figuresHandedOut.bind(this));
 	}
 
 	removeMsgListeners(): void {
@@ -38,6 +39,19 @@ export class ServerController implements IServerController {
 
 	private inputP2ToModel(input: any): void {
 		console.log("passing the input event from p2 to the model: " + input);
+	}
+
+	private figuresHandedOut(): void {
+		// start game in giving control to one player
+		const settings = this._model.settings();
+		const players = this._model.players();
+		if (players[0].figureColor === settings.colorFirst) {
+			players[0].hasControl = true;
+			this._model.setPlayer(players[0], 0);
+		} else {
+			players[1].hasControl = true;
+			this._model.setPlayer(players[1], 1);
+		}
 	}
 
 	private settingsToModel(settings: ISettingsInfo): void {

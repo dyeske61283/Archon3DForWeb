@@ -34,7 +34,7 @@ function setup(): void {
 //   socket.emit("settings", settings) ;
 // });
 
-function boolToColor(val: boolean) {
+export function boolToColor(val: boolean) {
   if (val) return "white";
   return "black";
 }

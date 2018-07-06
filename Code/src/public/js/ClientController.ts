@@ -68,4 +68,8 @@ export class ClientController extends EventEmitter implements IClientController 
 		this._model = model;
 	}
 
+	figuresHandedOut(): void {
+		this._socket.emit("handedFiguresOut");
+	}
+
 }

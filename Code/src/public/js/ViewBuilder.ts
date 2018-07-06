@@ -5,6 +5,7 @@ import { IActionBoardInfo } from "../../informationmodel/IActionBoardInfo";
 import { IBoardInfo } from "../../informationmodel/IBoardInfo";
 import { IFigureInfo } from "../../informationmodel/IFigureInfo";
 import { IGameModel } from "../../interfaces/IGameModel";
+import { CursorView } from "./CursorView";
 
 export class ViewBuilder implements IViewBuilder {
 	private _model: IGameModel;
@@ -12,9 +13,15 @@ export class ViewBuilder implements IViewBuilder {
 	buildBackground(): IView {
 		return undefined;
 	}
-	buildFigures(figures: IFigureInfo[]): IView  {
-		return undefined;
+
+	buildWhiteFigures(figures: IFigureInfo[]): IView[] {
+		throw new Error("Method not implemented.");
 	}
+
+	buildBlackFigures(figures: IFigureInfo[]): IView[] {
+		throw new Error("Method not implemented.");
+	}
+
 	buildScene(): IView {
 		return undefined;
 	}
@@ -25,7 +32,7 @@ export class ViewBuilder implements IViewBuilder {
 		return undefined;
 	}
 	buildCursor(cursor: ICursorInfo): IView {
-		return undefined;
+		return new CursorView(cursor);
 	}
 
 	injectModel(model: IGameModel): void {

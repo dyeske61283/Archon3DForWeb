@@ -114,8 +114,11 @@ export class Server {
     socket.on("disconnect", () => {
       this.connectionsIO--;
       this.connections = this.connectionsIO;
+      console.log("user " + socket.id + " disconnected");
+      this.logConnections();
       if (this.connections > 1 && checkContains(this._playerSockets, socket)) {
         // an active player disconnected
+        console.log("User was active player. Performing cleanup/reset");
         // let all clients reload
         this.ioServer.sockets.emit("reload");
         // clean up comm objects to recreate them as needed
@@ -123,9 +126,8 @@ export class Server {
         this._controller.removeMsgListeners();
         this._controller = undefined;
         this._adapter = undefined;
+        this._model = Fabrik.createModel(new ModelBuilder());
       }
-      console.log("user " + socket.id + " disconnected");
-      this.logConnections();
   });
   }
 

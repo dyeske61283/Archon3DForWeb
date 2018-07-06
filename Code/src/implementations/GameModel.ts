@@ -69,6 +69,10 @@ export class GameModel implements IGameModel {
 	setSettings(settings: ISettingsInfo): void {
 		this._settings = settings;
 		this.notify(this._settings, "settingsChanged");
+		// update board tiles
+		// update PlayerInfo
+		// show board, start rendering loop
+		// hand out figures
 	}
 
 	setPlayer(p: IPlayerInfo, index: number): void {

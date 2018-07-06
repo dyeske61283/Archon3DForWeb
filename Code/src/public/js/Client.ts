@@ -4,6 +4,7 @@ import { IViewBuilder } from "./IViewBuilder";
 import { ClientFabrik } from "./ClientFabrik";
 import { IGameModel } from "../../interfaces/IGameModel";
 import { Cursor } from "./Cursor";
+import { IView } from "./IView";
 
 export class Client {
 	private _adapter: IClientAdapter;
@@ -12,16 +13,17 @@ export class Client {
 	private _model: IGameModel;
 	private _scene: THREE.Scene;
 	private _playerOne: boolean;
+	private _view: IView;
 	private _cursor: Cursor;
 	private _fabrik: ClientFabrik;
 
 	constructor(fabrik: ClientFabrik, socket: SocketIOClient.Socket) {
 		this._fabrik = fabrik;
 		this._adapter = fabrik.createClientAdapter(socket, this);
-		this._controller = fabrik.createClientController(socket);
-		this._viewBuilder = fabrik.createViewBuilder();
 		this._adapter.registerListeners();
+		this._viewBuilder = fabrik.createViewBuilder();
 		this._cursor = fabrik.createCursor();
+		this._controller = fabrik.createClientController(socket);
 	}
 
 	getAdapter() {
@@ -54,10 +56,6 @@ export class Client {
 		this._viewBuilder.injectModel(model);
 	}
 
-	buildView(): void {
-
-	}
-
 	messageToSelf(msg: string): void {
 		const messagePanel1 = $("#messagesOwn ul");
 		this.removeOldMessages(messagePanel1);
@@ -72,5 +70,9 @@ export class Client {
 
 	removeOldMessages(msgPanel: JQuery<HTMLElement>) {
 		msgPanel.children().slice(3).remove();
+	}
+
+	updateLoop(): void {
+		requestAnimationFrame(this.updateLoop.bind(this));
 	}
 }
