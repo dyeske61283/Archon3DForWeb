@@ -4,6 +4,7 @@ import { ISettingsInfo } from "../../informationmodel/ISettingsInfo";
 import { IPlayerInfo } from "../../informationmodel/IPlayerInfo";
 import { IGameModel } from "../../interfaces/IGameModel";
 import { Client } from "./Client";
+import { GameModel } from "../../implementations/GameModel";
 
 export class ClientAdapter implements IClientAdapter {
 	private _socket: SocketIOClient.Socket;
@@ -13,26 +14,30 @@ export class ClientAdapter implements IClientAdapter {
 		this._socket = socket;
 	}
 	registerListeners(): void {
-		this._socket.on("boardUpdate", this.boardUpdate);
-		this._socket.on("playerInstantiated", this.playerUpdate);
-		this._socket.on("playerTwoConnected", this.secondPlayerUpdate);
-		this._socket.once("doSettings", this.doSettings);
-		this._socket.once("settingsChanged", this.settingsUpdate);
-		this._socket.on("Player1", this.playerOne);
-		this._socket.on("Player2", this.playerTwo);
-		this._socket.on("PlayersReady", this.playersReady);
-		this._socket.on("win", this.youWon);
-		this._socket.on("lose", this.youLost);
-		this._socket.on("playerChanged", this.playerUpdate);
+		this._socket.on("boardUpdate", this.boardUpdate.bind(this));
+		this._socket.on("playerInstantiated", this.playerUpdate.bind(this));
+		this._socket.on("playerTwoConnected", this.secondPlayerUpdate.bind(this));
+		this._socket.once("doSettings", this.doSettings.bind(this));
+		this._socket.once("settingsChanged", this.settingsUpdate.bind(this));
+		this._socket.on("Player1", this.playerOne.bind(this));
+		this._socket.on("Player2", this.playerTwo.bind(this));
+		this._socket.on("PlayersReady", this.playersReady.bind(this));
+		this._socket.on("win", this.youWon.bind(this));
+		this._socket.on("lose", this.youLost.bind(this));
+		this._socket.on("playerChanged", this.playerUpdate.bind(this));
 	}
 
-	playerTwo(model: IGameModel): void {
+	playerTwo(jsonModel: string): void {
+		const model = JSON.parse(jsonModel) as IGameModel;
+		console.log("Player Two Event:" + jsonModel);
 		this._client.injectPlayerNumber(false);
 		this._client.injectModel(model);
 		this._client.messageToSelf("You are Player 2.");
 		this._client.messageToOther("Waiting for Player 1 to adjust the settings..");
 	}
-	playerOne(model: IGameModel): void {
+	playerOne(jsonModel: string): void {
+		const model = JSON.parse(jsonModel) as IGameModel;
+		console.log("Player One Event:" + model);
 		this._client.injectPlayerNumber(true);
 		this._client.injectModel(model);
 		this._client.messageToSelf("You are Player 1.");
@@ -57,7 +62,8 @@ export class ClientAdapter implements IClientAdapter {
 
 
 	private playersReady(): void {
-		this._client.messageToOther("Player 2 connected. Let's get started.");
+		if (this._client.getPlayerNumber())
+			this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
 	}
 
 	private playerUpdate(info: IPlayerInfo) {

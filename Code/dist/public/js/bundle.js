@@ -704,7 +704,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":11,"_process":31}],11:[function(require,module,exports){
+},{"./debug":11,"_process":32}],11:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -908,7 +908,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":28}],12:[function(require,module,exports){
+},{"ms":29}],12:[function(require,module,exports){
 
 module.exports = require('./socket');
 
@@ -1667,7 +1667,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transport":14,"./transports/index":15,"component-emitter":8,"debug":10,"engine.io-parser":21,"indexof":27,"parseqs":29,"parseuri":30}],14:[function(require,module,exports){
+},{"./transport":14,"./transports/index":15,"component-emitter":8,"debug":10,"engine.io-parser":21,"indexof":28,"parseqs":30,"parseuri":31}],14:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2782,7 +2782,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":14,"component-inherit":9,"debug":10,"engine.io-parser":21,"parseqs":29,"xmlhttprequest-ssl":20,"yeast":42}],19:[function(require,module,exports){
+},{"../transport":14,"component-inherit":9,"debug":10,"engine.io-parser":21,"parseqs":30,"xmlhttprequest-ssl":20,"yeast":43}],19:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -3072,7 +3072,7 @@ WS.prototype.check = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":14,"component-inherit":9,"debug":10,"engine.io-parser":21,"parseqs":29,"ws":6,"yeast":42}],20:[function(require,module,exports){
+},{"../transport":14,"component-inherit":9,"debug":10,"engine.io-parser":21,"parseqs":30,"ws":6,"yeast":43}],20:[function(require,module,exports){
 (function (global){
 // browser shim for xmlhttprequest module
 
@@ -3113,7 +3113,7 @@ module.exports = function (opts) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"has-cors":26}],21:[function(require,module,exports){
+},{"has-cors":27}],21:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -3723,7 +3723,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":22,"./utf8":23,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":4,"blob":5,"has-binary2":24}],22:[function(require,module,exports){
+},{"./keys":22,"./utf8":23,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":4,"blob":5,"has-binary2":25}],22:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -4004,6 +4004,310 @@ module.exports = Object.keys || function keys (obj){
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],24:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
+      }
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],25:[function(require,module,exports){
 (function (global){
 /* global Blob File */
 
@@ -4069,14 +4373,14 @@ function hasBinary (obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"isarray":25}],25:[function(require,module,exports){
+},{"isarray":26}],26:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -4095,7 +4399,7 @@ try {
   module.exports = false;
 }
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -4106,7 +4410,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -4260,7 +4564,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * Compiles a querystring
  * Returns string representation of the object
@@ -4299,7 +4603,7 @@ exports.decode = function(qs){
   return qry;
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * Parses an URI
  *
@@ -4340,7 +4644,7 @@ module.exports = function parseuri(str) {
     return uri;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -4526,7 +4830,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -4622,7 +4926,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./manager":33,"./socket":35,"./url":36,"debug":10,"socket.io-parser":38}],33:[function(require,module,exports){
+},{"./manager":34,"./socket":36,"./url":37,"debug":10,"socket.io-parser":39}],34:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -5197,7 +5501,7 @@ Manager.prototype.onreconnect = function () {
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":34,"./socket":35,"backo2":3,"component-bind":7,"component-emitter":8,"debug":10,"engine.io-client":12,"indexof":27,"socket.io-parser":38}],34:[function(require,module,exports){
+},{"./on":35,"./socket":36,"backo2":3,"component-bind":7,"component-emitter":8,"debug":10,"engine.io-client":12,"indexof":28,"socket.io-parser":39}],35:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -5223,7 +5527,7 @@ function on (obj, ev, fn) {
   };
 }
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -5643,7 +5947,7 @@ Socket.prototype.compress = function (compress) {
   return this;
 };
 
-},{"./on":34,"component-bind":7,"component-emitter":8,"debug":10,"parseqs":29,"socket.io-parser":38,"to-array":41}],36:[function(require,module,exports){
+},{"./on":35,"component-bind":7,"component-emitter":8,"debug":10,"parseqs":30,"socket.io-parser":39,"to-array":42}],37:[function(require,module,exports){
 (function (global){
 
 /**
@@ -5722,7 +6026,7 @@ function url (uri, loc) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":10,"parseuri":30}],37:[function(require,module,exports){
+},{"debug":10,"parseuri":31}],38:[function(require,module,exports){
 (function (global){
 /*global Blob,File*/
 
@@ -5867,7 +6171,7 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":39,"isarray":40}],38:[function(require,module,exports){
+},{"./is-buffer":40,"isarray":41}],39:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -6269,7 +6573,7 @@ function error() {
   };
 }
 
-},{"./binary":37,"./is-buffer":39,"component-emitter":8,"debug":10,"has-binary2":24}],39:[function(require,module,exports){
+},{"./binary":38,"./is-buffer":40,"component-emitter":8,"debug":10,"has-binary2":25}],40:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -6286,9 +6590,9 @@ function isBuf(obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],40:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],41:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"dup":26}],42:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -6303,7 +6607,7 @@ function toArray(list, index) {
     return array
 }
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -6373,62 +6677,172 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Client = /** @class */ (function () {
     function Client(fabrik, socket) {
-        this._adapter = fabrik.createClientAdapter(socket);
-        this._controller = fabrik.createClientController(socket);
+        var self = this;
+        this._fabrik = fabrik;
+        this._adapter = fabrik.createClientAdapter(socket, self);
+        this._adapter.registerListeners();
         this._viewBuilder = fabrik.createViewBuilder();
+        this._cursor = fabrik.createCursor();
+        this._controller = fabrik.createClientController(socket);
     }
+    Client.prototype.getPlayerNumber = function () {
+        return this._playerOne;
+    };
     Client.prototype.getAdapter = function () {
         return this._adapter;
     };
     Client.prototype.getController = function () {
         return this._controller;
     };
+    Client.prototype.getModel = function () {
+        return this._model;
+    };
     Client.prototype.getScene = function () {
+        return this._scene;
+    };
+    Client.prototype.injectPlayerNumber = function (playerOne) {
+        this._playerOne = playerOne;
+    };
+    Client.prototype.getCursor = function () {
+        return this._cursor;
+    };
+    Client.prototype.injectModel = function (model) {
+        this._model = model;
+        this._controller.injectModel(model);
+        this._viewBuilder.injectModel(model);
+    };
+    Client.prototype.messageToSelf = function (msg) {
+        var messagePanel1 = $("#messagesOwn ul");
+        this.removeOldMessages(messagePanel1);
+        messagePanel1.prepend($("<li class=\"list-group-item\">").text(msg));
+    };
+    Client.prototype.messageToOther = function (msg) {
+        var messagePanel2 = $("#messagesOther ul");
+        this.removeOldMessages(messagePanel2);
+        messagePanel2.prepend($("<li class=\"list-group-item\">").text(msg));
+    };
+    Client.prototype.removeOldMessages = function (msgPanel) {
+        msgPanel.children().slice(3).remove();
+    };
+    Client.prototype.updateLoop = function () {
+        requestAnimationFrame(this.updateLoop.bind(this));
     };
     return Client;
 }());
 exports.Client = Client;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ClientAdapter = /** @class */ (function () {
-    function ClientAdapter(socket) {
+    function ClientAdapter(socket, client) {
+        this._client = client;
         this._socket = socket;
     }
     ClientAdapter.prototype.registerListeners = function () {
-        this._socket.on("boardUpdate", this.boardUpdate);
+        this._socket.on("boardUpdate", this.boardUpdate.bind(this));
+        this._socket.on("playerInstantiated", this.playerUpdate.bind(this));
+        this._socket.on("playerTwoConnected", this.secondPlayerUpdate.bind(this));
+        this._socket.once("doSettings", this.doSettings.bind(this));
+        this._socket.once("settingsChanged", this.settingsUpdate.bind(this));
+        this._socket.on("Player1", this.playerOne.bind(this));
+        this._socket.on("Player2", this.playerTwo.bind(this));
+        this._socket.on("PlayersReady", this.playersReady.bind(this));
+        this._socket.on("win", this.youWon.bind(this));
+        this._socket.on("lose", this.youLost.bind(this));
+        this._socket.on("playerChanged", this.playerUpdate.bind(this));
+    };
+    ClientAdapter.prototype.playerTwo = function (jsonModel) {
+        var model = JSON.parse(jsonModel);
+        console.log("Player Two Event:" + jsonModel);
+        this._client.injectPlayerNumber(false);
+        this._client.injectModel(model);
+        this._client.messageToSelf("You are Player 2.");
+        this._client.messageToOther("Waiting for Player 1 to adjust the settings..");
+    };
+    ClientAdapter.prototype.playerOne = function (jsonModel) {
+        var model = JSON.parse(jsonModel);
+        console.log("Player One Event:" + model);
+        this._client.injectPlayerNumber(true);
+        this._client.injectModel(model);
+        this._client.messageToSelf("You are Player 1.");
+        this._client.messageToOther("Waiting for other player to connect..");
     };
     ClientAdapter.prototype.boardUpdate = function (info) {
         console.log("Got updated BoardInfo: " + info);
+        var board = this._client.getModel().board();
+        board.isActive = info.isActive;
+        board.fields = info.fields;
     };
     ClientAdapter.prototype.settingsUpdate = function (info) {
         console.log("Got updated SettingsInfo: " + info);
+        this._client.messageToSelf("Settings got adjusted, let's get started!");
+        var settings = this._client.getModel().settings();
+        settings.color = info.color;
+        settings.colorFirst = info.colorFirst;
+        info.color ? this._client.getCursor().injectFigures(this._client.getModel().whiteFigures()) : this._client.getCursor().injectFigures(this._client.getModel().blackFigures());
+    };
+    ClientAdapter.prototype.playersReady = function () {
+        if (this._client.getPlayerNumber())
+            this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
     };
     ClientAdapter.prototype.playerUpdate = function (info) {
         console.log("Got updated PlayerInfo" + info);
+        if (info.socket.id === this._socket.id) {
+        }
+    };
+    ClientAdapter.prototype.secondPlayerUpdate = function (infoP2) {
+        console.log("Got updated PlayerInfo" + infoP2);
+    };
+    ClientAdapter.prototype.youWon = function () {
+        $("#alertWin").show();
+        setTimeout(function () { return location.reload(); }, 5000);
+    };
+    ClientAdapter.prototype.youLost = function () {
+        var alertBox = $("#alertWin");
+        alertBox.removeClass("alert-success").addClass("alert-danger").html("<strong>Lose!</strong> Next time you'll win! The page will refresh in a few seconds for your next try.");
+        alertBox.show();
+        setTimeout(function () { return location.reload(); }, 5000);
+    };
+    ClientAdapter.prototype.doSettings = function () {
+        $("#settingsPrompt").modal("show");
     };
     return ClientAdapter;
 }());
 exports.ClientAdapter = ClientAdapter;
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ClientController = /** @class */ (function () {
+var events_1 = require("events");
+var ClientController = /** @class */ (function (_super) {
+    __extends(ClientController, _super);
     function ClientController(socket) {
-        this._socket = socket;
-        this.registerEvents();
+        var _this = _super.call(this) || this;
+        _this._socket = socket;
+        _this.registerEvents();
+        _this.sendPlayerConnected();
+        return _this;
     }
     ClientController.prototype.registerEvents = function () {
         var btns = $("button");
-        btns.click(this.handleInput);
-        // $(document.body).keyup(this.handleInput);
+        btns.click(this.handleInput.bind(this));
+        $(document.body).keyup(this.handleKeyInput);
     };
     ClientController.prototype.registerCommands = function () {
     };
@@ -6444,11 +6858,16 @@ var ClientController = /** @class */ (function () {
                 this._model.settings().color = !this._model.settings().color;
                 break;
             case "btnSettingsDone":
-                console.log("am I reaching the call?");
                 this.settingsDone();
                 break;
             default:
-                console.log("This is the default switch-statement");
+                console.log("This is the default action for the button handler in the clientController");
+        }
+    };
+    ClientController.prototype.handleKeyInput = function (ev) {
+        switch (ev.key) {
+            default:
+                console.log("This is the default action for the keyup-Event in the clientController");
         }
     };
     ClientController.prototype.turnFinished = function () {
@@ -6458,25 +6877,40 @@ var ClientController = /** @class */ (function () {
     ClientController.prototype.settingsDone = function () {
         console.log("sending settings to server");
         this._socket.emit("settings", this._model.settings());
+        $("#myModal").modal("hide");
+    };
+    ClientController.prototype.sendPlayerConnected = function () {
+        this._socket.emit("playerConnected");
+    };
+    ClientController.prototype.injectModel = function (model) {
+        this._model = model;
+    };
+    ClientController.prototype.figuresHandedOut = function () {
+        this._socket.emit("handedFiguresOut");
     };
     return ClientController;
-}());
+}(events_1.EventEmitter));
 exports.ClientController = ClientController;
 
-},{}],46:[function(require,module,exports){
+},{"events":24}],47:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ClientAdapter_1 = require("./ClientAdapter");
 var ClientController_1 = require("./ClientController");
 var ViewBuilder_1 = require("./ViewBuilder");
+var Cursor_1 = require("./Cursor");
 var ClientFabrik = /** @class */ (function () {
     function ClientFabrik() {
     }
-    ClientFabrik.prototype.createClientAdapter = function (socket) {
-        return new ClientAdapter_1.ClientAdapter(socket);
+    ClientFabrik.prototype.createClientAdapter = function (socket, client) {
+        return new ClientAdapter_1.ClientAdapter(socket, client);
     };
     ClientFabrik.prototype.createClientController = function (socket) {
         return new ClientController_1.ClientController(socket);
+    };
+    ClientFabrik.prototype.createCursor = function () {
+        var cInfo = { pos: [5, 5], enabled: false, board: undefined, selectedFigure: undefined };
+        return new Cursor_1.Cursor(cInfo);
     };
     ClientFabrik.prototype.createViewBuilder = function () {
         return new ViewBuilder_1.ViewBuilder();
@@ -6485,72 +6919,180 @@ var ClientFabrik = /** @class */ (function () {
 }());
 exports.ClientFabrik = ClientFabrik;
 
-},{"./ClientAdapter":44,"./ClientController":45,"./ViewBuilder":47}],47:[function(require,module,exports){
+},{"./ClientAdapter":45,"./ClientController":46,"./Cursor":48,"./ViewBuilder":50}],48:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var events_1 = require("events");
+var Cursor = /** @class */ (function (_super) {
+    __extends(Cursor, _super);
+    function Cursor(info) {
+        var _this = _super.call(this) || this;
+        _this._info = info;
+        return _this;
+    }
+    Cursor.prototype.move = function (x, y) {
+        this._info.pos["0"] += x;
+        this._info.pos["1"] += y;
+    };
+    Cursor.prototype.control = function (enable) {
+        this._info.enabled = enable;
+    };
+    Cursor.prototype.injectModelInfo = function (model) {
+        this._info.board = model.board();
+    };
+    Cursor.prototype.injectFigures = function (figures) {
+        this._info.figures = figures;
+    };
+    Cursor.prototype.action = function () {
+        var _this = this;
+        // got a figure selected
+        if (this._info.selectedFigure) {
+            // if this is the same field and the magician got selected
+            // bring up spell list
+            switch (this._info.selectedFigure.name) {
+                case "Sorceress":
+                case "Wizard":
+                    this.emit("showSpells");
+                    break;
+                default:
+                    this._info.selectedFigure;
+            }
+            // if it is a regular figure, check
+            // possible movement and move the figure
+        }
+        // selected a spell => cast it aka send telegram to server
+        // no figure selected and the current field has a Figure => select Figure
+        if (!this._info.selectedFigure) {
+            this._info.figures.forEach(function (value) {
+                if (value.pos === _this._info.pos) {
+                    _this._info.selectedFigure = value;
+                }
+            });
+        }
+    };
+    return Cursor;
+}(events_1.EventEmitter));
+exports.Cursor = Cursor;
+
+},{"events":24}],49:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var CursorView = /** @class */ (function () {
+    function CursorView(info) {
+        this.SCALE = 5;
+        this.color = 0xDDDD00;
+        this._info = info;
+    }
+    CursorView.prototype.buildViewObject = function () {
+        var cursorGeo = new THREE.RingBufferGeometry(0.6 * this.SCALE, 0.706 * this.SCALE, 4);
+        cursorGeo.rotateZ(Math.PI / 4);
+        var cursorMaterial = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: this.color, transparent: true });
+        var cursor = new THREE.Mesh(cursorGeo, cursorMaterial);
+        cursor.position.z += 0.01;
+        this._viewObject = cursor;
+    };
+    CursorView.prototype.update = function () {
+        var material = this._viewObject.material;
+        this._info.enabled ? material.color.setHex(this.color) : material.color.setHex(0xEDEDED);
+        this._viewObject.position.set(this._info.pos["0"] * this.SCALE, this._info.pos["1"] * this.SCALE, this._viewObject.position.z);
+    };
+    CursorView.prototype.getViewComponent = function () {
+        return this._viewObject;
+    };
+    CursorView.prototype.getInfoObject = function () {
+        return this._info;
+    };
+    CursorView.prototype.updateInfo = function (infoObject) {
+        this._info = infoObject;
+        this.update();
+    };
+    return CursorView;
+}());
+exports.CursorView = CursorView;
+
+},{}],50:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CursorView_1 = require("./CursorView");
 var ViewBuilder = /** @class */ (function () {
     function ViewBuilder() {
     }
     ViewBuilder.prototype.buildBackground = function () {
+        return undefined;
+    };
+    ViewBuilder.prototype.buildWhiteFigures = function (figures) {
         throw new Error("Method not implemented.");
     };
-    ViewBuilder.prototype.buildFigures = function () {
+    ViewBuilder.prototype.buildBlackFigures = function (figures) {
         throw new Error("Method not implemented.");
     };
     ViewBuilder.prototype.buildScene = function () {
-        throw new Error("Method not implemented.");
+        return undefined;
     };
-    ViewBuilder.prototype.buildBoard = function () {
-        throw new Error("Method not implemented.");
+    ViewBuilder.prototype.buildBoard = function (board) {
+        return undefined;
     };
-    ViewBuilder.prototype.buildFightingBoard = function () {
-        throw new Error("Method not implemented.");
+    ViewBuilder.prototype.buildFightingBoard = function (aBoard) {
+        return undefined;
     };
-    ViewBuilder.prototype.buildCursor = function () {
-        throw new Error("Method not implemented.");
+    ViewBuilder.prototype.buildCursor = function (cursor) {
+        return new CursorView_1.CursorView(cursor);
+    };
+    ViewBuilder.prototype.injectModel = function (model) {
+        this._model = model;
     };
     return ViewBuilder;
 }());
 exports.ViewBuilder = ViewBuilder;
 
-},{}],48:[function(require,module,exports){
+},{"./CursorView":49}],51:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var io = require("socket.io-client");
 var Client_1 = require("./Client");
 var ClientFabrik_1 = require("./ClientFabrik");
 var socket = io();
-var fabrik = new ClientFabrik_1.ClientFabrik();
-var client = new Client_1.Client(fabrik, socket);
-var color = true;
-var colorFirst = false;
+var fabrik;
+var client;
+// let color: boolean = true;
+// let colorFirst: boolean = false;
 $(document).ready(function () {
+    socket.on("reload", function () {
+        location.reload();
+    });
     setup();
 });
 function setup() {
+    fabrik = new ClientFabrik_1.ClientFabrik();
+    client = new Client_1.Client(fabrik, socket);
 }
-socket.on("reload", function () {
-    location.reload();
-});
-socket.on("settings", function () {
-    $("#Settings-Prompt").show();
-});
-socket.on("publishSettings", function (settings) {
-    // $("#Settings-Prompt").hide();
-    console.log("the following settings have been made: 1. Color = %s 2. ColorFirst = %s. ", boolToColor(settings.color), boolToColor(settings.colorFirst));
-});
-$("#btnSettingsDone").on("click", function () {
-    var settings = { colorFirst: colorFirst, color: color };
-    socket.emit("settings", settings);
-});
+// socket.on("publishSettings", (settings: ISettingsInfo) => {
+//  $("#Settings-Prompt").hide();
+//  console.log("the following settings have been made: 1. Color = %s 2. ColorFirst = %s. ", boolToColor(settings.color), boolToColor(settings.colorFirst));
+// });
+// $("#btnSettingsDone").on("click", () => {
+//   const settings: ISettingsInfo = {colorFirst: colorFirst, color: color};
+//   socket.emit("settings", settings) ;
+// });
 function boolToColor(val) {
     if (val)
         return "white";
     return "black";
 }
+exports.boolToColor = boolToColor;
 $("#btnOwnColor").click(function (e) {
     var btn = $(e.target);
-    color = !color;
+    // color = !color;
     if (btn.hasClass("btn-light")) {
         btn.html("Black");
         btn.removeClass("btn-light").addClass("btn-dark");
@@ -6562,7 +7104,7 @@ $("#btnOwnColor").click(function (e) {
 });
 $("#btnColorFirst").click(function (e) {
     var btn = $(e.target);
-    colorFirst = !colorFirst;
+    // colorFirst = !colorFirst;
     if (btn.hasClass("btn-light")) {
         btn.html("Black");
         btn.removeClass("btn-light").addClass("btn-dark");
@@ -6572,28 +7114,5 @@ $("#btnColorFirst").click(function (e) {
         btn.removeClass("btn-dark").addClass("btn-light");
     }
 });
-$("#btnWin").click(function () {
-    $("#alertWin").show();
-    setTimeout(function () { return location.reload(); }, 5000);
-});
-$("#btnLose").click(function () {
-    var alertBox = $("#alertWin");
-    alertBox.removeClass("alert-success").addClass("alert-danger").html("<strong>Lose!</strong> Next time you'll win! The page will refresh in a few seconds for your next try.");
-    alertBox.show();
-    setTimeout(function () { return location.reload(); }, 5000);
-});
-$("#btnSend1").click(function () {
-    var messagePanel2 = $("#messagesOther ul");
-    removeOldMessages(messagePanel2);
-    messagePanel2.prepend($("<li class=\"list-group-item\">").text("A Message was delivered to you."));
-});
-$("#btnSend2").click(function () {
-    var messagePanel1 = $("#messagesOwn ul");
-    removeOldMessages(messagePanel1);
-    messagePanel1.prepend($("<li class=\"list-group-item\">").text("A Message was delivered to you."));
-});
-function removeOldMessages(msgPanel) {
-    msgPanel.children().slice(3).remove();
-}
 
-},{"./Client":43,"./ClientFabrik":46,"socket.io-client":32}]},{},[48]);
+},{"./Client":44,"./ClientFabrik":47,"socket.io-client":33}]},{},[51]);

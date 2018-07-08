@@ -18,12 +18,17 @@ export class Client {
 	private _fabrik: ClientFabrik;
 
 	constructor(fabrik: ClientFabrik, socket: SocketIOClient.Socket) {
+		const self = this;
 		this._fabrik = fabrik;
-		this._adapter = fabrik.createClientAdapter(socket, this);
+		this._adapter = fabrik.createClientAdapter(socket, self);
 		this._adapter.registerListeners();
 		this._viewBuilder = fabrik.createViewBuilder();
 		this._cursor = fabrik.createCursor();
 		this._controller = fabrik.createClientController(socket);
+	}
+
+	getPlayerNumber() {
+		return this._playerOne;
 	}
 
 	getAdapter() {

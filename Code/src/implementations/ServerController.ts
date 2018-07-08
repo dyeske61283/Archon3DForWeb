@@ -18,9 +18,9 @@ export class ServerController implements IServerController {
 		if ( (this._p1 === undefined) || (this._p2 === undefined)) {
 			throw new Error("controller got not sockets provided.");
 		}
-		this._p1.on("input", this.inputP1ToModel.bind(this));
-		this._p1.on("settings", this.settingsToModel.bind(this));
-		this._p2.on("input", this.inputP2ToModel.bind(this));
+		// this._p1.on("input", this.inputP1ToModel.bind(this));
+		this._p1.once("settings", this.settingsToModel.bind(this));
+		// this._p2.on("input", this.inputP2ToModel.bind(this));
 		this._p1.once("handedFiguresOut", this.figuresHandedOut.bind(this));
 	}
 

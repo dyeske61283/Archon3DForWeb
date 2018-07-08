@@ -31,6 +31,7 @@ export class Server {
   _controller: IServerController = undefined;
   _adapter: IServerAdapter = undefined;
   _model: IGameModel = undefined;
+  _isSetup: boolean = false;
   // constructs a new server
   constructor() {
     this.httpServer = this.setupExpressServer();
@@ -94,17 +95,20 @@ export class Server {
       Fabrik.provideSocket(socket);
       this._playerSockets.push(socket);
       socket.once("playerConnected", () => {
-        socket.emit("Player1", this._model);
-        socket.once("playerConnected", () => {
-          socket.emit("Player2", this._model);
+        const jsonModel = JSON.stringify(this._model);
+        if (this.connectionsIO > 1) {
+          socket.emit("Player2", jsonModel);
           if (Fabrik.readyToCreate()) {
             this._controller = Fabrik.createServerController(this._model);
             this._controller.registerMsgListeners();
-            this._adapter = Fabrik.createServerAdapter(this._model,  this.ioServer);
+            this._adapter = Fabrik.createServerAdapter(this._model, this.ioServer);
+            this._isSetup = true;
           } else {
             throw new Error("Something is fishy: 2nd playerConnected received but no 2 sockets in fabrik to create comm objects");
           }
-        });
+        } else {
+          socket.emit("Player1", jsonModel);
+        }
       });
     }
     this.connectionsIO++;
@@ -122,13 +126,16 @@ export class Server {
         // let all clients reload
         this.ioServer.sockets.emit("reload");
         // clean up comm objects to recreate them as needed
-        Fabrik.resetSockets();
-        this._controller.removeMsgListeners();
-        this._controller = undefined;
-        this._adapter = undefined;
-        this._model = Fabrik.createModel(new ModelBuilder());
+        if (this._isSetup) {
+          Fabrik.resetSockets();
+          this._controller.removeMsgListeners();
+          this._controller = undefined;
+          this._adapter = undefined;
+          this._model = Fabrik.createModel(new ModelBuilder());
+          this._isSetup = false;
+        }
       }
-  });
+    });
   }
 
   logConnections(): void {

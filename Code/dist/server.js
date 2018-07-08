@@ -7,6 +7,7 @@ var compression = require("compression");
 var logger = require("morgan");
 var errorhandler = require("errorhandler");
 var serverFabrik_1 = require("./serverFabrik");
+var ModelBuilder_1 = require("./implementations/ModelBuilder");
 exports.app = express();
 // utility functions
 function checkContains(arr, val) {
@@ -23,10 +24,12 @@ var Server = /** @class */ (function () {
         this._controller = undefined;
         this._adapter = undefined;
         this._model = undefined;
+        this._isSetup = false;
         this.httpServer = this.setupExpressServer();
         this.ioServer = this.setupSocketServer(this.httpServer);
-        this.ioServer.on("connection", this.userConnects.bind(this));
         this._playerSockets = [];
+        this._model = serverFabrik_1.Fabrik.createModel(new ModelBuilder_1.ModelBuilder());
+        this.ioServer.on("connection", this.userConnects.bind(this));
     }
     // sets up a http express server including the routing and options
     Server.prototype.setupExpressServer = function () {
@@ -77,12 +80,26 @@ var Server = /** @class */ (function () {
         var _this = this;
         if (this.connectionsIO < 2) {
             console.log("adding socket to active players: " + socket.id);
-            this._playerSockets[this.connectionsIO] = socket;
-        }
-        if (this._playerSockets.length === 2) {
-            this._controller = serverFabrik_1.Fabrik.createServerController(undefined, this._playerSockets[0], this._playerSockets[1]);
-            this._controller.registerMsgListeners();
-            this._adapter = serverFabrik_1.Fabrik.createServerAdapter(undefined, this._playerSockets[0], this._playerSockets[1], this.ioServer);
+            serverFabrik_1.Fabrik.provideSocket(socket);
+            this._playerSockets.push(socket);
+            socket.once("playerConnected", function () {
+                var jsonModel = JSON.stringify(_this._model);
+                if (_this.connectionsIO > 1) {
+                    socket.emit("Player2", jsonModel);
+                    if (serverFabrik_1.Fabrik.readyToCreate()) {
+                        _this._controller = serverFabrik_1.Fabrik.createServerController(_this._model);
+                        _this._controller.registerMsgListeners();
+                        _this._adapter = serverFabrik_1.Fabrik.createServerAdapter(_this._model, _this.ioServer);
+                        _this._isSetup = true;
+                    }
+                    else {
+                        throw new Error("Something is fishy: 2nd playerConnected received but no 2 sockets in fabrik to create comm objects");
+                    }
+                }
+                else {
+                    socket.emit("Player1", jsonModel);
+                }
+            });
         }
         this.connectionsIO++;
         this.connections = this.connectionsIO;
@@ -91,11 +108,23 @@ var Server = /** @class */ (function () {
         socket.on("disconnect", function () {
             _this.connectionsIO--;
             _this.connections = _this.connectionsIO;
-            if (_this.connections > 1 && checkContains(_this._playerSockets, socket)) {
-                _this.ioServer.sockets.emit("reload");
-            }
             console.log("user " + socket.id + " disconnected");
             _this.logConnections();
+            if (_this.connections > 1 && checkContains(_this._playerSockets, socket)) {
+                // an active player disconnected
+                console.log("User was active player. Performing cleanup/reset");
+                // let all clients reload
+                _this.ioServer.sockets.emit("reload");
+                // clean up comm objects to recreate them as needed
+                if (_this._isSetup) {
+                    serverFabrik_1.Fabrik.resetSockets();
+                    _this._controller.removeMsgListeners();
+                    _this._controller = undefined;
+                    _this._adapter = undefined;
+                    _this._model = serverFabrik_1.Fabrik.createModel(new ModelBuilder_1.ModelBuilder());
+                    _this._isSetup = false;
+                }
+            }
         });
     };
     Server.prototype.logConnections = function () {
@@ -104,11 +133,9 @@ var Server = /** @class */ (function () {
     return Server;
 }());
 exports.Server = Server;
-(function () {
-    function main() {
-        // instantiate server
-        var server = new Server();
-    }
-    main(); // Start the cycle
-})();
+function main() {
+    // instantiate server
+    var server = new Server();
+}
+main(); // Start the cycle
 //# sourceMappingURL=server.js.map
