@@ -21,8 +21,12 @@ export class Cursor extends EventEmitter {
 		this._info.enabled = enable;
 	}
 
+	public info(): ICursorInfo {
+		return this._info;
+	}
+
 	public injectModelInfo(model: IGameModel) {
-		this._info.board = model.board();
+		this._info.board = model._board;
 	}
 
 	public injectFigures(figures: IFigureInfo[]) {

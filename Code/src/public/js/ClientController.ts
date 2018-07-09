@@ -30,10 +30,10 @@ export class ClientController extends EventEmitter implements IClientController 
 		// command execute
 		switch (component.id) {
 			case "btnColorFirst":
-				this._model.settings().colorFirst = !this._model.settings().colorFirst;
+				this._model._settings.colorFirst = !this._model._settings.colorFirst;
 				break;
 			case "btnOwnColor":
-				this._model.settings().color = !this._model.settings().color;
+				this._model._settings.color = !this._model._settings.color;
 				break;
 			case "btnSettingsDone":
 				this.settingsDone();
@@ -44,7 +44,7 @@ export class ClientController extends EventEmitter implements IClientController 
 	}
 
 	handleKeyInput(ev: JQuery.Event): void {
-		if (event.defaultPrevented) {
+		if (ev.isDefaultPrevented) {
 			return; // Do nothing if the event was already processed
 		}
 		switch (ev.key) {
@@ -75,7 +75,7 @@ export class ClientController extends EventEmitter implements IClientController 
 		}
 
 		// Cancel the default action to avoid it being handled twice
-		event.preventDefault();
+		ev.preventDefault();
 	}
 
 	turnFinished() {
@@ -85,7 +85,7 @@ export class ClientController extends EventEmitter implements IClientController 
 
 	settingsDone() {
 		console.log("sending settings to server");
-		this._socket.emit("settings", this._model.settings());
+		this._socket.emit("settings", this._model._settings);
 		$("#myModal").modal("hide");
 	}
 

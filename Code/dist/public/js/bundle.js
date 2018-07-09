@@ -6759,7 +6759,6 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.playerTwo = function (jsonModel) {
         var model = JSON.parse(jsonModel);
-        console.log("Player Two Event:" + jsonModel);
         this._client.injectPlayerNumber(false);
         this._client.injectModel(model);
         this._client.messageToSelf("You are Player 2.");
@@ -6767,7 +6766,6 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.playerOne = function (jsonModel) {
         var model = JSON.parse(jsonModel);
-        console.log("Player One Event:" + model);
         this._client.injectPlayerNumber(true);
         this._client.injectModel(model);
         this._client.messageToSelf("You are Player 1.");
@@ -6775,19 +6773,20 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.boardUpdate = function (info) {
         console.log("Got updated BoardInfo: " + info);
-        var board = this._client.getModel().board();
+        var board = this._client.getModel()._board;
         board.isActive = info.isActive;
         board.fields = info.fields;
     };
     ClientAdapter.prototype.settingsUpdate = function (info) {
         console.log("Got updated SettingsInfo: " + info);
         this._client.messageToSelf("Settings got adjusted, let's get started!");
-        var settings = this._client.getModel().settings();
+        var settings = this._client.getModel()._settings;
         settings.color = info.color;
         settings.colorFirst = info.colorFirst;
-        info.color ? this._client.getCursor().injectFigures(this._client.getModel().whiteFigures()) : this._client.getCursor().injectFigures(this._client.getModel().blackFigures());
+        info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
     };
     ClientAdapter.prototype.playersReady = function () {
+        console.log("handler for playersReady called");
         if (this._client.getPlayerNumber())
             this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
     };
@@ -6810,6 +6809,7 @@ var ClientAdapter = /** @class */ (function () {
         setTimeout(function () { return location.reload(); }, 5000);
     };
     ClientAdapter.prototype.doSettings = function () {
+        console.log("handler for settings called");
         $("#settingsPrompt").modal("show");
     };
     return ClientAdapter;
@@ -6852,10 +6852,10 @@ var ClientController = /** @class */ (function (_super) {
         // command execute
         switch (component.id) {
             case "btnColorFirst":
-                this._model.settings().colorFirst = !this._model.settings().colorFirst;
+                this._model._settings.colorFirst = !this._model._settings.colorFirst;
                 break;
             case "btnOwnColor":
-                this._model.settings().color = !this._model.settings().color;
+                this._model._settings.color = !this._model._settings.color;
                 break;
             case "btnSettingsDone":
                 this.settingsDone();
@@ -6865,10 +6865,37 @@ var ClientController = /** @class */ (function (_super) {
         }
     };
     ClientController.prototype.handleKeyInput = function (ev) {
-        switch (ev.key) {
-            default:
-                console.log("This is the default action for the keyup-Event in the clientController");
+        if (ev.isDefaultPrevented) {
+            return; // Do nothing if the event was already processed
         }
+        switch (ev.key) {
+            case "ArrowDown":
+                this._cursor.move(0, -1);
+                break;
+            case "ArrowUp":
+                this._cursor.move(0, 1);
+                // Do something for "up arrow" key press.
+                break;
+            case "ArrowLeft":
+                this._cursor.move(-1, 0);
+                // Do something for "left arrow" key press.
+                break;
+            case "ArrowRight":
+                this._cursor.move(1, 0);
+                // Do something for "right arrow" key press.
+                break;
+            case "Enter":
+                this._cursor.action();
+                // Do something for "enter" or "return" key press.
+                break;
+            case "Escape":
+                // Do something for "esc" key press.
+                break;
+            default:
+                return; // Quit when this doesn't handle the key event.
+        }
+        // Cancel the default action to avoid it being handled twice
+        ev.preventDefault();
     };
     ClientController.prototype.turnFinished = function () {
         // disable control
@@ -6876,7 +6903,7 @@ var ClientController = /** @class */ (function (_super) {
     };
     ClientController.prototype.settingsDone = function () {
         console.log("sending settings to server");
-        this._socket.emit("settings", this._model.settings());
+        this._socket.emit("settings", this._model._settings);
         $("#myModal").modal("hide");
     };
     ClientController.prototype.sendPlayerConnected = function () {
@@ -6884,6 +6911,9 @@ var ClientController = /** @class */ (function (_super) {
     };
     ClientController.prototype.injectModel = function (model) {
         this._model = model;
+    };
+    ClientController.prototype.injectCursor = function (cursor) {
+        this._cursor = cursor;
     };
     ClientController.prototype.figuresHandedOut = function () {
         this._socket.emit("handedFiguresOut");
@@ -6948,7 +6978,7 @@ var Cursor = /** @class */ (function (_super) {
         this._info.enabled = enable;
     };
     Cursor.prototype.injectModelInfo = function (model) {
-        this._info.board = model.board();
+        this._info.board = model._board;
     };
     Cursor.prototype.injectFigures = function (figures) {
         this._info.figures = figures;

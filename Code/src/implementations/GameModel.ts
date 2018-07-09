@@ -7,19 +7,21 @@ import { ModelBuilder } from "./ModelBuilder";
 import { IFigureInfo } from "../informationmodel/IFigureInfo";
 import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
 import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
+import { ISpell } from "../informationmodel/ISpell";
 
 export class GameModel implements IGameModel {
-	private _players: IPlayerInfo[];
-	private _settings: ISettingsInfo;
-	private _observers: IServerAdapter[];
-	private _board: IBoardInfo;
-	private _blackFigures: IFigureInfo[];
-	private _whiteFigures: IFigureInfo[];
-	private _defeatedFiguresWhite: IFigureInfo[];
-	private _defeatedFiguresBlack: IFigureInfo[];
-	private _elementals: IActionFigureInfo[];
-	private _actionField: IActionBoardInfo;
-	private _spells: any[];
+	_players: IPlayerInfo[];
+	_settings: ISettingsInfo;
+	_observers: IServerAdapter[];
+	_board: IBoardInfo;
+	_blackFigures: IFigureInfo[];
+	_whiteFigures: IFigureInfo[];
+	_defeatedFiguresWhite: IFigureInfo[];
+	_defeatedFiguresBlack: IFigureInfo[];
+	_elementals: IActionFigureInfo[];
+	_actionField: IActionBoardInfo;
+	_spells: ISpell[];
+
 	private _builder: ModelBuilder;
 
 	constructor(builder: ModelBuilder) {

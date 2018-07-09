@@ -29,7 +29,6 @@ export class ClientAdapter implements IClientAdapter {
 
 	playerTwo(jsonModel: string): void {
 		const model = JSON.parse(jsonModel) as IGameModel;
-		console.log("Player Two Event:" + jsonModel);
 		this._client.injectPlayerNumber(false);
 		this._client.injectModel(model);
 		this._client.messageToSelf("You are Player 2.");
@@ -37,7 +36,6 @@ export class ClientAdapter implements IClientAdapter {
 	}
 	playerOne(jsonModel: string): void {
 		const model = JSON.parse(jsonModel) as IGameModel;
-		console.log("Player One Event:" + model);
 		this._client.injectPlayerNumber(true);
 		this._client.injectModel(model);
 		this._client.messageToSelf("You are Player 1.");
@@ -46,7 +44,7 @@ export class ClientAdapter implements IClientAdapter {
 
 	private boardUpdate(info: IBoardInfo) {
 		console.log("Got updated BoardInfo: " + info);
-		const board = this._client.getModel().board();
+		const board = this._client.getModel()._board;
 		board.isActive = info.isActive;
 		board.fields = info.fields;
 	}
@@ -54,14 +52,15 @@ export class ClientAdapter implements IClientAdapter {
 	private settingsUpdate(info: ISettingsInfo) {
 		console.log("Got updated SettingsInfo: " + info);
 		this._client.messageToSelf("Settings got adjusted, let's get started!");
-		const settings = this._client.getModel().settings();
+		const settings = this._client.getModel()._settings;
 		settings.color = info.color;
 		settings.colorFirst = info.colorFirst;
-		info.color ? this._client.getCursor().injectFigures(this._client.getModel().whiteFigures()) : this._client.getCursor().injectFigures(this._client.getModel().blackFigures());
+		info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
 	}
 
 
 	private playersReady(): void {
+		console.log("handler for playersReady called");
 		if (this._client.getPlayerNumber())
 			this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
 	}
@@ -89,6 +88,7 @@ export class ClientAdapter implements IClientAdapter {
 	}
 
 	private doSettings() {
+		console.log("handler for settings called");
 		$("#settingsPrompt").modal("show");
 	}
 }

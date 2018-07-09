@@ -13,6 +13,7 @@ import { IGameModel } from "./interfaces/IGameModel";
 import { ModelBuilder } from "./implementations/ModelBuilder";
 import * as fs from "fs";
 import { IFigureInfo } from "./informationmodel/IFigureInfo";
+import { GameModel } from "./implementations/GameModel";
 
 export const app = express();
 
@@ -30,7 +31,7 @@ export class Server {
   _playerSockets: Array<SocketIO.Socket> = undefined;
   _controller: IServerController = undefined;
   _adapter: IServerAdapter = undefined;
-  _model: IGameModel = undefined;
+  _model: GameModel = undefined;
   _isSetup: boolean = false;
   // constructs a new server
   constructor() {
@@ -95,13 +96,14 @@ export class Server {
       Fabrik.provideSocket(socket);
       this._playerSockets.push(socket);
       socket.once("playerConnected", () => {
-        const jsonModel = JSON.stringify(this._model);
+        const jsonModel = JSON.stringify(this._model as IGameModel);
         if (this.connectionsIO > 1) {
           socket.emit("Player2", jsonModel);
           if (Fabrik.readyToCreate()) {
             this._controller = Fabrik.createServerController(this._model);
             this._controller.registerMsgListeners();
             this._adapter = Fabrik.createServerAdapter(this._model, this.ioServer);
+            this._model.addObserver(this._adapter);
             this._isSetup = true;
           } else {
             throw new Error("Something is fishy: 2nd playerConnected received but no 2 sockets in fabrik to create comm objects");
@@ -129,8 +131,10 @@ export class Server {
         if (this._isSetup) {
           Fabrik.resetSockets();
           this._controller.removeMsgListeners();
+          this._model.removeObserver(this._adapter);
           this._controller = undefined;
           this._adapter = undefined;
+          this._model = undefined;
           this._model = Fabrik.createModel(new ModelBuilder());
           this._isSetup = false;
         }

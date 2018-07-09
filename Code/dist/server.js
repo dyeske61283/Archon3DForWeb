@@ -90,6 +90,7 @@ var Server = /** @class */ (function () {
                         _this._controller = serverFabrik_1.Fabrik.createServerController(_this._model);
                         _this._controller.registerMsgListeners();
                         _this._adapter = serverFabrik_1.Fabrik.createServerAdapter(_this._model, _this.ioServer);
+                        _this._model.addObserver(_this._adapter);
                         _this._isSetup = true;
                     }
                     else {
@@ -119,6 +120,7 @@ var Server = /** @class */ (function () {
                 if (_this._isSetup) {
                     serverFabrik_1.Fabrik.resetSockets();
                     _this._controller.removeMsgListeners();
+                    _this._model.removeObserver(_this._adapter);
                     _this._controller = undefined;
                     _this._adapter = undefined;
                     _this._model = serverFabrik_1.Fabrik.createModel(new ModelBuilder_1.ModelBuilder());

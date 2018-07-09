@@ -5,23 +5,19 @@ import { IBoardInfo } from "../informationmodel/IBoardInfo";
 import { IFigureInfo } from "../informationmodel/IFigureInfo";
 import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
 import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
+import { ISpell } from "../informationmodel/ISpell";
 
 // owns all Info-objects from the server
 export interface IGameModel {
-	players(): IPlayerInfo[];
-	settings(): ISettingsInfo;
-	setSettings(settings: ISettingsInfo): void;
-	setPlayer(p: IPlayerInfo, index: number): void;
-	board(): IBoardInfo;
-	blackFigures(): IFigureInfo[];
-	whiteFigures(): IFigureInfo[];
-	actionBoard(): IActionBoardInfo;
-	spells(): any[];
-	elementals(): IActionFigureInfo[];
-
-
-	addObserver(o: IServerAdapter): void;
-	removeObserver(o: IServerAdapter): void;
-	notify(entity: any, event: string): void;
-	reset(): void;
+	_players: IPlayerInfo[];
+	_settings: ISettingsInfo;
+	_observers: IServerAdapter[];
+	_board: IBoardInfo;
+	_blackFigures: IFigureInfo[];
+	_whiteFigures: IFigureInfo[];
+	_defeatedFiguresWhite: IFigureInfo[];
+	_defeatedFiguresBlack: IFigureInfo[];
+	_elementals: IActionFigureInfo[];
+	_actionField: IActionBoardInfo;
+	_spells: ISpell[];
 }

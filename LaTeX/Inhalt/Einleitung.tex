@@ -1,12 +1,15 @@
+% !TeX root = ../Bachelorarbeit.tex
 \chapter{Einleitung}
 \label{cha:Einleitung}
 
 \section{Hinführung}
 \label{sec:hinfuhrung}\index{Hinführung}
-
-\emph{Die Hinführung soll den Leser an das Thema 3D-Technologien, Web-Entwicklung und Spieleklassiker, wie Archon heranführen. Hier sind Quellen und Recherchen zu ein paar Zahlen, wie Remakes, Umsätze zu Uralt-Spielen aktuell und Beliebtheit/Zahlen zum Webbrowser als Spieleplattform angebracht, um Wichtigkeit der Plattform und Technologien, aber auch Relevanz für Spieleklassiker zu zeigen.}
-Im Jahr 2017 wurden mehr als 1,8 Milliarden browser-fähige Endgeräte weltweit verkauft. Der technologische Fortschritt in Hardware und Software geben dieser großen Masse an Zugängen zum Internet eine große Vielfalt an Applikationen, die nahezu überall auf der Welt benutzbar sind. Seien es Business- und Unterhaltungs-Applikationen, oder Spiele.\\
-Dem gegenüber steht ein immer noch riesiger Markt für Retro-Spiele und Handhelden, die dem Drang nach mehr Grafikdetails und Leistungshunger aus dem Weg gehen und durch Charme mit Pixeln und Kindheitserinnerungen punkten. Spiele-Klassiker wie PacMan, Tetris, Mario und \uvm sind auch heute noch auf jedem Handhelden zu finden. Es gibt weiterhin Absatz auch für alte Plattformen wie die Atari, oder den C64. Wer den C64 und Spiele in einem Satz nennt muss auch eines der meistverkauften Spiele für den als "Brotkasten" bekannten Computer nennen: \emph{Archon}.\\
+Im Jahr 2017 alleine wurden mehr als 1,8 Milliarden browser-fähige Endgeräte weltweit verkauft.\cite{statista_absatz} Der technologische Fortschritt in Hardware und Software geben dieser großen Masse an Zugängen zum Internet eine große Vielfalt an unterschiedlichsten Applikationen, die nahezu überall auf der Welt benutzbar sind, seien es Business- oder Unterhaltungs-Applikationen, Informationsdienste oder \emph{Spiele}.\\
+Auch Spiele auf mobilen Plattformen, wie Smartphones, besitzen immer mehr Grafikdetails und Leistungsanforderungen.
+Dem gegenüber steht ein immer noch wachsender Markt für Spiele-Klassiker unterschiedlichster Spielekonsolen, die dem Drang nach mehr Grafikdetails und Leistungshunger aus dem Weg gehen und durch Charme mit Pixeln und Nostalgie punkten. Spiele-Klassiker wie PacMan, Tetris, Super Mario und \uvm sind auch heute noch auf vielen, teils portablen, Konsolen zu finden. Es gibt weiterhin Absatz auch für alte Plattformen wie die Atari, oder den Commodore 64. Es werden sogar Neuauflagen herausgebracht von Spielen, sowie Konsolen.\footnote{Beleg fehlt noch für Artikel zur Neuauflage!} Außerdem finden sich, durch den Fortschritt bei der Virtualisierung von Computersystemen bedingt, immer mehr Emulatoren für alte Spielekonsolen inklusive vieler Spiele im Internet.
+Spiele wurden für die Pioniere des Konsolen- und Heimcomputermarktes Commodore 64 und Atari zuhauf entwickelt.\footnote{Es wurden etwa 17.000 kommerzielle Titel entwickelt.\cite{commodore64}}
+Die beliebtesten Spiele waren dabei unter anderem die Folgenden:\footnote{Rankings nach Seiten X und Y}.\\
+Mit dabei ist stets auch das Spiel, um das sich die Arbeit dreht: \emph{Archon}.\\
 \index{Archon!Cover}
 \begin{figure}[htp]
 \centering
@@ -17,14 +20,11 @@ Dem gegenüber steht ein immer noch riesiger Markt für Retro-Spiele und Handhel
 \end{figure}
 \footnotetext{\Quelle{C64-Wiki, \url{https://www.c64-wiki.com/wiki/Archon}}}
 
-
-Der Schwerpunkt dieser Arbeit befasst sich mit der Umsetzung des bekannten Retro-Spiels Archon mit Web- und 3D-Technologien
-
-
-Die klaren Vorteile des Web als Plattform, auch für Spiele, sind die Offenheit, der einfache Zugang und die immer weiter steigende Unterstützung neuer Technologien.\\
-Sogenannte Spiele-Engines, also Bibliotheken die sich um die meisten, generellen Problemstellungen eines Spiels und seiner Entwicklung kümmern, gibt es daher allerlei.
+Spielen im Allgemeinen sind kaum noch Grenzen gesetzt. Die Spieleindustrie hat 2018 das erste Mal den Umsatz der Film- und Unterhaltungsindustrie überstiegen, sodass auch für jegliche Ideen genug Absatz und Kapital gefunden wird.\\
+Plattformen für Spiele gibt es ebenfalls genügend für jeden Geschmack, ob Konsole, Computer und heutzutage auch Smartphone, Browser und sogar der Fernseher.
+Die klaren Vorteile des Web als Plattform, auch für Spiele, sind dabei die Offenheit, der einfache Zugang und die immer weiter steigende Unterstützung neuer Technologien.\\
 So sind heutzutage hardwarebeschleunigte 3D-Visualisierung und Echtzeitkommunikation im Webbrowser Stand der Technik.
-In dieser Arbeit soll die Verschmelzung von State of the Art Webtechnologien mit einem Retro-Spiel erfolgen.\\
+In dieser Arbeit soll die Verschmelzung von State of the Art Webtechnologien mit einem Spieleklassiker erfolgen.\\
 "Archon" genoss für Atari und C64 großen Erfolg, ähnlich vieler anderer Spiele für die Konsolen der 80er.
 \todo{Anmerkung \& Recherche zu Erfolg von Archon belegen!}
 Das Spiel dient daher als sehr gutes Exempel für die Möglichkeiten des Webs als Spieleplattform, aber auch der Möglichkeiten und Freiheiten des Webs für jede andere Art von Applikation.
@@ -69,12 +69,14 @@ Dieses Kapitel behandelt den Einstieg in aktuelle Themen der Spieleentwicklung u
 Das W3C hat im Moment acht Kernthemen im Rahmen Web Design und Applikationen.
 Mit MathML soll ein Standard für die Anzeige von mathematischen Ausdrücken geschaffen werden. Weiterhin wird in den Themen Privacy, Accessibility, Internationalization und Mobile Web stark geforscht und an Standards gearbeitet um möglichst jedem Menschen der Welt, mit jedem internetfähigen Gerät, den vollen und sicheren Zugang zum Internet zu ermöglichen. Die in dieser Auflistung noch fehlenden Themen sind die Audio \& Video API, sowie Graphics.
 
+Sogenannte Spiele-Engines, also Bibliotheken die sich um die meisten, generellen Problemstellungen eines Spiels und seiner Entwicklung kümmern, gibt es daher auch für browserbasierte Spiele allerlei.
+
 \section{Motivation / Problemstellung}
 \label{sec:motivation}\index{Motivation}
 \emph{ Diese Sektion soll vom vorherigen Stand der Forschung und Möglichkeiten auf Anwendbarkeit überleiten und zeigen, dass die evtl. surreal erscheinende Vermischung von Genres, Plattformen und Technologien anwendbar ist, und das sogar mit beschränktem Aufwand. Vereinbarkeit von aktuellen Technologien mit Spiele-Klassikern und Spiele-Klassiker als Anwendungsbeispiele dafür.}
 Bisher sind oftmals nur Demonstrationen, kurze Starter-Kits \bzw Einstiegspunkte einzelner Web-Technologien und Frameworks im Web zu finden.\\
 Als Entwickler bietet es sich jedoch an auf gleiche, oder ähnliche gelöste Problemstellungen zurückgreifen zu können.
-Anhand der Webapplikation sollen die Möglichkeiten des Webs dargestellt werden und weiterhin kann das Retro-Spiel als Beispiel für typische Problemstellungen eines Entwicklers für Browserspiele dienen.
+Anhand der Webapplikation sollen die Möglichkeiten des Webs dargestellt werden und weiterhin kann das Spiel als Beispiel für typische Problemstellungen eines Entwicklers für Browserspiele dienen.
 Versionen, Ableger und Kopien des Spieleklassikers Archon gibt es zahlreich. Meist sind diese jedoch auf ein System beschränkt, oder tatsächlich nur mit einem Emulator ausführbar. Das Web leistet an dieser Stelle die perfekte Abhilfe: Es gibt unzählige Geräte, die heutzutage einen Webbrowser installiert haben, somit hat jeder Zugriff auf diesen Ableger, der ein webfähiges Gerät besitzt.
 
 \section{Zentrale Begriffe}
@@ -95,8 +97,8 @@ Da ein Bildschirm, beispielweise eines Computers, nur zweidimensional ist, muss 
 
 \section{Ziel dieser Arbeit}
 \label{sec:ziel_dieser_arbeit}\index{Ziel}
-
-Ziel dieser Arbeit ist es eine Webapplikation zu erstellen, die das Retro-Spiel Archon in einem 3D-Stil widerspiegelt.
+Der Schwerpunkt dieser Arbeit befasst sich mit der Umsetzung des bekannten Spieleklassikers Archon mit Web- und 3D-Technologien.
+Ziel dieser Arbeit ist es eine Webapplikation zu erstellen, die den Spieleklassiker Archon in einem 3D-Stil widerspiegelt.
 Die Webapplikation soll dabei folgende generelle Anforderungen erfüllen, die im Laufe dieser Arbeit näher spezifiziert werden:
 \begin{itemize}
 	\item Es muss mittels Webtechnologien implementiert werden

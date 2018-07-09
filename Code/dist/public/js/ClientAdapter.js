@@ -20,7 +20,6 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.playerTwo = function (jsonModel) {
         var model = JSON.parse(jsonModel);
-        console.log("Player Two Event:" + jsonModel);
         this._client.injectPlayerNumber(false);
         this._client.injectModel(model);
         this._client.messageToSelf("You are Player 2.");
@@ -28,7 +27,6 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.playerOne = function (jsonModel) {
         var model = JSON.parse(jsonModel);
-        console.log("Player One Event:" + model);
         this._client.injectPlayerNumber(true);
         this._client.injectModel(model);
         this._client.messageToSelf("You are Player 1.");
@@ -36,19 +34,20 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.boardUpdate = function (info) {
         console.log("Got updated BoardInfo: " + info);
-        var board = this._client.getModel().board();
+        var board = this._client.getModel()._board;
         board.isActive = info.isActive;
         board.fields = info.fields;
     };
     ClientAdapter.prototype.settingsUpdate = function (info) {
         console.log("Got updated SettingsInfo: " + info);
         this._client.messageToSelf("Settings got adjusted, let's get started!");
-        var settings = this._client.getModel().settings();
+        var settings = this._client.getModel()._settings;
         settings.color = info.color;
         settings.colorFirst = info.colorFirst;
-        info.color ? this._client.getCursor().injectFigures(this._client.getModel().whiteFigures()) : this._client.getCursor().injectFigures(this._client.getModel().blackFigures());
+        info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
     };
     ClientAdapter.prototype.playersReady = function () {
+        console.log("handler for playersReady called");
         if (this._client.getPlayerNumber())
             this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
     };
@@ -71,6 +70,7 @@ var ClientAdapter = /** @class */ (function () {
         setTimeout(function () { return location.reload(); }, 5000);
     };
     ClientAdapter.prototype.doSettings = function () {
+        console.log("handler for settings called");
         $("#settingsPrompt").modal("show");
     };
     return ClientAdapter;

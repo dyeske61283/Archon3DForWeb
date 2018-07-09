@@ -1,14 +1,15 @@
 import { IServerController } from "../interfaces/IServerController";
 import { IGameModel } from "../interfaces/IGameModel";
 import { ISettingsInfo } from "../informationmodel/ISettingsInfo";
+import { GameModel } from "./GameModel";
 
 
 export class ServerController implements IServerController {
-	private _model: IGameModel;
+	private _model: GameModel;
 	private _p1: SocketIO.Socket;
 	private _p2: SocketIO.Socket;
 
-	constructor(model: IGameModel, p1: SocketIO.Socket, p2: SocketIO.Socket) {
+	constructor(model: GameModel, p1: SocketIO.Socket, p2: SocketIO.Socket) {
 		this._model = model;
 		this._p1 = p1;
 		this._p2 = p2;

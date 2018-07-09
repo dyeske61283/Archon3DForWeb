@@ -6,13 +6,10 @@ import { IBoardInfo } from "../../informationmodel/IBoardInfo";
 import { IFigureInfo } from "../../informationmodel/IFigureInfo";
 import { IGameModel } from "../../interfaces/IGameModel";
 import { CursorView } from "./CursorView";
+import { BoardView } from "./BoardView";
 
 export class ViewBuilder implements IViewBuilder {
 	private _model: IGameModel;
-
-	buildBackground(): IView {
-		return undefined;
-	}
 
 	buildWhiteFigures(figures: IFigureInfo[]): IView[] {
 		throw new Error("Method not implemented.");
@@ -22,11 +19,11 @@ export class ViewBuilder implements IViewBuilder {
 		throw new Error("Method not implemented.");
 	}
 
-	buildScene(): IView {
-		return undefined;
+	buildScene(): THREE.Scene {
+		return new THREE.Scene();
 	}
 	buildBoard(board: IBoardInfo): IView {
-		return undefined;
+		return new BoardView(board);
 	}
 	buildFightingBoard(aBoard: IActionBoardInfo): IView {
 		return undefined;

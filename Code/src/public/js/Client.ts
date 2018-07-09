@@ -5,6 +5,7 @@ import { ClientFabrik } from "./ClientFabrik";
 import { IGameModel } from "../../interfaces/IGameModel";
 import { Cursor } from "./Cursor";
 import { IView } from "./IView";
+import { View } from "./View";
 
 export class Client {
 	private _adapter: IClientAdapter;
@@ -13,7 +14,7 @@ export class Client {
 	private _model: IGameModel;
 	private _scene: THREE.Scene;
 	private _playerOne: boolean;
-	private _view: IView;
+	private _view: View;
 	private _cursor: Cursor;
 	private _fabrik: ClientFabrik;
 
@@ -59,6 +60,7 @@ export class Client {
 		this._model = model;
 		this._controller.injectModel(model);
 		this._viewBuilder.injectModel(model);
+		this._view = new View(this._viewBuilder, this._cursor.info());
 	}
 
 	messageToSelf(msg: string): void {
@@ -74,7 +76,7 @@ export class Client {
 	}
 
 	removeOldMessages(msgPanel: JQuery<HTMLElement>) {
-		msgPanel.children().slice(3).remove();
+		msgPanel.children().slice(1).remove();
 	}
 
 	updateLoop(): void {

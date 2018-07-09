@@ -26,7 +26,7 @@ var Cursor = /** @class */ (function (_super) {
         this._info.enabled = enable;
     };
     Cursor.prototype.injectModelInfo = function (model) {
-        this._info.board = model.board();
+        this._info.board = model._board;
     };
     Cursor.prototype.injectFigures = function (figures) {
         this._info.figures = figures;

@@ -9,17 +9,17 @@ import { ModelBuilder } from "./implementations/ModelBuilder";
 export class Fabrik {
 	private static _sockets: SocketIO.Socket[] = [];
 
-	static createServerController(model: IGameModel): IServerController {
+	static createServerController(model: GameModel): IServerController {
 		if ( this.readyToCreate()) return new ServerController(model, this._sockets[0], this._sockets[1]);
 		return undefined;
 	}
 
-	static createServerAdapter(model: IGameModel, server: SocketIO.Server): IServerAdapter {
+	static createServerAdapter(model: GameModel, server: SocketIO.Server): IServerAdapter {
 		if ( this.readyToCreate()) return new ServerAdapter(server, this._sockets[0], this._sockets[1], model);
 		else return undefined;
 	}
 
-	static createModel(builder: ModelBuilder): IGameModel {
+	static createModel(builder: ModelBuilder): GameModel {
 		return new GameModel(builder);
 	}
 

@@ -33,10 +33,10 @@ var ClientController = /** @class */ (function (_super) {
         // command execute
         switch (component.id) {
             case "btnColorFirst":
-                this._model.settings().colorFirst = !this._model.settings().colorFirst;
+                this._model._settings.colorFirst = !this._model._settings.colorFirst;
                 break;
             case "btnOwnColor":
-                this._model.settings().color = !this._model.settings().color;
+                this._model._settings.color = !this._model._settings.color;
                 break;
             case "btnSettingsDone":
                 this.settingsDone();
@@ -46,10 +46,37 @@ var ClientController = /** @class */ (function (_super) {
         }
     };
     ClientController.prototype.handleKeyInput = function (ev) {
-        switch (ev.key) {
-            default:
-                console.log("This is the default action for the keyup-Event in the clientController");
+        if (ev.isDefaultPrevented) {
+            return; // Do nothing if the event was already processed
         }
+        switch (ev.key) {
+            case "ArrowDown":
+                this._cursor.move(0, -1);
+                break;
+            case "ArrowUp":
+                this._cursor.move(0, 1);
+                // Do something for "up arrow" key press.
+                break;
+            case "ArrowLeft":
+                this._cursor.move(-1, 0);
+                // Do something for "left arrow" key press.
+                break;
+            case "ArrowRight":
+                this._cursor.move(1, 0);
+                // Do something for "right arrow" key press.
+                break;
+            case "Enter":
+                this._cursor.action();
+                // Do something for "enter" or "return" key press.
+                break;
+            case "Escape":
+                // Do something for "esc" key press.
+                break;
+            default:
+                return; // Quit when this doesn't handle the key event.
+        }
+        // Cancel the default action to avoid it being handled twice
+        ev.preventDefault();
     };
     ClientController.prototype.turnFinished = function () {
         // disable control
@@ -57,7 +84,7 @@ var ClientController = /** @class */ (function (_super) {
     };
     ClientController.prototype.settingsDone = function () {
         console.log("sending settings to server");
-        this._socket.emit("settings", this._model.settings());
+        this._socket.emit("settings", this._model._settings);
         $("#myModal").modal("hide");
     };
     ClientController.prototype.sendPlayerConnected = function () {
@@ -65,6 +92,9 @@ var ClientController = /** @class */ (function (_super) {
     };
     ClientController.prototype.injectModel = function (model) {
         this._model = model;
+    };
+    ClientController.prototype.injectCursor = function (cursor) {
+        this._cursor = cursor;
     };
     ClientController.prototype.figuresHandedOut = function () {
         this._socket.emit("handedFiguresOut");
