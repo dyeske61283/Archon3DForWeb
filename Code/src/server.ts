@@ -5,6 +5,7 @@ import * as path from "path";
 import * as compression from "compression";
 import * as logger from "morgan";
 import * as errorhandler from "errorhandler";
+import * as util from "util";
 import { ServeStaticOptions } from "serve-static";
 import { IServerController } from "./interfaces/IServerController";
 import { IServerAdapter } from "./interfaces/IServerAdapter";
@@ -32,14 +33,32 @@ export class Server {
   _controller: IServerController = undefined;
   _adapter: IServerAdapter = undefined;
   _model: GameModel = undefined;
+  _sendModel: IGameModel = undefined;
   _isSetup: boolean = false;
   // constructs a new server
   constructor() {
-    this.httpServer = this.setupExpressServer();
-    this.ioServer = this.setupSocketServer(this.httpServer);
     this._playerSockets = [];
     this._model = Fabrik.createModel(new ModelBuilder());
+    this.initSendModel();
+    this.httpServer = this.setupExpressServer();
+    this.ioServer = this.setupSocketServer(this.httpServer);
     this.ioServer.on("connection", this.userConnects.bind(this));
+  }
+
+  private initSendModel() {
+    this._sendModel = {
+      _players: this._model.players(),
+      _settings: this._model.settings(),
+      _spells: this._model.spells(),
+      _whiteFigures: this._model.whiteFigures(),
+      _actionField: this._model.actionBoard(),
+      _blackFigures: this._model.blackFigures(),
+      _board: this._model.board(),
+      _defeatedFiguresBlack: this._model.defeatedBlackFigures(),
+      _defeatedFiguresWhite: this._model.defeatedWhiteFigures(),
+      _elementals: this._model.elementals(),
+      _observers: undefined
+    };
   }
 
   // sets up a http express server including the routing and options
@@ -94,9 +113,10 @@ export class Server {
     if (this.connectionsIO < 2) {
       console.log("adding socket to active players: " + socket.id);
       Fabrik.provideSocket(socket);
+      // this._model._Players[this._playerSockets.length].injectSocket(socket);
       this._playerSockets.push(socket);
       socket.once("playerConnected", () => {
-        const jsonModel = JSON.stringify(this._model as IGameModel);
+        const jsonModel = JSON.stringify(this._sendModel);
         if (this.connectionsIO > 1) {
           socket.emit("Player2", jsonModel);
           if (Fabrik.readyToCreate()) {
@@ -136,6 +156,7 @@ export class Server {
           this._adapter = undefined;
           this._model = undefined;
           this._model = Fabrik.createModel(new ModelBuilder());
+          this.initSendModel();
           this._isSetup = false;
         }
       }

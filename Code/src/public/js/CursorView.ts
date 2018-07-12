@@ -1,15 +1,16 @@
 import { ICursorInfo } from "../../informationmodel/ICursorInfo";
-import { Object3D, Mesh, MeshBasicMaterial } from "three";
+import * as THREE from "three";
 import { IView } from "./IView";
 
 export class CursorView implements IView {
 	private _info: ICursorInfo;
-	private _viewObject: Mesh;
+	private _viewObject: THREE.Mesh;
 	private SCALE: number = 5;
 	private color = 0xDDDD00;
 
 	constructor(info: ICursorInfo) {
 		this._info = info;
+		this.buildViewObject();
 	}
 
 	private buildViewObject() {
@@ -22,11 +23,11 @@ export class CursorView implements IView {
 	}
 
 	update(): void {
-		const material = <MeshBasicMaterial>this._viewObject.material;
+		const material = <THREE.MeshBasicMaterial>this._viewObject.material;
 		this._info.enabled ? material.color.setHex(this.color) : material.color.setHex(0xEDEDED);
 		this._viewObject.position.set(this._info.pos["0"] * this.SCALE, this._info.pos["1"] * this.SCALE, this._viewObject.position.z);
 	}
-	getViewComponent(): Object3D | Mesh {
+	getViewComponent(): THREE.Object3D | THREE.Mesh {
 		return this._viewObject;
 	}
 	getInfoObject() {

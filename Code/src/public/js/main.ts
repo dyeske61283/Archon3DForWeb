@@ -1,4 +1,3 @@
-///<reference path="../../../src/types/threejs/three.d.ts"/>
 import * as THREE from "three";
 import { OrbitControls } from "three-orbitcontrols-ts";
 import * as io from "socket.io-client";
@@ -28,7 +27,6 @@ function setup(): void {
 //  $("#Settings-Prompt").hide();
 //  console.log("the following settings have been made: 1. Color = %s 2. ColorFirst = %s. ", boolToColor(settings.color), boolToColor(settings.colorFirst));
 // });
-
 // $("#btnSettingsDone").on("click", () => {
 //   const settings: ISettingsInfo = {colorFirst: colorFirst, color: color};
 //   socket.emit("settings", settings) ;

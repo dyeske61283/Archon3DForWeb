@@ -7,11 +7,11 @@ import { IGameModel } from "../../interfaces/IGameModel";
 
 // is responsible for building the visual components
 export interface IViewBuilder {
-	buildWhiteFigures(figures: IFigureInfo[]): IView[];
-	buildBlackFigures(figures: IFigureInfo[]): IView[];
+	buildWhiteFigures(): IView[];
+	buildBlackFigures(): IView[];
 	buildScene(): THREE.Scene;
-	buildBoard(board: IBoardInfo): IView;
-	buildFightingBoard(aBoard: IActionBoardInfo): IView;
+	buildBoard(): IView;
+	buildFightingBoard(): IView;
 	buildCursor(cursor: ICursorInfo): IView;
 	injectModel(model: IGameModel): void;
 }

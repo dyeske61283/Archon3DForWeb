@@ -1,25 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CursorView_1 = require("./CursorView");
+var BoardView_1 = require("./BoardView");
+var THREE = require("three");
 var ViewBuilder = /** @class */ (function () {
     function ViewBuilder() {
     }
-    ViewBuilder.prototype.buildBackground = function () {
-        return undefined;
-    };
-    ViewBuilder.prototype.buildWhiteFigures = function (figures) {
+    ViewBuilder.prototype.buildWhiteFigures = function () {
         throw new Error("Method not implemented.");
     };
-    ViewBuilder.prototype.buildBlackFigures = function (figures) {
+    ViewBuilder.prototype.buildBlackFigures = function () {
         throw new Error("Method not implemented.");
     };
     ViewBuilder.prototype.buildScene = function () {
-        return undefined;
+        return new THREE.Scene();
     };
-    ViewBuilder.prototype.buildBoard = function (board) {
-        return undefined;
+    ViewBuilder.prototype.buildBoard = function () {
+        return new BoardView_1.BoardView(this._model._board);
     };
-    ViewBuilder.prototype.buildFightingBoard = function (aBoard) {
+    ViewBuilder.prototype.buildFightingBoard = function () {
         return undefined;
     };
     ViewBuilder.prototype.buildCursor = function (cursor) {

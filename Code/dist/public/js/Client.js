@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var View_1 = require("./View");
 var Client = /** @class */ (function () {
     function Client(fabrik, socket) {
         var self = this;
@@ -22,8 +23,8 @@ var Client = /** @class */ (function () {
     Client.prototype.getModel = function () {
         return this._model;
     };
-    Client.prototype.getScene = function () {
-        return this._scene;
+    Client.prototype.getView = function () {
+        return this._view;
     };
     Client.prototype.injectPlayerNumber = function (playerOne) {
         this._playerOne = playerOne;
@@ -35,6 +36,7 @@ var Client = /** @class */ (function () {
         this._model = model;
         this._controller.injectModel(model);
         this._viewBuilder.injectModel(model);
+        this._view = new View_1.View(this._viewBuilder, this._cursor.info());
     };
     Client.prototype.messageToSelf = function (msg) {
         var messagePanel1 = $("#messagesOwn ul");
@@ -47,10 +49,7 @@ var Client = /** @class */ (function () {
         messagePanel2.prepend($("<li class=\"list-group-item\">").text(msg));
     };
     Client.prototype.removeOldMessages = function (msgPanel) {
-        msgPanel.children().slice(3).remove();
-    };
-    Client.prototype.updateLoop = function () {
-        requestAnimationFrame(this.updateLoop.bind(this));
+        msgPanel.children().slice(1).remove();
     };
     return Client;
 }());

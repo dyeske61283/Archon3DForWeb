@@ -7,26 +7,27 @@ import { IFigureInfo } from "../../informationmodel/IFigureInfo";
 import { IGameModel } from "../../interfaces/IGameModel";
 import { CursorView } from "./CursorView";
 import { BoardView } from "./BoardView";
+import * as THREE from "three";
 
 export class ViewBuilder implements IViewBuilder {
 	private _model: IGameModel;
 
-	buildWhiteFigures(figures: IFigureInfo[]): IView[] {
+	buildWhiteFigures(): IView[] {
 		throw new Error("Method not implemented.");
 	}
 
-	buildBlackFigures(figures: IFigureInfo[]): IView[] {
+	buildBlackFigures(): IView[] {
 		throw new Error("Method not implemented.");
 	}
 
 	buildScene(): THREE.Scene {
 		return new THREE.Scene();
 	}
-	buildBoard(board: IBoardInfo): IView {
-		return new BoardView(board);
+	buildBoard(): IView {
+		return new BoardView(this._model._board);
 	}
-	buildFightingBoard(aBoard: IActionBoardInfo): IView {
-		return undefined;
+	buildFightingBoard(): IView {
+		throw new Error("Method not implemented.");
 	}
 	buildCursor(cursor: ICursorInfo): IView {
 		return new CursorView(cursor);

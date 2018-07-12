@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Board_1 = require("./Board");
+var Player_1 = require("./Player");
 var GameModel = /** @class */ (function () {
     function GameModel(builder) {
         this._builder = builder;
         this.init();
+        this.injectInfoIntoGameObjects();
     }
     GameModel.prototype.players = function () {
         return this._players;
@@ -12,7 +15,7 @@ var GameModel = /** @class */ (function () {
         return this._settings;
     };
     GameModel.prototype.board = function () {
-        return this._board;
+        return this._Board.getInfo();
     };
     GameModel.prototype.blackFigures = function () {
         return this._blackFigures;
@@ -36,16 +39,55 @@ var GameModel = /** @class */ (function () {
         return this._defeatedFiguresWhite;
     };
     GameModel.prototype.setSettings = function (settings) {
+        console.log("setSettings called with: " + JSON.stringify(settings));
         this._settings = settings;
         this.notify(this._settings, "settingsChanged");
         // update board tiles
+        this._Board.placeSettings(settings);
+        this.notify(this._Board.getInfo(), "boardChanged");
         // update PlayerInfo
+        if (settings.color) {
+            this._Players[0].placeSettings(settings, this._whiteFigures);
+            settings.color = !settings.color;
+            this._Players[1].placeSettings(settings, this._blackFigures);
+        }
+        else {
+            this._Players[0].placeSettings(settings, this._blackFigures);
+            settings.color = !settings.color;
+            this._Players[1].placeSettings(settings, this._whiteFigures);
+        }
+        this.setPlayer(this._Players[0].getInfo(), 0);
+        this.setPlayer(this._Players[1].getInfo(), 1);
         // show board, start rendering loop
         // hand out figures
+        this.notify(undefined, "handOutFigures");
     };
     GameModel.prototype.setPlayer = function (p, index) {
+        console.log("setPlayer called with: " + JSON.stringify(p) + " and " + index);
         this._players[index] = p;
         this.notify(this._players[index], "playerChanged");
+    };
+    GameModel.prototype.startTurns = function () {
+        console.log("startTurns called");
+        this.notify(undefined, "startTurn");
+    };
+    GameModel.prototype.turnChange = function () {
+        var p1 = this._Players[0].getInfo();
+        var p2 = this._Players[1].getInfo();
+        var first = p1.figureColor === this._settings.colorFirst;
+        if (p1.hasControl) {
+            this._Players[0].deactivateControl();
+            this._Players[1].activateControl();
+        }
+        else {
+            this._Players[0].activateControl();
+            this._Players[1].deactivateControl();
+        }
+        // check for board update
+        if (p1.hasControl === first) {
+            this._Board.changeColor();
+            this.notify(this._board, "boardChanged");
+        }
     };
     GameModel.prototype.addObserver = function (o) {
         this._observers.push(o);
@@ -73,6 +115,10 @@ var GameModel = /** @class */ (function () {
         this._blackFigures = this._builder.buildFigureBlack();
         this._whiteFigures = this._builder.buildFiguresWhite();
         this._elementals = this._builder.buildElementals();
+    };
+    GameModel.prototype.injectInfoIntoGameObjects = function () {
+        this._Board = new Board_1.Board(this._board);
+        this._Players = [new Player_1.Player(this._players[0]), new Player_1.Player(this._players[1])];
     };
     return GameModel;
 }());

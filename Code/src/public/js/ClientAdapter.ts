@@ -9,14 +9,15 @@ import { GameModel } from "../../implementations/GameModel";
 export class ClientAdapter implements IClientAdapter {
 	private _socket: SocketIOClient.Socket;
 	private _client: Client;
+	private _playerUpdateCount: number;
 	constructor(socket: SocketIOClient.Socket, client: Client) {
 		this._client = client;
 		this._socket = socket;
+		this._playerUpdateCount = 0;
 	}
 	registerListeners(): void {
-		this._socket.on("boardUpdate", this.boardUpdate.bind(this));
+		this._socket.on("boardChanged", this.boardUpdate.bind(this));
 		this._socket.on("playerInstantiated", this.playerUpdate.bind(this));
-		this._socket.on("playerTwoConnected", this.secondPlayerUpdate.bind(this));
 		this._socket.once("doSettings", this.doSettings.bind(this));
 		this._socket.once("settingsChanged", this.settingsUpdate.bind(this));
 		this._socket.on("Player1", this.playerOne.bind(this));
@@ -25,6 +26,23 @@ export class ClientAdapter implements IClientAdapter {
 		this._socket.on("win", this.youWon.bind(this));
 		this._socket.on("lose", this.youLost.bind(this));
 		this._socket.on("playerChanged", this.playerUpdate.bind(this));
+		this._socket.on("handOutFigures", this.handOutFigures.bind(this));
+		this._socket.on("startTurns", this.startTurns.bind(this));
+	}
+
+	handOutFigures(): void {
+		console.log("called handOutFigures()");
+	}
+
+	startTurns(): void {
+		console.log("called startTurns()");
+		const pNum = this._client.getPlayerNumber() ? 1 : 0;
+		const model = this._client.getModel();
+		if (model._players[pNum].figureColor === model._settings.colorFirst) {
+			this.yourTurn();
+		} else {
+			this._client.messageToOther("It's the other players turn.");
+		}
 	}
 
 	playerTwo(jsonModel: string): void {
@@ -42,11 +60,21 @@ export class ClientAdapter implements IClientAdapter {
 		this._client.messageToOther("Waiting for other player to connect..");
 	}
 
+	yourTurn(): void {
+		console.log("called yourTurn()");
+		this._client.messageToSelf("It's your turn!");
+		this._client.getCursor().control(true);
+	}
+
+
 	private boardUpdate(info: IBoardInfo) {
 		console.log("Got updated BoardInfo: " + info);
 		const board = this._client.getModel()._board;
 		board.isActive = info.isActive;
 		board.fields = info.fields;
+		if (board.isActive && board.isActive !== info.isActive) {
+			this._client.getView().activateScene();
+		}
 	}
 
 	private settingsUpdate(info: ISettingsInfo) {
@@ -55,7 +83,7 @@ export class ClientAdapter implements IClientAdapter {
 		const settings = this._client.getModel()._settings;
 		settings.color = info.color;
 		settings.colorFirst = info.colorFirst;
-		info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
+		this.injectFigures(info);
 	}
 
 
@@ -67,12 +95,7 @@ export class ClientAdapter implements IClientAdapter {
 
 	private playerUpdate(info: IPlayerInfo) {
 		console.log("Got updated PlayerInfo" + info);
-		if (info.socket.id === this._socket.id) {
-		}
-	}
-
-	private secondPlayerUpdate(infoP2: IPlayerInfo) {
-		console.log("Got updated PlayerInfo" + infoP2);
+		this._playerUpdateCount++;
 	}
 
 	private youWon() {
@@ -90,5 +113,9 @@ export class ClientAdapter implements IClientAdapter {
 	private doSettings() {
 		console.log("handler for settings called");
 		$("#settingsPrompt").modal("show");
+	}
+
+	private injectFigures(info: ISettingsInfo) {
+		info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
 	}
 }

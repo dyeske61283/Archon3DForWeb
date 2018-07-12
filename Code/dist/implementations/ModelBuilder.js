@@ -102,7 +102,7 @@ var ModelBuilder = /** @class */ (function () {
         return elementals;
     };
     ModelBuilder.prototype.buildPlayer = function () {
-        var player = { connection: false, figureColor: undefined, figures: [], hasControl: undefined, socket: undefined };
+        var player = { figureColor: undefined, figures: [], hasControl: undefined, socket: undefined };
         return player;
     };
     ModelBuilder.prototype.buildSpells = function () {

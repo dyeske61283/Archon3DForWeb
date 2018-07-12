@@ -115,7 +115,7 @@ export class ModelBuilder {
 	}
 
 	buildPlayer(): IPlayerInfo {
-		const player: IPlayerInfo = {connection: false, figureColor: undefined, figures: [], hasControl: undefined, socket: undefined};
+		const player: IPlayerInfo = {figureColor: undefined, figures: [], hasControl: undefined, socket: undefined};
 		return player;
 	}
 

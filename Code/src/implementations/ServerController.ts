@@ -23,6 +23,7 @@ export class ServerController implements IServerController {
 		this._p1.once("settings", this.settingsToModel.bind(this));
 		// this._p2.on("input", this.inputP2ToModel.bind(this));
 		this._p1.once("handedFiguresOut", this.figuresHandedOut.bind(this));
+		this._p1.on("turnFinished", this.onFinishedTurn.bind(this));
 	}
 
 	removeMsgListeners(): void {
@@ -44,15 +45,7 @@ export class ServerController implements IServerController {
 
 	private figuresHandedOut(): void {
 		// start game in giving control to one player
-		const settings = this._model.settings();
-		const players = this._model.players();
-		if (players[0].figureColor === settings.colorFirst) {
-			players[0].hasControl = true;
-			this._model.setPlayer(players[0], 0);
-		} else {
-			players[1].hasControl = true;
-			this._model.setPlayer(players[1], 1);
-		}
+		this._model.startTurns();
 	}
 
 	private settingsToModel(settings: ISettingsInfo): void {

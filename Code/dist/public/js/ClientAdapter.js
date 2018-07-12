@@ -4,11 +4,11 @@ var ClientAdapter = /** @class */ (function () {
     function ClientAdapter(socket, client) {
         this._client = client;
         this._socket = socket;
+        this._playerUpdateCount = 0;
     }
     ClientAdapter.prototype.registerListeners = function () {
-        this._socket.on("boardUpdate", this.boardUpdate.bind(this));
+        this._socket.on("boardChanged", this.boardUpdate.bind(this));
         this._socket.on("playerInstantiated", this.playerUpdate.bind(this));
-        this._socket.on("playerTwoConnected", this.secondPlayerUpdate.bind(this));
         this._socket.once("doSettings", this.doSettings.bind(this));
         this._socket.once("settingsChanged", this.settingsUpdate.bind(this));
         this._socket.on("Player1", this.playerOne.bind(this));
@@ -17,6 +17,22 @@ var ClientAdapter = /** @class */ (function () {
         this._socket.on("win", this.youWon.bind(this));
         this._socket.on("lose", this.youLost.bind(this));
         this._socket.on("playerChanged", this.playerUpdate.bind(this));
+        this._socket.on("handOutFigures", this.handOutFigures.bind(this));
+        this._socket.on("startTurns", this.startTurns.bind(this));
+    };
+    ClientAdapter.prototype.handOutFigures = function () {
+        console.log("called handOutFigures()");
+    };
+    ClientAdapter.prototype.startTurns = function () {
+        console.log("called startTurns()");
+        var pNum = this._client.getPlayerNumber() ? 1 : 0;
+        var model = this._client.getModel();
+        if (model._players[pNum].figureColor === model._settings.colorFirst) {
+            this.yourTurn();
+        }
+        else {
+            this._client.messageToOther("It's the other players turn.");
+        }
     };
     ClientAdapter.prototype.playerTwo = function (jsonModel) {
         var model = JSON.parse(jsonModel);
@@ -32,11 +48,19 @@ var ClientAdapter = /** @class */ (function () {
         this._client.messageToSelf("You are Player 1.");
         this._client.messageToOther("Waiting for other player to connect..");
     };
+    ClientAdapter.prototype.yourTurn = function () {
+        console.log("called yourTurn()");
+        this._client.messageToSelf("It's your turn!");
+        this._client.getCursor().control(true);
+    };
     ClientAdapter.prototype.boardUpdate = function (info) {
         console.log("Got updated BoardInfo: " + info);
         var board = this._client.getModel()._board;
         board.isActive = info.isActive;
         board.fields = info.fields;
+        if (board.isActive && board.isActive !== info.isActive) {
+            this._client.getView().activateScene();
+        }
     };
     ClientAdapter.prototype.settingsUpdate = function (info) {
         console.log("Got updated SettingsInfo: " + info);
@@ -44,7 +68,7 @@ var ClientAdapter = /** @class */ (function () {
         var settings = this._client.getModel()._settings;
         settings.color = info.color;
         settings.colorFirst = info.colorFirst;
-        info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
+        this.injectFigures(info);
     };
     ClientAdapter.prototype.playersReady = function () {
         console.log("handler for playersReady called");
@@ -53,11 +77,7 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.playerUpdate = function (info) {
         console.log("Got updated PlayerInfo" + info);
-        if (info.socket.id === this._socket.id) {
-        }
-    };
-    ClientAdapter.prototype.secondPlayerUpdate = function (infoP2) {
-        console.log("Got updated PlayerInfo" + infoP2);
+        this._playerUpdateCount++;
     };
     ClientAdapter.prototype.youWon = function () {
         $("#alertWin").show();
@@ -72,6 +92,9 @@ var ClientAdapter = /** @class */ (function () {
     ClientAdapter.prototype.doSettings = function () {
         console.log("handler for settings called");
         $("#settingsPrompt").modal("show");
+    };
+    ClientAdapter.prototype.injectFigures = function (info) {
+        info.color ? this._client.getCursor().injectFigures(this._client.getModel()._whiteFigures) : this._client.getCursor().injectFigures(this._client.getModel()._blackFigures);
     };
     return ClientAdapter;
 }());

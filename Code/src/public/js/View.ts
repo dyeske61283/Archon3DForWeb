@@ -2,7 +2,7 @@ import { IView } from "./IView";
 import { CursorView } from "./CursorView";
 import { IViewBuilder } from "./IViewBuilder";
 import { ICursorInfo } from "../../informationmodel/ICursorInfo";
-
+import * as THREE from "three";
 export class View {
 	private _renderer: THREE.WebGLRenderer;
 	private _camera: THREE.PerspectiveCamera;
@@ -11,14 +11,17 @@ export class View {
 	private _blackFigures: IView[];
 	private _whiteFigures: IView[];
 	private _scene: THREE.Scene;
+	private _activeScene: THREE.Scene = undefined;
+	private _sceneAction: THREE.Scene;
 	private _cursor: IView;
 	private _board: IView;
 	private _actionBoard: IView;
 	private readonly _domElement: string = "#game-holder";
+	private readonly _canvas: string = "myCanvas";
 	private readonly _scaling = 5;
 
 	constructor(builder: IViewBuilder, info: ICursorInfo) {
-		this._backgroundColor = new THREE.Color("0xfff6e6");
+		this._backgroundColor = new THREE.Color(0xfff6e6);
 		this.setupRenderer();
 		this.update = this.update.bind(this);
 		this.initCamera();
@@ -26,18 +29,32 @@ export class View {
 		this.initLighting();
 		this._scene.add(this._camera);
 		this._scene.add(this._lighting);
+		this._board = builder.buildBoard();
+		this._scene.add(this._board.getViewComponent());
 		this._cursor = builder.buildCursor(info);
+		this._scene.add(this._cursor.getViewComponent());
+		// this._whiteFigures = builder.buildWhiteFigures();
+		// this._blackFigures = builder.buildBlackFigures();
 		// install resize handling
 		window.addEventListener("resize", this.handleResize.bind(this), false);
+		// this.activateScene();
+		// this.update();
 	}
 
 	update(): void {
 		requestAnimationFrame(this.update);
-		this._renderer.render(this._scene, this._camera);
+		this._renderer.render(this._activeScene, this._camera);
+		// periodic updates of every action figure with the refresh rate
+		if (this._activeScene === this._sceneAction) {
+
+		} else {
+			this._cursor.update();
+		}
 	}
 
 	private initCamera(): void {
-		this._camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+		const container = $(this._domElement);
+		this._camera = new THREE.PerspectiveCamera(50, container.width() / container.width(), 1, 1000);
 		this._camera.position.set(0, -10 * this._scaling, 12 * this._scaling);
 		this._camera.lookAt(new THREE.Vector3(0, 0, -1 * this._scaling));
 	}
@@ -52,15 +69,49 @@ export class View {
 	}
 
 	private setupRenderer(): void {
-		this._renderer = new THREE.WebGLRenderer({ antialias: true, precision: "highp" });
-		this._renderer.setSize(window.innerWidth, window.innerHeight);
+		this._renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas"), antialias: true, precision: "highp" });
+		const container = $(this._domElement);
+		this._renderer.setSize(container.width(), container.height());
 		// this._renderer.setClearColor();
-		$(this._domElement).append(this._renderer.domElement);
+		// $(this._domElement).append(this._renderer.domElement);
+	}
+
+	private initBlackFigures(): void {
+
+	}
+
+	private initWhiteFigures(): void {
+
 	}
 
 	public handleResize(): void {
-		this._camera.aspect = window.innerWidth / window.innerHeight;
+		const container = $(this._domElement);
+		this._camera.aspect = container.width() / container.width();
 		this._camera.updateProjectionMatrix();
-		this._renderer.setSize(window.innerWidth, window.innerHeight);
+		this._renderer.setSize(container.width(), container.width());
+	}
+
+	private initActionScene(): void {
+
+	}
+
+	public activateScene(): void {
+		this._activeScene = this._scene;
+	}
+
+	public deactivateScene(): void {
+		this._activeScene = undefined;
+	}
+
+	public activateActionScene(): void {
+		this._activeScene = this._sceneAction;
+	}
+
+	public deactivateActionScene(): void {
+		this._activeScene = undefined;
+	}
+
+	public walkInFigures(): void {
+
 	}
 }

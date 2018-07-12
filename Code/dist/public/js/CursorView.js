@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
 var CursorView = /** @class */ (function () {
     function CursorView(info) {
         this.SCALE = 5;
         this.color = 0xDDDD00;
         this._info = info;
+        this.buildViewObject();
     }
     CursorView.prototype.buildViewObject = function () {
         var cursorGeo = new THREE.RingBufferGeometry(0.6 * this.SCALE, 0.706 * this.SCALE, 4);

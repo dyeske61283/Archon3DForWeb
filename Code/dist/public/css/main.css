@@ -3,28 +3,10 @@ html, body {
 	margin: 0;
 	overflow: hidden;
   }
-  
-  #game-holder {
-	padding: 0;
-	margin: 0;
-	border-width: 0px;
-	border-style: solid;
-	border-color: gold;
-	display: flex;
 
-  
-	/* This centers our sketch horizontally. */
-	justify-content: center;
-  
-	/* This centers our sketch vertically. */
-	align-items: top;
-
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-
+	canvas {
+		width: 100%;
+		height: auto;
 	}
 	
 	/* Remove the navbar's default margin-bottom and rounded borders */

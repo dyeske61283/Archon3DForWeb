@@ -12,7 +12,6 @@ export class Client {
 	private _controller: IClientController;
 	private _viewBuilder: IViewBuilder;
 	private _model: IGameModel;
-	private _scene: THREE.Scene;
 	private _playerOne: boolean;
 	private _view: View;
 	private _cursor: Cursor;
@@ -44,8 +43,8 @@ export class Client {
 		return this._model;
 	}
 
-	getScene() {
-		return this._scene;
+	getView() {
+		return this._view;
 	}
 
 	injectPlayerNumber(playerOne: boolean) {
@@ -77,9 +76,5 @@ export class Client {
 
 	removeOldMessages(msgPanel: JQuery<HTMLElement>) {
 		msgPanel.children().slice(1).remove();
-	}
-
-	updateLoop(): void {
-		requestAnimationFrame(this.updateLoop.bind(this));
 	}
 }

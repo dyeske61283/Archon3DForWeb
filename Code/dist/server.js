@@ -24,13 +24,30 @@ var Server = /** @class */ (function () {
         this._controller = undefined;
         this._adapter = undefined;
         this._model = undefined;
+        this._sendModel = undefined;
         this._isSetup = false;
-        this.httpServer = this.setupExpressServer();
-        this.ioServer = this.setupSocketServer(this.httpServer);
         this._playerSockets = [];
         this._model = serverFabrik_1.Fabrik.createModel(new ModelBuilder_1.ModelBuilder());
+        this.initSendModel();
+        this.httpServer = this.setupExpressServer();
+        this.ioServer = this.setupSocketServer(this.httpServer);
         this.ioServer.on("connection", this.userConnects.bind(this));
     }
+    Server.prototype.initSendModel = function () {
+        this._sendModel = {
+            _players: this._model.players(),
+            _settings: this._model.settings(),
+            _spells: this._model.spells(),
+            _whiteFigures: this._model.whiteFigures(),
+            _actionField: this._model.actionBoard(),
+            _blackFigures: this._model.blackFigures(),
+            _board: this._model.board(),
+            _defeatedFiguresBlack: this._model.defeatedBlackFigures(),
+            _defeatedFiguresWhite: this._model.defeatedWhiteFigures(),
+            _elementals: this._model.elementals(),
+            _observers: undefined
+        };
+    };
     // sets up a http express server including the routing and options
     Server.prototype.setupExpressServer = function () {
         var _this = this;
@@ -81,9 +98,10 @@ var Server = /** @class */ (function () {
         if (this.connectionsIO < 2) {
             console.log("adding socket to active players: " + socket.id);
             serverFabrik_1.Fabrik.provideSocket(socket);
+            // this._model._Players[this._playerSockets.length].injectSocket(socket);
             this._playerSockets.push(socket);
             socket.once("playerConnected", function () {
-                var jsonModel = JSON.stringify(_this._model);
+                var jsonModel = JSON.stringify(_this._sendModel);
                 if (_this.connectionsIO > 1) {
                     socket.emit("Player2", jsonModel);
                     if (serverFabrik_1.Fabrik.readyToCreate()) {
@@ -123,7 +141,9 @@ var Server = /** @class */ (function () {
                     _this._model.removeObserver(_this._adapter);
                     _this._controller = undefined;
                     _this._adapter = undefined;
+                    _this._model = undefined;
                     _this._model = serverFabrik_1.Fabrik.createModel(new ModelBuilder_1.ModelBuilder());
+                    _this.initSendModel();
                     _this._isSetup = false;
                 }
             }
