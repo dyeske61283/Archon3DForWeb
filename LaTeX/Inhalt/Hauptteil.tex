@@ -26,7 +26,7 @@ Die folgenden Abschnitte enthalten eine kurze Zusammenfassung des Spiels und sei
 \subsubsection{Generelle Regeln und Ziele des Spiels}
 Archon ist ein Spiel, dass auf einem 9 x 9 Schachbrett stattfindet. Ähnlich wie beim Schach gibt es zwei Parteien, Licht und Dunkelheit, die sich im Wettstreit gegenüberstehen.
 Die Spieler ziehen dabei immer abwechselnd ihre Figuren auf dem Spielbrett, wobei kein Zug gepasst werden kann. Jeder Spieler beginnt mit 18 Figuren, die in acht verschiedene Typen gegliedert sind. Die Figuren von Licht und Dunkelheit sind vollständig unterschiedlich. Treffen zwei Figuren auf dem Spielbrett zusammen, stehen sie sich in einem Kampfareal gegenüber. Jede Figur hat dabei ihre eigenen Lebenspunkte und ihre eigene Angriffsstärke. Der Sieger dieses Kampfes bleibt auf dem Spielbrett, während der Verlierer aus dem Spiel genommen wird. Sollte der Kampf in einem Unentschieden ausgehen, werden beide Figuren aus dem Spiel genommen.
-\\Das generelle Ziel des Spiels ist es alle 5 speziellen Machtfelder gleichzeitig mit eigenen Figuren zu besetzen. \todo{Bild von Machtfeld einfügen}
+\\Das generelle Ziel des Spiels ist es alle 5 speziellen Machtfelder gleichzeitig mit eigenen Figuren zu besetzen.
 Desweiteren kann das Spiel gewonnen werden, indem alle gegenerischen Figuren besiegt werden, oder die letzte Figur mit einem Gefängnis-Zauber belegt wird.
 Ein Unentschieden tritt auf wenn das Spiel zu lange passiv ist, also wenn für mindestens zwölf Züge kein Kampf stattfindet und kein Zauber gewirkt wird.\\
 Das Spiel kann in folgenden Modi gestartet werden: 
@@ -35,22 +35,45 @@ Das Spiel kann in folgenden Modi gestartet werden:
 	\item Spieler gegen Computer
 	\item Computer gegen Computer (Demo-Modus)
 \end{itemize}
-Wobei Spieler eins immer die Wahl der startenden Farbe, sowie der eigenen Farbe hat.\\Weitere Einstellmöglichkeiten gibt es nicht.
+Wobei der erste Spieler immer die Wahl der startenden Farbe, sowie der eigenen Farbe hat.\\Weitere Einstellmöglichkeiten gibt es nicht.
 
 \subsubsection{Das Spielbrett}
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.50\textwidth]{ArchonStrategiieBildschirm}
+	\caption[Das Spielbrett]{Das Spielbrett \footnotemark}
+	\label{fig:StrategyBoard}
+\end{figure}
+\footnotetext{\Quelle{C64-Wiki, \url{https://www.c64-wiki.com/wiki/File:ArchonStrategiieBildschirm.gif}}}
 Das Spielbrett besteht aus 9x9 Feldern von drei Typen: 
 \begin{itemize}
 	\item Permanent weiße Felder
 	\item Permanent schwarze Felder
-	\item Felder, die zwischen Schwarz, vier Grün-Tönen und Weiß wechseln
-\end{itemize}\todo{Bilder der einzelnen Feldtypen einfügen}
+	\item Felder, die zwischen Schwarz, vier anderen Farben und Weiß wechseln
+\end{itemize}
 Alle farbwechselnden Felder ändern ihre Farbe nach dem Zug des zweiten Spielers, sodass jeder Spieler einen Zug der gleichen Farbfelder hat. Ein Farbzyklus dauert damit zwölf Züge pro Seite: Sechs von Weiß zu Schwarz und Sechs zurück.
-Die Farben werden fortan mit Zahlen von 1 bis 6 durchnummeriert, wobei 1 Weiß darstellt und 6 Schwarz.
-Wenn die Licht-Seite das Spiel beginnt, startet der Farbzyklus bei Farbe 4 und wird dunkler. Beginnt die Dunkelheit-Seite, so startet der Zyklus bei Farbe 3 und wird heller. Die Farbe der Felder gibt den darauf stehenden Figuren einen Lebenspunkte-Bonus, der größer ausfällt, je näher die Feld-Farbe an der Team-Farbe der Figur ist.\todo{Bild von Lebenspunkte-Bonus einfügen}\\
+Da sich die mittleren vier Farben je nach Ableger unterscheiden können, werden sie fortan mit Zahlen von 1 bis 6 durchnummeriert, wobei 1 Weiß darstellt und 6 Schwarz.
+Wenn die Licht-Seite das Spiel beginnt, startet der Farbzyklus bei Farbe 4 und wird dunkler. Beginnt die Dunkelheit-Seite, so startet der Zyklus bei Farbe 3 und wird heller. Die Farbe der Felder gibt den darauf stehenden Figuren einen Lebenspunkte-Bonus, der größer ausfällt, je näher die Feld-Farbe an der Team-Farbe der Figur ist.
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.40\textwidth]{archon_colorchart.png}
+	\caption[Lebenspunkte-Bonus]{Lebenspunkte-Bonus anhand der Feldfarben\footnotemark}
+	\label{fig:HP-Bonus}
+\end{figure}
+\footnote{\Quelle{vintagecomputing, \url{http://www.vintagecomputing.com/wp-content/images/archon/archon_colorchart.gif}}}
 Weiterhin gibt es die fünf Machtfelder, deren Einnahme die Siegbedingung darstellt. Diese Felder haben außerdem zwei spezielle Effekte auf Figuren, die darauf stehen. Zum einen können darauf stehende Figuren -- und auch die Felder an sich, nicht Ziel eines Zaubers werden. Zum Anderen werden die Figuren nach jedem eigenen Zug um einen gewissen Betrag geheilt, sollten sie im Kampf verletzt worden sein. Diese fünf Machtfelder verteilen sich so, dass jeweils eines auf einem permanent schwarzen bzw. weißen Feld ist - dort wo der Zauberer bzw. die Zauberin ihre Ausgangsposition haben. Die anderen drei Felder sind auf farbwechselnden Feldern in der Mitte des Spielbretts verteilt.
 
 \subsubsection{Das Kampfareal}
-Das Kampfareal erscheint wenn zwei Figuren auf dem Spielbrett aufeinander treffen. Es stellt eine große Fläche dar, bei der von Zeit zu Zeit pflanzenähnliche Hindernisse erscheinen und wieder verschwinden. An den Seiten des Kampfareals werden die Lebenspunkte der kämpfenden Figuren in Form von Balken dargestellt. \todo{Bild vom Kampfareal einfügen}\\
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.40\textwidth]{archon_battlescreen_small}
+	\caption[Kampfareal]{Das Kampfareal}
+	\label{fig:Battlescreen}
+\end{figure}
+Das Kampfareal erscheint wenn zwei Figuren auf dem Spielbrett aufeinander treffen. Es stellt eine große Fläche dar, bei der von Zeit zu Zeit pflanzenähnliche Hindernisse erscheinen und wieder verschwinden. An den Seiten des Kampfareals werden die Lebenspunkte der kämpfenden Figuren in Form von Balken dargestellt.\\
 Die Figuren können sich hier frei bewegen und haben, je nach Typ, unterschiedliche Eigenschaften, Attacken und Geschwindigkeiten.
 
 \subsubsection{Die Figuren}
@@ -162,11 +185,43 @@ Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScrip
 \emph{Aus dem Teil der Zusammenführung ergibt sich dann zwangsläufig eine Art Komponentenarchitektur, die hier verfeinert wird, bis zu dem Punkt, an dem eine Festlegung auf Frameworks und Technologien getätigt werden muss.}\\
 Dieser Abschnitt enthält eine klassische objektorientiere Analyse des Spiels, sowie der Anforderungen aus der technologischen Sichtweise. Aus dieser Analyse soll dann eine Software-Architektur entstehen, die alle Anforderungen vereint und einen möglichst gut wartbaren und erweiterbaren Rahmen darstellt.\\
 Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass grob die Beziehungen einzelner Elemente aufzeigt, ohne sich direkt auf Code-Ebene zu bewegen. Auch diese Analyse soll dem Muster folgen. 
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{Begriffsmodell}
+	\caption[Begriffsmodell]{Begriffsmodell}
+	\label{fig:Begriffsmodell}
+\end{figure}
+Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber die Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Bilder sollen daher den Entwurf der generellen Systemarchitektur näher erläutern.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{ClientServer}
+	\caption[Client-Server-Architektur]{Client-Server-Architektur}
+	\label{fig:Client-Server-Architektur}
+\end{figure}
+Die Umsetzung mittels Webtechnologien verlangt es zwei generelle Komponenten zu entwickeln: Einen Webserver, sowie Clients welche sich mit dem Server verbinden.
+Der Webserver und die Clients müssen dabei in beide Richtungen kommunizieren.
+Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist dann ein Ansatz mit dem Model-View-Controller-Modell entstanden, um Abhängigkeiten zu reduzieren und Funktionalitäten zu kapseln.
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{MVC-Architektur}
+	\caption[MVC]{Darstellung der MVC-Architektur mit Aufgaben}
+	\label{fig:MVC}
+\end{figure}
+Es wurde eine klassische Interpretierung des MVC-Musters gewählt, bei der der Controller lediglich Informationen aus Events der View verarbeitet und an das Modell weiterleitet. Für den zweiten Kommunikationsweg vom Modell zur View wurde eine separate Komponente gewählt: Der Adapter.
+In der Mitte der Abbildung \ref{fig:MVC} ist eine Trennlinie zu erkennen. Sie soll die physische, sowie logische Grenze zwischen der Server- und der Client-Komponente repräsentieren.
+
 
 \subsection{Schritte der Implementierung}
 \label{subsec:Implementierung}\index{Implementierung}
 
 \emph{Hier wird dann der Entwicklungsprozess kurz erläutert, also Vorgehen, wie Aufsetzen der Tool-Chain, dann Entwicklung einer ersten Darstellung (Frontend), um direkte Erfolge zu sehen, etc pp.}
+
+Bei der Implementierung wurde sich zunächst mit den einzelnen Technologien vertraut gemacht. Bei diesem Prozess sind Prototypen entstanden, deren Code im späteren Verlauf nicht unbedingt Wiederverwendung gefunden hat.\todo{Screenshot vom Playground Prototypen}
+Angefangen wurde dabei, wie in obiger Abbildung zu sehen mit einem Prototypen des Spielbretts in three.js mit Typescript. Dabei sind 
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
