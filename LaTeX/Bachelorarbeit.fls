@@ -607,6 +607,15 @@ INPUT ./Grafiken/ClientServer.png
 INPUT Grafiken/MVC-Architektur.png
 INPUT ./Grafiken/MVC-Architektur.png
 INPUT ./Grafiken/MVC-Architektur.png
+INPUT Grafiken/BasisArchitekturSplit.png
+INPUT ./Grafiken/BasisArchitekturSplit.png
+INPUT ./Grafiken/BasisArchitekturSplit.png
+INPUT Grafiken/InfoModel.png
+INPUT ./Grafiken/InfoModel.png
+INPUT ./Grafiken/InfoModel.png
+INPUT Grafiken/IGameModel.png
+INPUT ./Grafiken/IGameModel.png
+INPUT ./Grafiken/IGameModel.png
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex

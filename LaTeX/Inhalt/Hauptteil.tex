@@ -1,3 +1,4 @@
+% !TeX root = ../Bachelorarbeit.tex
 \chapter{Hauptteil}
 \label{cha:Hauptteil}
 
@@ -179,10 +180,9 @@ Die node.js-Umgebung erlaubt es sogenannte Dev-Dependencies einzufügen, also Ab
 \emph{Hier würden Dinge zu lesen sein, wie die Benutzung von TypeScript, oder Browser-Beschränkungen etc, da diese nicht relevant für den eigentlichen Entwicklungsvorgang sind, aber dennoch nützlich sind und eben Vereinfachungen darstellen.}
 
 Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScript ist ein sogenanntes Superset zu JavaScript: Jedes valide JavaScript-Programm ist also auch ein valides TypeScript-Programm. TypeScript wird direkt zu JavaScript mittels des Compilers tsc kompiliert. TypeScript fügt zu normalem JavaScript-Code statische Typen hinzu, sodass eine statische Analyse des Codes zur Kompilierzeit auf Fehler erfolgen kann, was die Sicherheit von Schnittstellen und Funktionsaufrufen erhöht. Zu TypeScript gehören als weitere Dev-Dependency die zugehörigen Typen-Deklarationen für bereits existierende JavaScript-Bibliotheken, sodass diese auch im TypeScript korrekt erkannt und von einer IDE\footnote{Integrated Development Environment} \bzw einem Code-Editor mit Auto-Vervollständigung genutzt werden können.
+
 \subsection{Architektur}
 \label{subsec:Architektur}\index{Architektur}
-
-\emph{Aus dem Teil der Zusammenführung ergibt sich dann zwangsläufig eine Art Komponentenarchitektur, die hier verfeinert wird, bis zu dem Punkt, an dem eine Festlegung auf Frameworks und Technologien getätigt werden muss.}\\
 Dieser Abschnitt enthält eine klassische objektorientiere Analyse des Spiels, sowie der Anforderungen aus der technologischen Sichtweise. Aus dieser Analyse soll dann eine Software-Architektur entstehen, die alle Anforderungen vereint und einen möglichst gut wartbaren und erweiterbaren Rahmen darstellt.\\
 Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass grob die Beziehungen einzelner Elemente aufzeigt, ohne sich direkt auf Code-Ebene zu bewegen. Auch diese Analyse soll dem Muster folgen. 
 \begin{figure}[h]
@@ -192,7 +192,7 @@ Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass g
 	\caption[Begriffsmodell]{Begriffsmodell}
 	\label{fig:Begriffsmodell}
 \end{figure}
-Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber die Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Bilder sollen daher den Entwurf der generellen Systemarchitektur näher erläutern.
+Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber die Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Abschnitte sollen daher den Entwurf der generellen Systemarchitektur näher erläutern. Dabei wird, soweit möglich, noch nicht auf externe Abhängigkeiten eingegangen und die Architektur auch möglichst frei von konkreten Festlegungen auf Technologien und Frameworks gehalten.
 
 \begin{figure}[htp]
 	\centering
@@ -203,7 +203,7 @@ Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subs
 \end{figure}
 Die Umsetzung mittels Webtechnologien verlangt es zwei generelle Komponenten zu entwickeln: Einen Webserver, sowie Clients welche sich mit dem Server verbinden.
 Der Webserver und die Clients müssen dabei in beide Richtungen kommunizieren.
-Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist dann ein Ansatz mit dem Model-View-Controller-Modell entstanden, um Abhängigkeiten zu reduzieren und Funktionalitäten zu kapseln.
+Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist dann ein Ansatz mit dem Model-View-Controller-Modell entstanden, um Abhängigkeiten zu reduzieren und Funktionalitäten zu kapseln. Das Modell sieht dabei vor die wesentlichen Aufgaben von Applikationen so aufzutrennen, dass die Ansicht, in den meisten Fällen eine graphische Benutzeroberfläche, möglichst unabhängig von den zugrunde liegenden Daten, also dem (Daten-)Modell ist. Dazu wird eine Klasse zur Kommunikation, der Controller, von Daten und Ansicht erstellt. Der Controller sorgt dabei dafür, dass Kommandos vom Benutzer, also in der Ansicht, an die Daten und dazugehörige Operationen weitergeleitet werden.
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
@@ -211,9 +211,42 @@ Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist
 	\caption[MVC]{Darstellung der MVC-Architektur mit Aufgaben}
 	\label{fig:MVC}
 \end{figure}
-Es wurde eine klassische Interpretierung des MVC-Musters gewählt, bei der der Controller lediglich Informationen aus Events der View verarbeitet und an das Modell weiterleitet. Für den zweiten Kommunikationsweg vom Modell zur View wurde eine separate Komponente gewählt: Der Adapter.
-In der Mitte der Abbildung \ref{fig:MVC} ist eine Trennlinie zu erkennen. Sie soll die physische, sowie logische Grenze zwischen der Server- und der Client-Komponente repräsentieren.
+Hier wurde eine klassische Interpretierung des MVC-Musters gewählt, bei der der Controller lediglich Informationen aus Events der View verarbeitet und an das Modell weiterleitet. Für den zweiten Kommunikationsweg vom Modell zur View wurde eine separat zu implementierende Komponente gewählt: Der Adapter.
+In der Mitte der Abbildung \ref{fig:MVC} ist eine Trennlinie zu erkennen. Sie soll die physische, sowie logische Grenze zwischen der Server- und der Client-Komponente repräsentieren. Auch zu erkennen ist, dass Controller und Adapter über diese Grenzen hinweg operieren müssen. Die View befindet sich auf dem Client und bekommt Benutzereingaben und soll möglichst aktuelle Daten aus dem Modell zur Anzeige bringen. Währenddessen befindet sich das Datenmodell des Spiels auf dem Server und implementiert die Regeln den Spiels, die für eine Integrität der Daten sorgen. Nun gibt es die Möglichkeit, dass der Controller komplett auf dem Client implementiert wird. Dies bringt den Vorteil, dass eine einzige Klasse an einer Position im Code hat, die für einen Kommunikationsweg zuständig ist. Der große Nachteil kommt jedoch auf der Server-Seite zum tragen: Hier muss das Modell stark an die Nachrichten des Controllers binden und Kommunikation im Datenmodell durchführen.  
+Wenn dagegen der geteilte Ansatz eines Controller-Senders und -Empfängers gewählt wird, bleiben Nachrichten, also Kommunikation, auch in Klassen, die für Kommunikation zuständig sind und müssen nicht in anderen Klasse verarbeitet werden. Als Nachteil dieses Ansatzes ergibt sich der erhöhte Aufwand bei der Erstellung einer zusätzlichen Klasse. Die Vor- und Nachteile der Ansätze für den Entwurf des Controllers sind vollständig übertragbar auf den Adapter. Es wurde sich im Folgenden für den Ansatz der geteilten Controller und Adapter entschieden, sodass sich 4 Klassen zur Kommunikation zwischen Ansicht und Datenmodell ergeben: Jeweils ein Controller und ein Adapter auf Server- \bzw
+Client-Seite. Die Aufgaben der Klassen sind bereits in Abbildung \ref{fig:MVC} an den Pfeilen abzulesen.\\
+Aus den Anpassungen für die Kommunikation ergibt sich damit der Aufbau aus Abbildung \ref{fig:ArchitekturSplit}.
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{BasisArchitekturSplit}
+	\caption[ArchitekturSplit]{Aufgeteilte Kommunikationsklassen}
+	\label{fig:ArchitekturSplit}
+\end{figure}
 
+\noindent sddDa zur Kommunikation von Daten zwangläufig auch zu übertragende Daten gehören muss das Datenmodell so gestaltet werden, dass immer auf die aktuellen Daten zugegriffen werden kann. Außerdem müssen die Daten in einem Format vorliegen, dass eine Übertragung erlaubt. Da gleichzeitig lesender Zugriff im Client und schreibender Zugriff im Server auf die komplette Datenhaltung möglich sein muss, bietet es sich an ein zentrales Modell aufzustellen. Das zentrale Modell wird dann in einem Initialzustand vom Server an den Client gesendet. Im Spielbetrieb müssen dann nur noch Aktualisierungen übertragen werden, was die Last der Kommunikationswege deutlich reduziert. Da das Datenmodell stark an das, eingangs dieses Kapitels, aufgestellte Begriffsmodell angelehnt sein muss, ist schnell ersichtlich welche Menge an Daten und auch welche Daten vorgehalten werden müssen.
+Die Abbildung \ref{fig:InfoModel} zeigt die gewählten Daten-Schnittstellen für das Datenmodell. 
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.9\textwidth]{InfoModel}
+	\caption[InfoModel]{Daten-Schnittstellen für Datenmodell}
+	\label{fig:InfoModel}
+\end{figure}
+\clearpage
+\noindent Die Daten-Schnittstellen enthalten keine Methoden. Sie sind nur Container \bzw Verträge für Daten. Die Schnittstellen für die Einstellungen und die Zauber besitzen keine direkten Beziehungen zu den anderen Schnittstellen, sondern stellen ihre Beziehungen erst durch die Regeln des Spiels her. Die meisten Schnittstellen werden zur gebündelten Übertragung in der Schnittstelle IGameModel vereint:
+
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.6\textwidth]{IGameModel}
+	\caption[IGameModel]{Daten-Schnittstelle IGameModel}
+	\label{fig:IGameModel}
+\end{figure}
+\noindent Zu jeder Daten-Schnittstelle fehlen jetzt noch die passenden Klassen für Anzeige und Logik und die Grobarchitektur ist im wesentlichen fertiggestellt. Zu jeder Info-Schnittstelle gibt es also zwei weitere Klassen \zB zur IBoardInfo-Schnittstelle die Klassen Board für Spiellogik im Server und BoardView zur Anzeige im Client. Die Komponenten View und Modell werden aus Gründen der Übersicht im Folgenden nacheinander vorgestellt.
+
+\subsubsection{View}
 
 \subsection{Schritte der Implementierung}
 \label{subsec:Implementierung}\index{Implementierung}
