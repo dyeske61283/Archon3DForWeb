@@ -10,6 +10,7 @@ import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
 import { ISpell } from "../informationmodel/ISpell";
 import { Board } from "./Board";
 import { Player } from "./Player";
+import { Spell } from "./Spell";
 
 export class GameModel implements IGameModel {
 	_players: IPlayerInfo[];
@@ -24,8 +25,8 @@ export class GameModel implements IGameModel {
 	_defeatedFiguresBlack: IFigureInfo[];
 	_elementals: IActionFigureInfo[];
 	_actionField: IActionBoardInfo;
+	_Spells: Spell[];
 	_spells: ISpell[];
-
 	private _builder: ModelBuilder;
 
 	constructor(builder: ModelBuilder) {
@@ -35,7 +36,7 @@ export class GameModel implements IGameModel {
 	}
 
 	players(): IPlayerInfo[] {
-		return this._players;
+		return [this._Players[0].getInfo(), this._Players[1].getInfo()];
 	}
 	settings(): ISettingsInfo {
 		return this._settings;
@@ -61,8 +62,12 @@ export class GameModel implements IGameModel {
 		return this._defeatedFiguresBlack;
 	}
 
-	spells(): any[] {
-		return this._spells;
+	spells(): ISpell[] {
+		const tmp: ISpell[] = [];
+		this._Spells.forEach((value) => {
+			tmp.push(value.getInfo());
+		});
+		return tmp;
 	}
 
 	elementals(): IActionFigureInfo[] {
@@ -145,7 +150,7 @@ export class GameModel implements IGameModel {
 		this._observers = [];
 		this._defeatedFiguresBlack = [];
 		this._defeatedFiguresWhite = [];
-		this._spells = [];
+		this._Spells = [];
 		this._settings = this._builder.buildSettings();
 		this._board = this._builder.buildBoard();
 		this._actionField = this._builder.buildActionBoard();

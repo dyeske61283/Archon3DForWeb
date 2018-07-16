@@ -9,7 +9,6 @@ import { IGameModel } from "../../interfaces/IGameModel";
 export interface IViewBuilder {
 	buildWhiteFigures(): IView[];
 	buildBlackFigures(): IView[];
-	buildScene(): THREE.Scene;
 	buildBoard(): IView;
 	buildFightingBoard(): IView;
 	buildCursor(cursor: ICursorInfo): IView;

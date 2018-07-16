@@ -8,4 +8,7 @@ export class Spell {
 		this._info.action = action;
 	}
 
+	getInfo(): ISpell {
+		return this._info;
+	}
 }

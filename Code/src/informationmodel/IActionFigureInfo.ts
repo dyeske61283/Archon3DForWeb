@@ -8,4 +8,5 @@ export interface IActionFigureInfo {
 	AttackRate: number;
 	ProjectileWidth: number;
 	ProjectileHeight: number;
+	Pos?: [number, number];
 }

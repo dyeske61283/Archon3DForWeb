@@ -616,6 +616,15 @@ INPUT ./Grafiken/InfoModel.png
 INPUT Grafiken/IGameModel.png
 INPUT ./Grafiken/IGameModel.png
 INPUT ./Grafiken/IGameModel.png
+INPUT Grafiken/View_Class_Diagram.png
+INPUT ./Grafiken/View_Class_Diagram.png
+INPUT ./Grafiken/View_Class_Diagram.png
+INPUT Grafiken/Modell_Class_Diagram.png
+INPUT ./Grafiken/Modell_Class_Diagram.png
+INPUT ./Grafiken/Modell_Class_Diagram.png
+INPUT Grafiken/Dependencies.png
+INPUT ./Grafiken/Dependencies.png
+INPUT ./Grafiken/Dependencies.png
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex

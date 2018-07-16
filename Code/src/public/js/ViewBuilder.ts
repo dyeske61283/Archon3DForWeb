@@ -19,10 +19,6 @@ export class ViewBuilder implements IViewBuilder {
 	buildBlackFigures(): IView[] {
 		throw new Error("Method not implemented.");
 	}
-
-	buildScene(): THREE.Scene {
-		return new THREE.Scene();
-	}
 	buildBoard(): IView {
 		return new BoardView(this._model._board);
 	}

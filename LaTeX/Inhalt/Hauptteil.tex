@@ -192,7 +192,7 @@ Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass g
 	\caption[Begriffsmodell]{Begriffsmodell}
 	\label{fig:Begriffsmodell}
 \end{figure}
-Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber die Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Abschnitte sollen daher den Entwurf der generellen Systemarchitektur näher erläutern. Dabei wird, soweit möglich, noch nicht auf externe Abhängigkeiten eingegangen und die Architektur auch möglichst frei von konkreten Festlegungen auf Technologien und Frameworks gehalten.
+Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber den Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Abschnitte sollen daher den Entwurf der generellen Systemarchitektur näher erläutern. Dabei wird, soweit möglich, noch nicht auf externe Abhängigkeiten eingegangen und die Architektur auch möglichst frei von konkreten Festlegungen auf Technologien und Frameworks gehalten. Am Ende dieses Kapitels werden die technologischen Abhängigkeiten aufgezeigt und mit in die Architektur integriert.
 
 \begin{figure}[htp]
 	\centering
@@ -224,7 +224,7 @@ Aus den Anpassungen für die Kommunikation ergibt sich damit der Aufbau aus Abbi
 	\label{fig:ArchitekturSplit}
 \end{figure}
 
-\noindent sddDa zur Kommunikation von Daten zwangläufig auch zu übertragende Daten gehören muss das Datenmodell so gestaltet werden, dass immer auf die aktuellen Daten zugegriffen werden kann. Außerdem müssen die Daten in einem Format vorliegen, dass eine Übertragung erlaubt. Da gleichzeitig lesender Zugriff im Client und schreibender Zugriff im Server auf die komplette Datenhaltung möglich sein muss, bietet es sich an ein zentrales Modell aufzustellen. Das zentrale Modell wird dann in einem Initialzustand vom Server an den Client gesendet. Im Spielbetrieb müssen dann nur noch Aktualisierungen übertragen werden, was die Last der Kommunikationswege deutlich reduziert. Da das Datenmodell stark an das, eingangs dieses Kapitels, aufgestellte Begriffsmodell angelehnt sein muss, ist schnell ersichtlich welche Menge an Daten und auch welche Daten vorgehalten werden müssen.
+\noindent Da zur Kommunikation von Daten zwangläufig auch zu übertragende Daten gehören muss das Datenmodell so gestaltet werden, dass immer auf die aktuellen Daten zugegriffen werden kann. Außerdem müssen die Daten in einem Format vorliegen, dass eine Übertragung erlaubt. Da gleichzeitig lesender Zugriff im Client und schreibender Zugriff im Server auf die komplette Datenhaltung möglich sein muss, bietet es sich an ein zentrales Modell aufzustellen. Das zentrale Modell wird dann in einem Initialzustand vom Server an den Client gesendet. Im Spielbetrieb müssen dann nur noch Aktualisierungen übertragen werden, was die Last der Kommunikationswege deutlich reduziert. Da das Datenmodell stark an das, eingangs dieses Kapitels, aufgestellte Begriffsmodell angelehnt sein muss, ist schnell ersichtlich welche Menge an Daten und auch welche Daten vorgehalten werden müssen.
 Die Abbildung \ref{fig:InfoModel} zeigt die gewählten Daten-Schnittstellen für das Datenmodell. 
 \begin{figure}[htp]
 	\centering
@@ -234,7 +234,7 @@ Die Abbildung \ref{fig:InfoModel} zeigt die gewählten Daten-Schnittstellen für
 	\label{fig:InfoModel}
 \end{figure}
 \clearpage
-\noindent Die Daten-Schnittstellen enthalten keine Methoden. Sie sind nur Container \bzw Verträge für Daten. Die Schnittstellen für die Einstellungen und die Zauber besitzen keine direkten Beziehungen zu den anderen Schnittstellen, sondern stellen ihre Beziehungen erst durch die Regeln des Spiels her. Die meisten Schnittstellen werden zur gebündelten Übertragung in der Schnittstelle IGameModel vereint:
+\noindent Die Daten-Schnittstellen enthalten keine Methoden. Sie sind nur Container \bzw Verträge für Daten. Die Schnittstellen für die Einstellungen und die Zauber besitzen keine direkten Beziehungen zu den anderen Schnittstellen, sondern stellen ihre Beziehungen erst durch die Regeln des Spiels her. Die Ausarbeitung der Daten für die einzelnen Schnittstellen ergibt sich aus dem Begriffsmodell und der Beschreibung des Spiels. Die meisten Schnittstellen werden zur gebündelten Übertragung in der Schnittstelle IGameModel vereint:
 
 
 \begin{figure}[htp]
@@ -244,17 +244,48 @@ Die Abbildung \ref{fig:InfoModel} zeigt die gewählten Daten-Schnittstellen für
 	\caption[IGameModel]{Daten-Schnittstelle IGameModel}
 	\label{fig:IGameModel}
 \end{figure}
-\noindent Zu jeder Daten-Schnittstelle fehlen jetzt noch die passenden Klassen für Anzeige und Logik und die Grobarchitektur ist im wesentlichen fertiggestellt. Zu jeder Info-Schnittstelle gibt es also zwei weitere Klassen \zB zur IBoardInfo-Schnittstelle die Klassen Board für Spiellogik im Server und BoardView zur Anzeige im Client. Die Komponenten View und Modell werden aus Gründen der Übersicht im Folgenden nacheinander vorgestellt.
-
+\noindent Zu jeder Daten-Schnittstelle fehlen jetzt noch die passenden Klassen für Anzeige und Logik um die wesentlichen Teile der Grobarchitektur fertigzustellen. Zu jeder Info-Schnittstelle gibt es also zwei weitere Klassen \zB zur IBoardInfo-Schnittstelle die Klassen Board für Spiellogik im Server und BoardView zur Anzeige im Client. Die Komponenten View und Modell werden im Folgenden nacheinander vorgestellt.
+\clearpage
 \subsubsection{View}
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{View_Class_Diagram}
+	\caption[View]{leicht vereinfachtes Klassendiagramm der View}
+	\label{fig:ClassesView}
+\end{figure}
 
+\noindent Die Abbildung \ref{fig:ClassesView} zeigt eine leicht vereinfachte Darstellung der View-Komponente. Die Vereinfachungen bestehen in der reduzierten Darstellung der Anzeige-Klassen für die einzelnen Figurentypen. Exemplarisch sind hier nur die Typen "Knight", "Manticore", "Sorceress" und "Unicorn" dargestellt, da sich die Klassen nur in der Implementierung ihres Konstruktors unterscheiden, der das eigentliche 3D-Objekt anhand eines Informationsobjektes aus dem Datenmodell erzeugt.\\
+Für den "ViewBuilder" wurde der Ansatz einer Injektionsmethode zur Anbindung an das Datenmodell gewählt. Damit kann die Objekt-Erzeugung vom Zeitpunkt der Injektion der Abhängigkeit entkoppelt werden. Das ist hier sinnvoll, da das Datenmodell zu einem Zeitpunkt zum Client gesendet wird, den dieser nicht beeinflussen kann. Der "ViewBuilder" hat die Aufgabe die einzelnen Erzeugungen von Anzeigeobjekten von der View zu entkoppeln, was den einfacheren Tausch eines Frameworks für die 3D-Objekte erlaubt und die bessere Bündelung von Abhängigkeiten möglich macht. Außerdem entkoppelt er die View von der Kenntnis über ein Datenmodell, sodass diese lediglich Anzeigeobjekte besitzt und auch nur für deren Aktualisierungen und tatsächliche Anzeige zuständig ist.\\
+Desweiteren besitzen alle Anzeigeklassen eine Referenz auf ihr Informationsobjekt aus dem Datenmodell, sodass der Adapter Änderungen nur in das Modell auf dem Client laden muss und die View alle ihre Anzeigeobjekte in einer Schleife regelmäßig zu Aktualisierungen auffordert. Die einzelnen Anzeigeklassen interpretieren dabei die Informationen aus ihren Datenobjekten und wandeln diese in eine passende Darstellung basierend auf dem gewählten 3D-Framework.\\
+
+\subsubsection{Modell}
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{Modell_Class_Diagram}
+	\caption[Modell]{Klassendiagramm des Modells}
+	\label{fig:ClassesModell}
+\end{figure}
+
+\noindent Das Modell wurde sehr ähnlich zur View strukturiert. Die Klasse "ModelBuilder" ist für die korrekte Erzeugung eines Initialzustandes des Datenmodells zuständig. Während die Klasse "GameModel" die Erzeugung der Logik-Objekte selbst übernimmt, da diese keine aufwändigen Initialisierungsroutinen besitzen. Jedes Logik-Objekt kann auf sein Informationsobjekt zugreifen und besitzt Methoden zum Schreiben der Daten. Die Methoden sind dabei zuständig für das Überprüfen von Spielregeln, wie die Reichweite von Figuren, oder das Ändern der Farbe der Felder auf dem Spielbrett.\\
+An dieser Stelle sei noch die Implementierung des Beobachter-Musters zu erwähnen. Die Klasse "GameModel" muss den Adapter nach der Änderung von Daten informieren können, sodass der Adapter die geänderten Daten an den Client senden kann. Dafür trägt sich der Adapter in die Liste der Beobachter im "GameModel" ein und wird anschließend mittels der "notify"-Methode vom "GameModel" darüber benachrichtigt welche Daten sich geändert haben und kann die Änderungen einfach weiterleiten.
+
+Da nun alle wesentlichen Komponenten des System beschrieben wurden, bleibt nun lediglich die Ansicht der technologischen Abhängigkeiten zu zeigen.
+
+\subsubsection{Abhängigkeiten}
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=1\textwidth]{Dependencies}
+	\caption[Abhängigkeiten]{Komponentendiagramm der Abhängigkeiten}
+	\label{fig:ComponentDependencies}
+\end{figure}
+\noindent Die Grafik \ref{fig:ComponentDependencies} zeigt eine Übersicht über die Abhängigkeiten des Servers und des Clients zu den gewählten Frameworks und Software-Bibliotheken. Da deren Verwendung schon in Kapitel \ref{subsec:Technologien} \bzw \ref{subsec:Hilfsmittel} erläutert wurde dient diese Übersicht nur noch einmal zur Visualisierung und als Einstieg für die Implementierung der Architektur im folgenden Abschnitt.
 \subsection{Schritte der Implementierung}
 \label{subsec:Implementierung}\index{Implementierung}
-
-\emph{Hier wird dann der Entwicklungsprozess kurz erläutert, also Vorgehen, wie Aufsetzen der Tool-Chain, dann Entwicklung einer ersten Darstellung (Frontend), um direkte Erfolge zu sehen, etc pp.}
-
-Bei der Implementierung wurde sich zunächst mit den einzelnen Technologien vertraut gemacht. Bei diesem Prozess sind Prototypen entstanden, deren Code im späteren Verlauf nicht unbedingt Wiederverwendung gefunden hat.\todo{Screenshot vom Playground Prototypen}
-Angefangen wurde dabei, wie in obiger Abbildung zu sehen mit einem Prototypen des Spielbretts in three.js mit Typescript. Dabei sind 
+Bei der Implementierung wurde sich zunächst mit den einzelnen Technologien aus der Grafik \ref{fig:ComponentDependencies} vertraut gemacht. Dafür wurden verschiedene Beispiele herangezogen und die Dokumentation, sowie \ggf vorhandene Getting-Started-Guides durchgearbeitet.\footnote{So zum Beispiel für Socket.IO: \url{https://socket.io/get-started/chat/}}
+Anschließend wurde die Entwicklungsumgebung aufgesetzt auf Basis eines Starter-Projektes für Node.js-Projekte mit Typescript und Express.\cite{typescript_node_starter} Dabei wurde das Starter-Projekt so angepasst, dass die Applikation auf das Bereitstellen von statischen Webseiten spezialisiert ist. Einige Skripte zum Erstellen, Debuggen, Bündeln und Minimieren der Applikation wurden angepasst \bzw hinzugefügt.
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
