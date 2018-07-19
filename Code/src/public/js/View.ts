@@ -33,12 +33,12 @@ export class View {
 		this._scene.add(this._board.getViewComponent());
 		this._cursor = builder.buildCursor(info);
 		this._scene.add(this._cursor.getViewComponent());
-		// this._whiteFigures = builder.buildWhiteFigures();
-		// this._blackFigures = builder.buildBlackFigures();
+		this._whiteFigures = builder.buildWhiteFigures();
+		this._blackFigures = builder.buildBlackFigures();
 		// install resize handling
 		window.addEventListener("resize", this.handleResize.bind(this), false);
-		// this.activateScene();
-		// this.update();
+		this.activateScene();
+		this.update();
 	}
 
 	update(): void {
@@ -112,6 +112,15 @@ export class View {
 	}
 
 	public walkInFigures(): void {
+		this._blackFigures.forEach((value, index) => {
+			setTimeout(this.addFigure.bind(this), 300, value);
+		});
+		this._whiteFigures.forEach((value, index) => {
+			setTimeout(this.addFigure.bind(this), 300, value);
+		});
+	}
 
+	private addFigure(value: IView) {
+		this._scene.add(value.getViewComponent());
 	}
 }

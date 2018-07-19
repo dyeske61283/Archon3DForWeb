@@ -17,6 +17,9 @@ var Board = /** @class */ (function () {
             });
         });
     };
+    Board.prototype.getFieldByIndex = function (x, y) {
+        return this._info.fields[x][y];
+    };
     Board.prototype.changeColor = function (dirChange) {
         var _this = this;
         if (dirChange || this._info.fields[4][4].color === Colors_1.Colors.black || this._info.fields[4][4].color === Colors_1.Colors.white) {

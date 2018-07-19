@@ -22,6 +22,7 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.handOutFigures = function () {
         console.log("called handOutFigures()");
+        this._client.getView().walkInFigures();
     };
     ClientAdapter.prototype.startTurns = function () {
         console.log("called startTurns()");

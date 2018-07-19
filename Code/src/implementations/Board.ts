@@ -1,6 +1,7 @@
 import { IBoardInfo } from "../informationmodel/IBoardInfo";
 import { ISettingsInfo } from "../informationmodel/ISettingsInfo";
 import { Colors } from "../informationmodel/Colors";
+import { IFieldInfo } from "../informationmodel/IFieldInfo";
 export class Board {
 	private _info: IBoardInfo;
 	private _direction: number = 1;
@@ -19,6 +20,10 @@ export class Board {
 				}
 			});
 		});
+	}
+
+	getFieldByIndex(x: number, y: number): IFieldInfo {
+		return this._info.fields[x][y];
 	}
 
 	changeColor(dirChange?: boolean): void {

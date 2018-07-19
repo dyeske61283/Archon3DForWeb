@@ -19,8 +19,8 @@ var View = /** @class */ (function () {
         this._scene.add(this._board.getViewComponent());
         this._cursor = builder.buildCursor(info);
         this._scene.add(this._cursor.getViewComponent());
-        // this._whiteFigures = builder.buildWhiteFigures();
-        // this._blackFigures = builder.buildBlackFigures();
+        this._whiteFigures = builder.buildWhiteFigures();
+        this._blackFigures = builder.buildBlackFigures();
         // install resize handling
         window.addEventListener("resize", this.handleResize.bind(this), false);
         this.activateScene();
@@ -81,6 +81,16 @@ var View = /** @class */ (function () {
         this._activeScene = undefined;
     };
     View.prototype.walkInFigures = function () {
+        var _this = this;
+        this._blackFigures.forEach(function (value, index) {
+            setTimeout(_this.addFigure.bind(_this), 300, value);
+        });
+        this._whiteFigures.forEach(function (value, index) {
+            setTimeout(_this.addFigure.bind(_this), 300, value);
+        });
+    };
+    View.prototype.addFigure = function (value) {
+        this._scene.add(value.getViewComponent());
     };
     return View;
 }());

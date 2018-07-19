@@ -56150,7 +56150,6 @@ var BoardView = /** @class */ (function () {
         });
     };
     BoardView.prototype.initView = function () {
-        console.log(this._info.fields);
         this._boardGeo = new THREE.PlaneGeometry(this.SCALE * this.MAX_FIELDS, this.SCALE * this.MAX_FIELDS, this.MAX_FIELDS, this.MAX_FIELDS);
         this.update();
         this._boardGeo.sortFacesByMaterialIndex();
@@ -56244,7 +56243,7 @@ var Client = /** @class */ (function () {
 }());
 exports.Client = Client;
 
-},{"./View":59}],54:[function(require,module,exports){
+},{"./View":60}],54:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ClientAdapter = /** @class */ (function () {
@@ -56269,6 +56268,7 @@ var ClientAdapter = /** @class */ (function () {
     };
     ClientAdapter.prototype.handOutFigures = function () {
         console.log("called handOutFigures()");
+        this._client.getView().walkInFigures();
     };
     ClientAdapter.prototype.startTurns = function () {
         console.log("called startTurns()");
@@ -56480,7 +56480,7 @@ var ClientFabrik = /** @class */ (function () {
 }());
 exports.ClientFabrik = ClientFabrik;
 
-},{"./ClientAdapter":54,"./ClientController":55,"./Cursor":57,"./ViewBuilder":60}],57:[function(require,module,exports){
+},{"./ClientAdapter":54,"./ClientController":55,"./Cursor":57,"./ViewBuilder":61}],57:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -56590,6 +56590,50 @@ exports.CursorView = CursorView;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
+var PawnView = /** @class */ (function () {
+    function PawnView(info) {
+        this.SCALE = 5;
+        this._info = info;
+        this.initViewObject();
+    }
+    PawnView.prototype.initViewObject = function () {
+        var box = new THREE.BoxGeometry(3, 3, 3);
+        var figureGeo = new THREE.CylinderGeometry(1, 2, 0.000);
+        figureGeo.rotateX(Math.PI / 2);
+        box.rotateZ(Math.PI / 4);
+        box.rotateY(Math.PI / 4);
+        this._figureMaterial = new THREE.MeshNormalMaterial();
+        this._obj = new THREE.Mesh(box, this._figureMaterial);
+        this._obj.position.set(-0.3, 0, 2.5);
+        this._obj.updateMatrix();
+        figureGeo.mergeMesh(this._obj);
+        this._obj = new THREE.Mesh(figureGeo, this._figureMaterial);
+        this._obj.position.set(this._info.pos["0"] * this.SCALE - 20, this._info.pos["1"] * this.SCALE - 20, 0.000);
+    };
+    PawnView.prototype.getInfoObject = function () {
+        return this._info;
+    };
+    PawnView.prototype.updateInfo = function (infoObject) {
+        this._info = infoObject;
+        this.update();
+    };
+    PawnView.prototype.update = function () {
+        this._info.pos;
+    };
+    PawnView.prototype.getViewComponent = function () {
+        return this._obj;
+    };
+    PawnView.prototype.clone = function () {
+        return this._obj.clone();
+    };
+    return PawnView;
+}());
+exports.PawnView = PawnView;
+
+},{"three":49}],60:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
 var View = /** @class */ (function () {
     function View(builder, info) {
         this._activeScene = undefined;
@@ -56608,8 +56652,8 @@ var View = /** @class */ (function () {
         this._scene.add(this._board.getViewComponent());
         this._cursor = builder.buildCursor(info);
         this._scene.add(this._cursor.getViewComponent());
-        // this._whiteFigures = builder.buildWhiteFigures();
-        // this._blackFigures = builder.buildBlackFigures();
+        this._whiteFigures = builder.buildWhiteFigures();
+        this._blackFigures = builder.buildBlackFigures();
         // install resize handling
         window.addEventListener("resize", this.handleResize.bind(this), false);
         this.activateScene();
@@ -56670,34 +56714,59 @@ var View = /** @class */ (function () {
         this._activeScene = undefined;
     };
     View.prototype.walkInFigures = function () {
+        var _this = this;
+        this._blackFigures.forEach(function (value, index) {
+            setTimeout(_this.addFigure.bind(_this), 300, value);
+        });
+        this._whiteFigures.forEach(function (value, index) {
+            setTimeout(_this.addFigure.bind(_this), 300, value);
+        });
+    };
+    View.prototype.addFigure = function (value) {
+        this._scene.add(value.getViewComponent());
     };
     return View;
 }());
 exports.View = View;
 
-},{"three":49}],60:[function(require,module,exports){
+},{"three":49}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CursorView_1 = require("./CursorView");
 var BoardView_1 = require("./BoardView");
-var THREE = require("three");
+var PawnView_1 = require("./PawnView");
 var ViewBuilder = /** @class */ (function () {
     function ViewBuilder() {
     }
     ViewBuilder.prototype.buildWhiteFigures = function () {
-        throw new Error("Method not implemented.");
+        if (this._model && this._model._whiteFigures.length > 0) {
+            var tmp_1 = [];
+            this._model._whiteFigures.forEach(function (value, index) {
+                tmp_1.push(new PawnView_1.PawnView(value));
+            });
+            return tmp_1;
+        }
+        else {
+            console.log("Somehow the model is not filled inside the ViewBuilder..");
+        }
     };
     ViewBuilder.prototype.buildBlackFigures = function () {
-        throw new Error("Method not implemented.");
-    };
-    ViewBuilder.prototype.buildScene = function () {
-        return new THREE.Scene();
+        if (this._model && this._model._blackFigures.length > 0) {
+            var tmp_2 = [];
+            this._model._blackFigures.forEach(function (value, index) {
+                tmp_2.push(new PawnView_1.PawnView(value));
+            });
+            return tmp_2;
+        }
+        else {
+            console.log("Somehow the model is not filled inside the ViewBuilder..");
+        }
     };
     ViewBuilder.prototype.buildBoard = function () {
         return new BoardView_1.BoardView(this._model._board);
     };
     ViewBuilder.prototype.buildFightingBoard = function () {
-        return undefined;
+        throw new Error("Method not implemented.");
     };
     ViewBuilder.prototype.buildCursor = function (cursor) {
         return new CursorView_1.CursorView(cursor);
@@ -56709,7 +56778,7 @@ var ViewBuilder = /** @class */ (function () {
 }());
 exports.ViewBuilder = ViewBuilder;
 
-},{"./BoardView":52,"./CursorView":58,"three":49}],61:[function(require,module,exports){
+},{"./BoardView":52,"./CursorView":58,"./PawnView":59}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var io = require("socket.io-client");
@@ -56769,4 +56838,4 @@ $("#btnColorFirst").click(function (e) {
     }
 });
 
-},{"./Client":53,"./ClientFabrik":56,"socket.io-client":36}]},{},[61]);
+},{"./Client":53,"./ClientFabrik":56,"socket.io-client":36}]},{},[62]);

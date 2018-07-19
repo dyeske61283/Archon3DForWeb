@@ -38,7 +38,6 @@ var BoardView = /** @class */ (function () {
         });
     };
     BoardView.prototype.initView = function () {
-        console.log(this._info.fields);
         this._boardGeo = new THREE.PlaneGeometry(this.SCALE * this.MAX_FIELDS, this.SCALE * this.MAX_FIELDS, this.MAX_FIELDS, this.MAX_FIELDS);
         this.update();
         this._boardGeo.sortFacesByMaterialIndex();

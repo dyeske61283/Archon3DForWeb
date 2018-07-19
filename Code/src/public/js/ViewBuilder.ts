@@ -8,16 +8,33 @@ import { IGameModel } from "../../interfaces/IGameModel";
 import { CursorView } from "./CursorView";
 import { BoardView } from "./BoardView";
 import * as THREE from "three";
+import { PawnView } from "./PawnView";
 
 export class ViewBuilder implements IViewBuilder {
 	private _model: IGameModel;
 
 	buildWhiteFigures(): IView[] {
-		throw new Error("Method not implemented.");
+		if (this._model && this._model._whiteFigures.length > 0) {
+			const tmp: IView[] = [];
+			this._model._whiteFigures.forEach((value, index) => {
+				tmp.push(new PawnView(value));
+			});
+			return tmp;
+		} else {
+			console.log("Somehow the model is not filled inside the ViewBuilder..");
+		}
 	}
 
 	buildBlackFigures(): IView[] {
-		throw new Error("Method not implemented.");
+		if (this._model && this._model._blackFigures.length > 0) {
+			const tmp: IView[] = [];
+			this._model._blackFigures.forEach((value, index) => {
+				tmp.push(new PawnView(value));
+			});
+			return tmp;
+		} else {
+			console.log("Somehow the model is not filled inside the ViewBuilder..");
+		}
 	}
 	buildBoard(): IView {
 		return new BoardView(this._model._board);

@@ -32,7 +32,6 @@ export class GameModel implements IGameModel {
 	constructor(builder: ModelBuilder) {
 		this._builder = builder;
 		this.init();
-		this.injectInfoIntoGameObjects();
 	}
 
 	players(): IPlayerInfo[] {
@@ -153,17 +152,19 @@ export class GameModel implements IGameModel {
 		this._Spells = [];
 		this._settings = this._builder.buildSettings();
 		this._board = this._builder.buildBoard();
+		this._Board = new Board(this._board);
 		this._actionField = this._builder.buildActionBoard();
 		this._players.push(this._builder.buildPlayer());
 		this._players.push(this._builder.buildPlayer());
+		this._Players = [new Player(this._players[0]), new Player(this._players[1])];
 		this._blackFigures = this._builder.buildFigureBlack();
+		this._blackFigures.forEach((value) => {
+			value.field = this._Board.getFieldByIndex(value.pos[0], value.pos[1]);
+		});
 		this._whiteFigures = this._builder.buildFiguresWhite();
+		this._whiteFigures.forEach((value) => {
+			value.field = this._Board.getFieldByIndex(value.pos[0], value.pos[1]);
+		});
 		this._elementals = this._builder.buildElementals();
 	}
-
-	private injectInfoIntoGameObjects(): void {
-		this._Board = new Board(this._board);
-		this._Players = [new Player(this._players[0]), new Player(this._players[1])];
-	}
-
 }

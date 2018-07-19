@@ -83,6 +83,7 @@ export class ModelBuilder {
 		actionInfos = JSON.parse(actionContent.toString());
 		figures.forEach( (value, index) => {
 			value.actionInfo = actionInfos[index];
+			value.pos = [index, 0];
 		});
 		return figures;
 	}
@@ -101,6 +102,7 @@ export class ModelBuilder {
 		actionInfos = JSON.parse(actionContent.toString());
 		figures.forEach( (value, index) => {
 			value.actionInfo = actionInfos[index];
+			value.pos = [index, 0];
 		});
 		return figures;
 	}

@@ -6,10 +6,9 @@ var GameModel = /** @class */ (function () {
     function GameModel(builder) {
         this._builder = builder;
         this.init();
-        this.injectInfoIntoGameObjects();
     }
     GameModel.prototype.players = function () {
-        return this._players;
+        return [this._Players[0].getInfo(), this._Players[1].getInfo()];
     };
     GameModel.prototype.settings = function () {
         return this._settings;
@@ -30,7 +29,11 @@ var GameModel = /** @class */ (function () {
         return this._defeatedFiguresBlack;
     };
     GameModel.prototype.spells = function () {
-        return this._spells;
+        var tmp = [];
+        this._Spells.forEach(function (value) {
+            tmp.push(value.getInfo());
+        });
+        return tmp;
     };
     GameModel.prototype.elementals = function () {
         return this._elementals;
@@ -102,23 +105,28 @@ var GameModel = /** @class */ (function () {
         this.init();
     };
     GameModel.prototype.init = function () {
+        var _this = this;
         this._players = [];
         this._observers = [];
         this._defeatedFiguresBlack = [];
         this._defeatedFiguresWhite = [];
-        this._spells = [];
+        this._Spells = [];
         this._settings = this._builder.buildSettings();
         this._board = this._builder.buildBoard();
+        this._Board = new Board_1.Board(this._board);
         this._actionField = this._builder.buildActionBoard();
         this._players.push(this._builder.buildPlayer());
         this._players.push(this._builder.buildPlayer());
-        this._blackFigures = this._builder.buildFigureBlack();
-        this._whiteFigures = this._builder.buildFiguresWhite();
-        this._elementals = this._builder.buildElementals();
-    };
-    GameModel.prototype.injectInfoIntoGameObjects = function () {
-        this._Board = new Board_1.Board(this._board);
         this._Players = [new Player_1.Player(this._players[0]), new Player_1.Player(this._players[1])];
+        this._blackFigures = this._builder.buildFigureBlack();
+        this._blackFigures.forEach(function (value) {
+            value.field = _this._Board.getFieldByIndex(value.pos[0], value.pos[1]);
+        });
+        this._whiteFigures = this._builder.buildFiguresWhite();
+        this._whiteFigures.forEach(function (value) {
+            value.field = _this._Board.getFieldByIndex(value.pos[0], value.pos[1]);
+        });
+        this._elementals = this._builder.buildElementals();
     };
     return GameModel;
 }());

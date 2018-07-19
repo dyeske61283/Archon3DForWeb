@@ -75,6 +75,7 @@ var ModelBuilder = /** @class */ (function () {
         actionInfos = JSON.parse(actionContent.toString());
         figures.forEach(function (value, index) {
             value.actionInfo = actionInfos[index];
+            value.pos = [index, 0];
         });
         return figures;
     };
@@ -91,6 +92,7 @@ var ModelBuilder = /** @class */ (function () {
         actionInfos = JSON.parse(actionContent.toString());
         figures.forEach(function (value, index) {
             value.actionInfo = actionInfos[index];
+            value.pos = [index, 0];
         });
         return figures;
     };

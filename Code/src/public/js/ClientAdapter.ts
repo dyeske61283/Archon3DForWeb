@@ -32,6 +32,7 @@ export class ClientAdapter implements IClientAdapter {
 
 	handOutFigures(): void {
 		console.log("called handOutFigures()");
+		this._client.getView().walkInFigures();
 	}
 
 	startTurns(): void {
