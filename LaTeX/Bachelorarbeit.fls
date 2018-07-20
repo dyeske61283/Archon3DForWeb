@@ -584,6 +584,12 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
 INPUT Grafiken/Archon.jpg
 INPUT ./Grafiken/Archon.jpg
 INPUT ./Grafiken/Archon.jpg
+INPUT Grafiken/Archon_Animation.png
+INPUT ./Grafiken/Archon_Animation.png
+INPUT ./Grafiken/Archon_Animation.png
+INPUT Grafiken/Kampffeld.jpg
+INPUT ./Grafiken/Kampffeld.jpg
+INPUT ./Grafiken/Kampffeld.jpg
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
 OUTPUT Inhalt/Hauptteil.aux
 INPUT Inhalt/Hauptteil.tex
