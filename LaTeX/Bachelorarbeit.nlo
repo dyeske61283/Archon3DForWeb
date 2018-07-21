@@ -1,0 +1,23 @@
+\nomenclatureentry{ao.V.@[{o.V.}]\begingroup ohne Verfasser (bei Literaturverweisen)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aAbb.@[{Abb.}]\begingroup Abbildung\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aAPI@[{API}]\begingroup Programmschnittstelle nach aussen (engl. f{\"u}r Application Programming Interface)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aSDK@[{SDK}]\begingroup \sa IDE (engl f{\"u}r Software Development Kit)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aIDE@[{IDE}]\begingroup integrierte Entwicklungsumgebung (engl. f{\"u}r Integrated Development Environment)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aW3C@[{W3C}]\begingroup Organisation zur Standardisierung von Webtechnologien (engl. f{\"u}r World Wide Web Consortium)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aWWW@[{WWW}]\begingroup Internet (engl. f{\"u}r World Wide Web)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aDOM@[{DOM}]\begingroup Dokumentstruktur der Webseite (engl. f{\"u}r Document Object Model)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aHTML@[{HTML}]\begingroup Hypertext Auszeichnungssprache, HTML-Dateien sind die Grundlage des World Wide Web und werden von einem Webbrowser dargestellt (engl. f{\"u}r Hypertext Markup Language)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aHTTP@[{HTTP}]\begingroup Hypertext-\"Ubertragungsprotokoll, Protokoll zur \"Ubertragung von Daten \"uber ein Netzwerk  (engl. f{\"u}r Hypertext Transfer Protocol)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aHTTPS@[{HTTPS}]\begingroup sicheres Hypertext-\"Ubertragungsprotokoll \sa HTTP (engl. f\"ur Hypertext Transfer Protocol Secure)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aWebseite@[{Webseite}]\begingroup \sa HTML-Datei\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aCSS@[{CSS}]\begingroup gestufte Gestaltungsb\"ogen, legt die Darstellung des HTML Quellcodes im Browser fest (engl. f{\"u}r Cascading Style Sheets)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aJavaScript@[{JavaScript}]\begingroup Skriptsprache, urspr\"unglich f\"ur dynamisches HTML in Webbrowsern entwickelt\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aJSON@[{JSON}]\begingroup kompaktes Datenformat zum Datenaustausch mit \zB Webservern (engl. f{\"u}r JavaScript Object Notation)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aWebbrowser@[{Webbrowser}]\begingroup auch kurz Browser (engl. to browse) steht f{\"u}r durchst{\"o}bern, abgrassen, durchsuchen - Software zum Darstellen von Daten, haupts{\"a}chlich Webseiten und deren Inhalt, k\"onnen zu diesem Zweck mit Webservern kommunizieren\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aWebserver@[{Webserver}]\begingroup Ein Webserver speichert Webseiten und stellt diese zur Verf\"ugung. Der Webserver ist eine Software, die Dokumente mit Hilfe standardisierter \"Ubertragungsprotokolle (HTTP, HTTPS) an einen Webbrowser \"ubertr\"agt.\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aGUI@[{GUI}]\begingroup Grafisches Benutzer Interface (engl. f{\"u}r Graphical User Interface)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aInterface@[{Interface}]\begingroup Schnittstelle\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aJPEG@[{JPEG}]\begingroup komprimierte Grafikdatei, auch JPG (engl. f\"ur Joint Photographic Expert Group)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aGIF@[{GIF}]\begingroup Grafikaustausch Format, Animationsf\"ahig (engl. f\"ur Graphics Interchange Format)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aPNG@[{PNG}]\begingroup Grafikaustausch Format (engl. f\"ur Portable Network Graphics)\nomeqref {.0}|nompageref}{XVII}
+\nomenclatureentry{aSVG@[{SVG}]\begingroup skalierbare Vektorgrafik (engl. f\"ur Scalable Vector Graphics)\nomeqref {.0}|nompageref}{XVII}
