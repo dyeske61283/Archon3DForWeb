@@ -3,48 +3,126 @@
 		"name": "Knight",
 		"range": 3,
 		"movementType": "ground",
-		"color": true
+		"color": true,
+		"pos": [1, 1]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 2]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 3]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 4]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 5]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 6]
+	},
+	{
+		"name": "Knight",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 7]
 	},
 	{
 		"name": "Archer",
 		"range": 3,
 		"movementType": "ground",
-		"color": true
+		"color": true,
+		"pos": [1, 0]
+	},
+	{
+		"name": "Archer",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [1, 8]
 	},
 	{
 		"name": "Valkyrie",
 		"range": 3,
 		"movementType": "fly",
-		"color": true
+		"color": true,
+		"pos": [0, 0]
+	},
+	{
+		"name": "Valkyrie",
+		"range": 3,
+		"movementType": "fly",
+		"color": true,
+		"pos": [0, 8]
 	},
 	{
 		"name": "Golem",
 		"range": 3,
 		"movementType": "ground",
-		"color": true
+		"color": true,
+		"pos": [0, 1]
+	},
+	{
+		"name": "Golem",
+		"range": 3,
+		"movementType": "ground",
+		"color": true,
+		"pos": [0, 7]
 	},
 	{
 		"name": "Unicorn",
 		"range": 4,
 		"movementType": "ground",
-		"color": true
+		"color": true,
+		"pos": [0, 2]
+	},
+	{
+		"name": "Unicorn",
+		"range": 4,
+		"movementType": "ground",
+		"color": true,
+		"pos": [0, 6]
 	},
 	{
 		"name": "Phoenix",
 		"range": 5,
 		"movementType": "fly",
-		"color": true
+		"color": true,
+		"pos": [0, 5]
 	},
 	{
 		"name": "Djinn",
 		"range": 4,
 		"movementType": "fly",
-		"color": true
+		"color": true,
+		"pos": [0, 3]
 	},
 	{
 		"name": "Wizard",
 		"range": 3,
 		"movementType": "teleport",
-		"color": true
+		"color": true,
+		"pos": [0, 4]
 	}
 ]

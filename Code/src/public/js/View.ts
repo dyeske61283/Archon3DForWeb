@@ -3,7 +3,8 @@ import { CursorView } from "./CursorView";
 import { IViewBuilder } from "./IViewBuilder";
 import { ICursorInfo } from "../../informationmodel/ICursorInfo";
 import * as THREE from "three";
-export class View {
+import { EventEmitter } from "events";
+export class View extends EventEmitter {
 	private _renderer: THREE.WebGLRenderer;
 	private _camera: THREE.PerspectiveCamera;
 	private _lighting: THREE.AmbientLight;
@@ -19,8 +20,11 @@ export class View {
 	private readonly _domElement: string = "#game-holder";
 	private readonly _canvas: string = "myCanvas";
 	private readonly _scaling = 5;
+	private _figureWalkIndex = 0;
+	private _figuresHandedOut = false;
 
 	constructor(builder: IViewBuilder, info: ICursorInfo) {
+		super();
 		this._backgroundColor = new THREE.Color(0xfff6e6);
 		this.setupRenderer();
 		this.update = this.update.bind(this);
@@ -48,7 +52,8 @@ export class View {
 		if (this._activeScene === this._sceneAction) {
 
 		} else {
-			this._cursor.update();
+			if (this._cursor.getInfoObject().enabled)
+				this._cursor.update();
 		}
 	}
 
@@ -74,14 +79,6 @@ export class View {
 		this._renderer.setSize(container.width(), container.height());
 		// this._renderer.setClearColor();
 		// $(this._domElement).append(this._renderer.domElement);
-	}
-
-	private initBlackFigures(): void {
-
-	}
-
-	private initWhiteFigures(): void {
-
 	}
 
 	public handleResize(): void {
@@ -111,16 +108,19 @@ export class View {
 		this._activeScene = undefined;
 	}
 
-	public walkInFigures(): void {
-		this._blackFigures.forEach((value, index) => {
-			setTimeout(this.addFigure.bind(this), 300, value);
-		});
-		this._whiteFigures.forEach((value, index) => {
-			setTimeout(this.addFigure.bind(this), 300, value);
-		});
+	public figuresHandedOut(): boolean {
+		return this._figuresHandedOut;
 	}
 
-	private addFigure(value: IView) {
-		this._scene.add(value.getViewComponent());
+	public walkInFigures(): void {
+		if (this._figureWalkIndex < 18) {
+			this._scene.add(this._blackFigures[this._figureWalkIndex].getViewComponent());
+			this._scene.add(this._whiteFigures[this._figureWalkIndex].getViewComponent());
+			this._figureWalkIndex++;
+			setTimeout(this.walkInFigures.bind(this), 300);
+		} else {
+			this._figuresHandedOut = true;
+			this.emit("figuresHandedOut");
+		}
 	}
 }

@@ -1,30 +1,46 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
-var View = /** @class */ (function () {
+var events_1 = require("events");
+var View = /** @class */ (function (_super) {
+    __extends(View, _super);
     function View(builder, info) {
-        this._activeScene = undefined;
-        this._domElement = "#game-holder";
-        this._canvas = "myCanvas";
-        this._scaling = 5;
-        this._backgroundColor = new THREE.Color(0xfff6e6);
-        this.setupRenderer();
-        this.update = this.update.bind(this);
-        this.initCamera();
-        this.initScene();
-        this.initLighting();
-        this._scene.add(this._camera);
-        this._scene.add(this._lighting);
-        this._board = builder.buildBoard();
-        this._scene.add(this._board.getViewComponent());
-        this._cursor = builder.buildCursor(info);
-        this._scene.add(this._cursor.getViewComponent());
-        this._whiteFigures = builder.buildWhiteFigures();
-        this._blackFigures = builder.buildBlackFigures();
+        var _this = _super.call(this) || this;
+        _this._activeScene = undefined;
+        _this._domElement = "#game-holder";
+        _this._canvas = "myCanvas";
+        _this._scaling = 5;
+        _this._figureWalkIndex = 0;
+        _this._figuresHandedOut = false;
+        _this._backgroundColor = new THREE.Color(0xfff6e6);
+        _this.setupRenderer();
+        _this.update = _this.update.bind(_this);
+        _this.initCamera();
+        _this.initScene();
+        _this.initLighting();
+        _this._scene.add(_this._camera);
+        _this._scene.add(_this._lighting);
+        _this._board = builder.buildBoard();
+        _this._scene.add(_this._board.getViewComponent());
+        _this._cursor = builder.buildCursor(info);
+        _this._scene.add(_this._cursor.getViewComponent());
+        _this._whiteFigures = builder.buildWhiteFigures();
+        _this._blackFigures = builder.buildBlackFigures();
         // install resize handling
-        window.addEventListener("resize", this.handleResize.bind(this), false);
-        this.activateScene();
-        this.update();
+        window.addEventListener("resize", _this.handleResize.bind(_this), false);
+        _this.activateScene();
+        _this.update();
+        return _this;
     }
     View.prototype.update = function () {
         requestAnimationFrame(this.update);
@@ -33,7 +49,8 @@ var View = /** @class */ (function () {
         if (this._activeScene === this._sceneAction) {
         }
         else {
-            this._cursor.update();
+            if (this._cursor.getInfoObject().enabled)
+                this._cursor.update();
         }
     };
     View.prototype.initCamera = function () {
@@ -56,10 +73,6 @@ var View = /** @class */ (function () {
         // this._renderer.setClearColor();
         // $(this._domElement).append(this._renderer.domElement);
     };
-    View.prototype.initBlackFigures = function () {
-    };
-    View.prototype.initWhiteFigures = function () {
-    };
     View.prototype.handleResize = function () {
         var container = $(this._domElement);
         this._camera.aspect = container.width() / container.width();
@@ -80,19 +93,22 @@ var View = /** @class */ (function () {
     View.prototype.deactivateActionScene = function () {
         this._activeScene = undefined;
     };
-    View.prototype.walkInFigures = function () {
-        var _this = this;
-        this._blackFigures.forEach(function (value, index) {
-            setTimeout(_this.addFigure.bind(_this), 300, value);
-        });
-        this._whiteFigures.forEach(function (value, index) {
-            setTimeout(_this.addFigure.bind(_this), 300, value);
-        });
+    View.prototype.figuresHandedOut = function () {
+        return this._figuresHandedOut;
     };
-    View.prototype.addFigure = function (value) {
-        this._scene.add(value.getViewComponent());
+    View.prototype.walkInFigures = function () {
+        if (this._figureWalkIndex < 18) {
+            this._scene.add(this._blackFigures[this._figureWalkIndex].getViewComponent());
+            this._scene.add(this._whiteFigures[this._figureWalkIndex].getViewComponent());
+            this._figureWalkIndex++;
+            setTimeout(this.walkInFigures.bind(this), 300);
+        }
+        else {
+            this._figuresHandedOut = true;
+            this.emit("figuresHandedOut");
+        }
     };
     return View;
-}());
+}(events_1.EventEmitter));
 exports.View = View;
 //# sourceMappingURL=View.js.map

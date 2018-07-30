@@ -8,6 +8,7 @@ export class ServerController implements IServerController {
 	private _model: GameModel;
 	private _p1: SocketIO.Socket;
 	private _p2: SocketIO.Socket;
+	private _playersFiguresReady = 0;
 
 	constructor(model: GameModel, p1: SocketIO.Socket, p2: SocketIO.Socket) {
 		this._model = model;
@@ -22,7 +23,8 @@ export class ServerController implements IServerController {
 		// this._p1.on("input", this.inputP1ToModel.bind(this));
 		this._p1.once("settings", this.settingsToModel.bind(this));
 		// this._p2.on("input", this.inputP2ToModel.bind(this));
-		this._p1.once("handedFiguresOut", this.figuresHandedOut.bind(this));
+		this._p1.on("handedFiguresOut", this.figuresHandedOut.bind(this));
+		this._p2.on("handedFiguresOut", this.figuresHandedOut.bind(this));
 		this._p1.on("turnFinished", this.onFinishedTurn.bind(this));
 	}
 
@@ -45,7 +47,9 @@ export class ServerController implements IServerController {
 
 	private figuresHandedOut(): void {
 		// start game in giving control to one player
-		this._model.startTurns();
+		this._playersFiguresReady++;
+		if (this._playersFiguresReady === 2)
+			this._model.startTurns();
 	}
 
 	private settingsToModel(settings: ISettingsInfo): void {

@@ -13,7 +13,12 @@ var PawnView = /** @class */ (function () {
         figureGeo.rotateX(Math.PI / 2);
         box.rotateZ(Math.PI / 4);
         box.rotateY(Math.PI / 4);
-        this._figureMaterial = new THREE.MeshNormalMaterial();
+        if (this._info.color) {
+            this._figureMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xbfc79c) });
+        }
+        else {
+            this._figureMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(0x303030) });
+        }
         this._obj = new THREE.Mesh(box, this._figureMaterial);
         this._obj.position.set(-0.3, 0, 2.5);
         this._obj.updateMatrix();

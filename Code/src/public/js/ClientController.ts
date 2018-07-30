@@ -6,8 +6,9 @@ import { Cursor } from "./Cursor";
 export class ClientController extends EventEmitter implements IClientController {
 	private _socket: SocketIOClient.Socket;
 	private _model: IGameModel;
-	private _view: any;
+	private _view: EventEmitter;
 	private _cursor: Cursor; // most times cursor
+	private _actionActive = false;
 
 	constructor(socket: SocketIOClient.Socket) {
 		super();
@@ -19,8 +20,14 @@ export class ClientController extends EventEmitter implements IClientController 
 	registerEvents(): void {
 		const btns = $("button");
 		btns.click(this.handleInput.bind(this));
-		$(document.body).keyup(this.handleKeyInput);
+		$(document.body).keyup(this.handleKeyInput.bind(this));
 	}
+
+	injectView(view: EventEmitter): void {
+		this._view = view;
+		this._view.on("figuresHandedOut", this.figuresHandedOut.bind(this));
+	}
+
 	registerCommands(): void {
 	}
 
@@ -44,6 +51,7 @@ export class ClientController extends EventEmitter implements IClientController 
 	}
 
 	handleKeyInput(ev: JQuery.Event): void {
+		console.log("Keys are getting hit and registered: " + ev.key);
 		if (ev.isDefaultPrevented) {
 			return; // Do nothing if the event was already processed
 		}
@@ -102,6 +110,7 @@ export class ClientController extends EventEmitter implements IClientController 
 	}
 
 	figuresHandedOut(): void {
+		console.log("called figuresHandedOut");
 		this._socket.emit("handedFiguresOut");
 	}
 

@@ -19,7 +19,7 @@ var CursorView = /** @class */ (function () {
     CursorView.prototype.update = function () {
         var material = this._viewObject.material;
         this._info.enabled ? material.color.setHex(this.color) : material.color.setHex(0xEDEDED);
-        this._viewObject.position.set(this._info.pos["0"] * this.SCALE, this._info.pos["1"] * this.SCALE, this._viewObject.position.z);
+        this._viewObject.position.set(this._info.pos["0"] * this.SCALE - 20, this._info.pos["1"] * this.SCALE - 20, this._viewObject.position.z);
     };
     CursorView.prototype.getViewComponent = function () {
         return this._viewObject;

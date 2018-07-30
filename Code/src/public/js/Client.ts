@@ -60,6 +60,7 @@ export class Client {
 		this._controller.injectModel(model);
 		this._viewBuilder.injectModel(model);
 		this._view = new View(this._viewBuilder, this._cursor.info());
+		this._controller.injectView(this._view);
 	}
 
 	messageToSelf(msg: string): void {
@@ -72,6 +73,10 @@ export class Client {
 		const messagePanel2 = $("#messagesOther ul");
 		this.removeOldMessages(messagePanel2);
 		messagePanel2.prepend($("<li class=\"list-group-item\">").text(msg));
+	}
+
+	setControl(): void {
+
 	}
 
 	removeOldMessages(msgPanel: JQuery<HTMLElement>) {

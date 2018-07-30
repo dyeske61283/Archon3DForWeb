@@ -66,9 +66,9 @@ var GameModel = /** @class */ (function () {
         this.notify(undefined, "handOutFigures");
     };
     GameModel.prototype.setPlayer = function (p, index) {
-        console.log("setPlayer called with: " + JSON.stringify(p) + " and " + index);
+        // console.log("setPlayer called with: " + JSON.stringify(p) + " and " + index);
         this._players[index] = p;
-        this.notify(this._players[index], "playerChanged");
+        this.notify(this._players[index], "playerChanged" + index);
     };
     GameModel.prototype.startTurns = function () {
         console.log("startTurns called");

@@ -15,6 +15,7 @@ var ClientController = /** @class */ (function (_super) {
     __extends(ClientController, _super);
     function ClientController(socket) {
         var _this = _super.call(this) || this;
+        _this._actionActive = false;
         _this._socket = socket;
         _this.registerEvents();
         _this.sendPlayerConnected();
@@ -23,7 +24,11 @@ var ClientController = /** @class */ (function (_super) {
     ClientController.prototype.registerEvents = function () {
         var btns = $("button");
         btns.click(this.handleInput.bind(this));
-        $(document.body).keyup(this.handleKeyInput);
+        $(document.body).keyup(this.handleKeyInput.bind(this));
+    };
+    ClientController.prototype.injectView = function (view) {
+        this._view = view;
+        this._view.on("figuresHandedOut", this.figuresHandedOut.bind(this));
     };
     ClientController.prototype.registerCommands = function () {
     };
@@ -97,6 +102,7 @@ var ClientController = /** @class */ (function (_super) {
         this._cursor = cursor;
     };
     ClientController.prototype.figuresHandedOut = function () {
+        console.log("called figuresHandedOut");
         this._socket.emit("handedFiguresOut");
     };
     return ClientController;

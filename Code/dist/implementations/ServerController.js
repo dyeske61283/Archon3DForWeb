@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var ServerController = /** @class */ (function () {
     function ServerController(model, p1, p2) {
+        this._playersFiguresReady = 0;
         this._model = model;
         this._p1 = p1;
         this._p2 = p2;
@@ -13,7 +14,8 @@ var ServerController = /** @class */ (function () {
         // this._p1.on("input", this.inputP1ToModel.bind(this));
         this._p1.once("settings", this.settingsToModel.bind(this));
         // this._p2.on("input", this.inputP2ToModel.bind(this));
-        this._p1.once("handedFiguresOut", this.figuresHandedOut.bind(this));
+        this._p1.on("handedFiguresOut", this.figuresHandedOut.bind(this));
+        this._p2.on("handedFiguresOut", this.figuresHandedOut.bind(this));
         this._p1.on("turnFinished", this.onFinishedTurn.bind(this));
     };
     ServerController.prototype.removeMsgListeners = function () {
@@ -31,7 +33,9 @@ var ServerController = /** @class */ (function () {
     };
     ServerController.prototype.figuresHandedOut = function () {
         // start game in giving control to one player
-        this._model.startTurns();
+        this._playersFiguresReady++;
+        if (this._playersFiguresReady === 2)
+            this._model.startTurns();
     };
     ServerController.prototype.settingsToModel = function (settings) {
         console.log("passing the settings event to the model: " + settings.colorFirst + " " + settings.color);

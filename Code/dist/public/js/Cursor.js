@@ -19,8 +19,10 @@ var Cursor = /** @class */ (function (_super) {
         return _this;
     }
     Cursor.prototype.move = function (x, y) {
-        this._info.pos["0"] += x;
-        this._info.pos["1"] += y;
+        if (this._info.enabled) {
+            this._info.pos["0"] += x;
+            this._info.pos["1"] += y;
+        }
     };
     Cursor.prototype.control = function (enable) {
         this._info.enabled = enable;
@@ -36,29 +38,31 @@ var Cursor = /** @class */ (function (_super) {
     };
     Cursor.prototype.action = function () {
         var _this = this;
-        // got a figure selected
-        if (this._info.selectedFigure) {
-            // if this is the same field and the magician got selected
-            // bring up spell list
-            switch (this._info.selectedFigure.name) {
-                case "Sorceress":
-                case "Wizard":
-                    this.emit("showSpells");
-                    break;
-                default:
-                    this._info.selectedFigure;
-            }
-            // if it is a regular figure, check
-            // possible movement and move the figure
-        }
-        // selected a spell => cast it aka send telegram to server
-        // no figure selected and the current field has a Figure => select Figure
-        if (!this._info.selectedFigure) {
-            this._info.figures.forEach(function (value) {
-                if (value.pos === _this._info.pos) {
-                    _this._info.selectedFigure = value;
+        if (this._info.enabled) {
+            // got a figure selected
+            if (this._info.selectedFigure) {
+                // if this is the same field and the magician got selected
+                // bring up spell list
+                switch (this._info.selectedFigure.name) {
+                    case "Sorceress":
+                    case "Wizard":
+                        this.emit("showSpells");
+                        break;
+                    default:
+                        this._info.selectedFigure;
                 }
-            });
+                // if it is a regular figure, check
+                // possible movement and move the figure
+            }
+            // selected a spell => cast it aka send telegram to server
+            // no figure selected and the current field has a Figure => select Figure
+            if (!this._info.selectedFigure) {
+                this._info.figures.forEach(function (value) {
+                    if (value.pos === _this._info.pos) {
+                        _this._info.selectedFigure = value;
+                    }
+                });
+            }
         }
     };
     return Cursor;

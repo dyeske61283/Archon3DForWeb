@@ -73,9 +73,11 @@ var ModelBuilder = /** @class */ (function () {
         // fill array with objects
         figures = JSON.parse(content.toString());
         actionInfos = JSON.parse(actionContent.toString());
-        figures.forEach(function (value, index) {
-            value.actionInfo = actionInfos[index];
-            value.pos = [index, 0];
+        figures.forEach(function (value) {
+            var index = actionInfos.filter(function (val) {
+                value.name === val.prototype;
+            });
+            value.actionInfo = index[0];
         });
         return figures;
     };
@@ -90,9 +92,11 @@ var ModelBuilder = /** @class */ (function () {
         // fill array with objects
         figures = JSON.parse(content.toString());
         actionInfos = JSON.parse(actionContent.toString());
-        figures.forEach(function (value, index) {
-            value.actionInfo = actionInfos[index];
-            value.pos = [index, 0];
+        figures.forEach(function (value) {
+            var index = actionInfos.filter(function (val) {
+                value.name === val.prototype;
+            });
+            value.actionInfo = index[0];
         });
         return figures;
     };

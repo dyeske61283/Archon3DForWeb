@@ -16,18 +16,19 @@ var ClientAdapter = /** @class */ (function () {
         this._socket.on("PlayersReady", this.playersReady.bind(this));
         this._socket.on("win", this.youWon.bind(this));
         this._socket.on("lose", this.youLost.bind(this));
-        this._socket.on("playerChanged", this.playerUpdate.bind(this));
+        this._socket.on("playerChanged0", this.playerUpdate.bind(this));
+        this._socket.on("playerChanged1", this.playerUpdate2.bind(this));
         this._socket.on("handOutFigures", this.handOutFigures.bind(this));
-        this._socket.on("startTurns", this.startTurns.bind(this));
+        this._socket.on("startTurn", this.startTurns.bind(this));
     };
     ClientAdapter.prototype.handOutFigures = function () {
         console.log("called handOutFigures()");
         this._client.getView().walkInFigures();
     };
     ClientAdapter.prototype.startTurns = function () {
-        console.log("called startTurns()");
         var pNum = this._client.getPlayerNumber() ? 1 : 0;
         var model = this._client.getModel();
+        console.log("called startTurns() with FigureColor " + model._players[pNum].figureColor + " and ColorFirst " + model._settings.colorFirst);
         if (model._players[pNum].figureColor === model._settings.colorFirst) {
             this.yourTurn();
         }
@@ -77,8 +78,14 @@ var ClientAdapter = /** @class */ (function () {
             this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
     };
     ClientAdapter.prototype.playerUpdate = function (info) {
-        console.log("Got updated PlayerInfo" + info);
+        console.log("Got updated PlayerInfo");
         this._playerUpdateCount++;
+        this._client.getModel()._players[0] = info;
+    };
+    ClientAdapter.prototype.playerUpdate2 = function (info) {
+        console.log("Got updated PlayerInfo");
+        this._playerUpdateCount++;
+        this._client.getModel()._players[1] = info;
     };
     ClientAdapter.prototype.youWon = function () {
         $("#alertWin").show();

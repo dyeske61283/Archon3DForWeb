@@ -101,9 +101,9 @@ export class GameModel implements IGameModel {
 		this.notify( undefined, "handOutFigures");
 	}
 	setPlayer(p: IPlayerInfo, index: number): void {
-		console.log("setPlayer called with: " + JSON.stringify(p) + " and " + index);
+		// console.log("setPlayer called with: " + JSON.stringify(p) + " and " + index);
 		this._players[index] = p;
-		this.notify(this._players[index], "playerChanged");
+		this.notify(this._players[index], "playerChanged" + index);
 	}
 
 	startTurns(): void {

@@ -37,6 +37,7 @@ var Client = /** @class */ (function () {
         this._controller.injectModel(model);
         this._viewBuilder.injectModel(model);
         this._view = new View_1.View(this._viewBuilder, this._cursor.info());
+        this._controller.injectView(this._view);
     };
     Client.prototype.messageToSelf = function (msg) {
         var messagePanel1 = $("#messagesOwn ul");
@@ -47,6 +48,8 @@ var Client = /** @class */ (function () {
         var messagePanel2 = $("#messagesOther ul");
         this.removeOldMessages(messagePanel2);
         messagePanel2.prepend($("<li class=\"list-group-item\">").text(msg));
+    };
+    Client.prototype.setControl = function () {
     };
     Client.prototype.removeOldMessages = function (msgPanel) {
         msgPanel.children().slice(1).remove();

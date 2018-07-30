@@ -81,9 +81,11 @@ export class ModelBuilder {
 		// fill array with objects
 		figures = JSON.parse(content.toString());
 		actionInfos = JSON.parse(actionContent.toString());
-		figures.forEach( (value, index) => {
-			value.actionInfo = actionInfos[index];
-			value.pos = [index, 0];
+		figures.forEach( (value) => {
+			const index = actionInfos.filter((val) => {
+				value.name === val.prototype;
+			});
+			value.actionInfo = index[0];
 		});
 		return figures;
 	}
@@ -100,9 +102,11 @@ export class ModelBuilder {
 		// fill array with objects
 		figures = JSON.parse(content.toString());
 		actionInfos = JSON.parse(actionContent.toString());
-		figures.forEach( (value, index) => {
-			value.actionInfo = actionInfos[index];
-			value.pos = [index, 0];
+		figures.forEach( (value) => {
+			const index = actionInfos.filter((val) => {
+				value.name === val.prototype;
+			});
+			value.actionInfo = index[0];
 		});
 		return figures;
 	}

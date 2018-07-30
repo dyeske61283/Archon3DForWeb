@@ -56225,6 +56225,7 @@ var Client = /** @class */ (function () {
         this._controller.injectModel(model);
         this._viewBuilder.injectModel(model);
         this._view = new View_1.View(this._viewBuilder, this._cursor.info());
+        this._controller.injectView(this._view);
     };
     Client.prototype.messageToSelf = function (msg) {
         var messagePanel1 = $("#messagesOwn ul");
@@ -56235,6 +56236,8 @@ var Client = /** @class */ (function () {
         var messagePanel2 = $("#messagesOther ul");
         this.removeOldMessages(messagePanel2);
         messagePanel2.prepend($("<li class=\"list-group-item\">").text(msg));
+    };
+    Client.prototype.setControl = function () {
     };
     Client.prototype.removeOldMessages = function (msgPanel) {
         msgPanel.children().slice(1).remove();
@@ -56262,18 +56265,19 @@ var ClientAdapter = /** @class */ (function () {
         this._socket.on("PlayersReady", this.playersReady.bind(this));
         this._socket.on("win", this.youWon.bind(this));
         this._socket.on("lose", this.youLost.bind(this));
-        this._socket.on("playerChanged", this.playerUpdate.bind(this));
+        this._socket.on("playerChanged0", this.playerUpdate.bind(this));
+        this._socket.on("playerChanged1", this.playerUpdate2.bind(this));
         this._socket.on("handOutFigures", this.handOutFigures.bind(this));
-        this._socket.on("startTurns", this.startTurns.bind(this));
+        this._socket.on("startTurn", this.startTurns.bind(this));
     };
     ClientAdapter.prototype.handOutFigures = function () {
         console.log("called handOutFigures()");
         this._client.getView().walkInFigures();
     };
     ClientAdapter.prototype.startTurns = function () {
-        console.log("called startTurns()");
         var pNum = this._client.getPlayerNumber() ? 1 : 0;
         var model = this._client.getModel();
+        console.log("called startTurns() with FigureColor " + model._players[pNum].figureColor + " and ColorFirst " + model._settings.colorFirst);
         if (model._players[pNum].figureColor === model._settings.colorFirst) {
             this.yourTurn();
         }
@@ -56323,8 +56327,14 @@ var ClientAdapter = /** @class */ (function () {
             this._client.messageToOther("Player 2 connected. Let's get started with the settings.");
     };
     ClientAdapter.prototype.playerUpdate = function (info) {
-        console.log("Got updated PlayerInfo" + info);
+        console.log("Got updated PlayerInfo");
         this._playerUpdateCount++;
+        this._client.getModel()._players[0] = info;
+    };
+    ClientAdapter.prototype.playerUpdate2 = function (info) {
+        console.log("Got updated PlayerInfo");
+        this._playerUpdateCount++;
+        this._client.getModel()._players[1] = info;
     };
     ClientAdapter.prototype.youWon = function () {
         $("#alertWin").show();
@@ -56365,6 +56375,7 @@ var ClientController = /** @class */ (function (_super) {
     __extends(ClientController, _super);
     function ClientController(socket) {
         var _this = _super.call(this) || this;
+        _this._actionActive = false;
         _this._socket = socket;
         _this.registerEvents();
         _this.sendPlayerConnected();
@@ -56373,7 +56384,11 @@ var ClientController = /** @class */ (function (_super) {
     ClientController.prototype.registerEvents = function () {
         var btns = $("button");
         btns.click(this.handleInput.bind(this));
-        $(document.body).keyup(this.handleKeyInput);
+        $(document.body).keyup(this.handleKeyInput.bind(this));
+    };
+    ClientController.prototype.injectView = function (view) {
+        this._view = view;
+        this._view.on("figuresHandedOut", this.figuresHandedOut.bind(this));
     };
     ClientController.prototype.registerCommands = function () {
     };
@@ -56447,6 +56462,7 @@ var ClientController = /** @class */ (function (_super) {
         this._cursor = cursor;
     };
     ClientController.prototype.figuresHandedOut = function () {
+        console.log("called figuresHandedOut");
         this._socket.emit("handedFiguresOut");
     };
     return ClientController;
@@ -56502,8 +56518,10 @@ var Cursor = /** @class */ (function (_super) {
         return _this;
     }
     Cursor.prototype.move = function (x, y) {
-        this._info.pos["0"] += x;
-        this._info.pos["1"] += y;
+        if (this._info.enabled) {
+            this._info.pos["0"] += x;
+            this._info.pos["1"] += y;
+        }
     };
     Cursor.prototype.control = function (enable) {
         this._info.enabled = enable;
@@ -56519,29 +56537,31 @@ var Cursor = /** @class */ (function (_super) {
     };
     Cursor.prototype.action = function () {
         var _this = this;
-        // got a figure selected
-        if (this._info.selectedFigure) {
-            // if this is the same field and the magician got selected
-            // bring up spell list
-            switch (this._info.selectedFigure.name) {
-                case "Sorceress":
-                case "Wizard":
-                    this.emit("showSpells");
-                    break;
-                default:
-                    this._info.selectedFigure;
-            }
-            // if it is a regular figure, check
-            // possible movement and move the figure
-        }
-        // selected a spell => cast it aka send telegram to server
-        // no figure selected and the current field has a Figure => select Figure
-        if (!this._info.selectedFigure) {
-            this._info.figures.forEach(function (value) {
-                if (value.pos === _this._info.pos) {
-                    _this._info.selectedFigure = value;
+        if (this._info.enabled) {
+            // got a figure selected
+            if (this._info.selectedFigure) {
+                // if this is the same field and the magician got selected
+                // bring up spell list
+                switch (this._info.selectedFigure.name) {
+                    case "Sorceress":
+                    case "Wizard":
+                        this.emit("showSpells");
+                        break;
+                    default:
+                        this._info.selectedFigure;
                 }
-            });
+                // if it is a regular figure, check
+                // possible movement and move the figure
+            }
+            // selected a spell => cast it aka send telegram to server
+            // no figure selected and the current field has a Figure => select Figure
+            if (!this._info.selectedFigure) {
+                this._info.figures.forEach(function (value) {
+                    if (value.pos === _this._info.pos) {
+                        _this._info.selectedFigure = value;
+                    }
+                });
+            }
         }
     };
     return Cursor;
@@ -56570,7 +56590,7 @@ var CursorView = /** @class */ (function () {
     CursorView.prototype.update = function () {
         var material = this._viewObject.material;
         this._info.enabled ? material.color.setHex(this.color) : material.color.setHex(0xEDEDED);
-        this._viewObject.position.set(this._info.pos["0"] * this.SCALE, this._info.pos["1"] * this.SCALE, this._viewObject.position.z);
+        this._viewObject.position.set(this._info.pos["0"] * this.SCALE - 20, this._info.pos["1"] * this.SCALE - 20, this._viewObject.position.z);
     };
     CursorView.prototype.getViewComponent = function () {
         return this._viewObject;
@@ -56602,7 +56622,12 @@ var PawnView = /** @class */ (function () {
         figureGeo.rotateX(Math.PI / 2);
         box.rotateZ(Math.PI / 4);
         box.rotateY(Math.PI / 4);
-        this._figureMaterial = new THREE.MeshNormalMaterial();
+        if (this._info.color) {
+            this._figureMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xbfc79c) });
+        }
+        else {
+            this._figureMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(0x303030) });
+        }
         this._obj = new THREE.Mesh(box, this._figureMaterial);
         this._obj.position.set(-0.3, 0, 2.5);
         this._obj.updateMatrix();
@@ -56632,32 +56657,48 @@ exports.PawnView = PawnView;
 
 },{"three":49}],60:[function(require,module,exports){
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
-var View = /** @class */ (function () {
+var events_1 = require("events");
+var View = /** @class */ (function (_super) {
+    __extends(View, _super);
     function View(builder, info) {
-        this._activeScene = undefined;
-        this._domElement = "#game-holder";
-        this._canvas = "myCanvas";
-        this._scaling = 5;
-        this._backgroundColor = new THREE.Color(0xfff6e6);
-        this.setupRenderer();
-        this.update = this.update.bind(this);
-        this.initCamera();
-        this.initScene();
-        this.initLighting();
-        this._scene.add(this._camera);
-        this._scene.add(this._lighting);
-        this._board = builder.buildBoard();
-        this._scene.add(this._board.getViewComponent());
-        this._cursor = builder.buildCursor(info);
-        this._scene.add(this._cursor.getViewComponent());
-        this._whiteFigures = builder.buildWhiteFigures();
-        this._blackFigures = builder.buildBlackFigures();
+        var _this = _super.call(this) || this;
+        _this._activeScene = undefined;
+        _this._domElement = "#game-holder";
+        _this._canvas = "myCanvas";
+        _this._scaling = 5;
+        _this._figureWalkIndex = 0;
+        _this._figuresHandedOut = false;
+        _this._backgroundColor = new THREE.Color(0xfff6e6);
+        _this.setupRenderer();
+        _this.update = _this.update.bind(_this);
+        _this.initCamera();
+        _this.initScene();
+        _this.initLighting();
+        _this._scene.add(_this._camera);
+        _this._scene.add(_this._lighting);
+        _this._board = builder.buildBoard();
+        _this._scene.add(_this._board.getViewComponent());
+        _this._cursor = builder.buildCursor(info);
+        _this._scene.add(_this._cursor.getViewComponent());
+        _this._whiteFigures = builder.buildWhiteFigures();
+        _this._blackFigures = builder.buildBlackFigures();
         // install resize handling
-        window.addEventListener("resize", this.handleResize.bind(this), false);
-        this.activateScene();
-        this.update();
+        window.addEventListener("resize", _this.handleResize.bind(_this), false);
+        _this.activateScene();
+        _this.update();
+        return _this;
     }
     View.prototype.update = function () {
         requestAnimationFrame(this.update);
@@ -56666,7 +56707,8 @@ var View = /** @class */ (function () {
         if (this._activeScene === this._sceneAction) {
         }
         else {
-            this._cursor.update();
+            if (this._cursor.getInfoObject().enabled)
+                this._cursor.update();
         }
     };
     View.prototype.initCamera = function () {
@@ -56689,10 +56731,6 @@ var View = /** @class */ (function () {
         // this._renderer.setClearColor();
         // $(this._domElement).append(this._renderer.domElement);
     };
-    View.prototype.initBlackFigures = function () {
-    };
-    View.prototype.initWhiteFigures = function () {
-    };
     View.prototype.handleResize = function () {
         var container = $(this._domElement);
         this._camera.aspect = container.width() / container.width();
@@ -56713,23 +56751,26 @@ var View = /** @class */ (function () {
     View.prototype.deactivateActionScene = function () {
         this._activeScene = undefined;
     };
-    View.prototype.walkInFigures = function () {
-        var _this = this;
-        this._blackFigures.forEach(function (value, index) {
-            setTimeout(_this.addFigure.bind(_this), 300, value);
-        });
-        this._whiteFigures.forEach(function (value, index) {
-            setTimeout(_this.addFigure.bind(_this), 300, value);
-        });
+    View.prototype.figuresHandedOut = function () {
+        return this._figuresHandedOut;
     };
-    View.prototype.addFigure = function (value) {
-        this._scene.add(value.getViewComponent());
+    View.prototype.walkInFigures = function () {
+        if (this._figureWalkIndex < 18) {
+            this._scene.add(this._blackFigures[this._figureWalkIndex].getViewComponent());
+            this._scene.add(this._whiteFigures[this._figureWalkIndex].getViewComponent());
+            this._figureWalkIndex++;
+            setTimeout(this.walkInFigures.bind(this), 300);
+        }
+        else {
+            this._figuresHandedOut = true;
+            this.emit("figuresHandedOut");
+        }
     };
     return View;
-}());
+}(events_1.EventEmitter));
 exports.View = View;
 
-},{"three":49}],61:[function(require,module,exports){
+},{"events":26,"three":49}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CursorView_1 = require("./CursorView");

@@ -25,9 +25,10 @@ export class ClientAdapter implements IClientAdapter {
 		this._socket.on("PlayersReady", this.playersReady.bind(this));
 		this._socket.on("win", this.youWon.bind(this));
 		this._socket.on("lose", this.youLost.bind(this));
-		this._socket.on("playerChanged", this.playerUpdate.bind(this));
+		this._socket.on("playerChanged0", this.playerUpdate.bind(this));
+		this._socket.on("playerChanged1", this.playerUpdate2.bind(this));
 		this._socket.on("handOutFigures", this.handOutFigures.bind(this));
-		this._socket.on("startTurns", this.startTurns.bind(this));
+		this._socket.on("startTurn", this.startTurns.bind(this));
 	}
 
 	handOutFigures(): void {
@@ -36,9 +37,9 @@ export class ClientAdapter implements IClientAdapter {
 	}
 
 	startTurns(): void {
-		console.log("called startTurns()");
 		const pNum = this._client.getPlayerNumber() ? 1 : 0;
 		const model = this._client.getModel();
+		console.log("called startTurns() with FigureColor " + model._players[pNum].figureColor + " and ColorFirst " + model._settings.colorFirst);
 		if (model._players[pNum].figureColor === model._settings.colorFirst) {
 			this.yourTurn();
 		} else {
@@ -95,8 +96,15 @@ export class ClientAdapter implements IClientAdapter {
 	}
 
 	private playerUpdate(info: IPlayerInfo) {
-		console.log("Got updated PlayerInfo" + info);
+		console.log("Got updated PlayerInfo");
 		this._playerUpdateCount++;
+		this._client.getModel()._players[0] = info;
+	}
+
+	private playerUpdate2(info: IPlayerInfo) {
+		console.log("Got updated PlayerInfo");
+		this._playerUpdateCount++;
+		this._client.getModel()._players[1] = info;
 	}
 
 	private youWon() {

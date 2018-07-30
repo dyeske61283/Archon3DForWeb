@@ -5,8 +5,7 @@ import * as THREE from "three";
 export class PawnView implements IView {
 	private _info: IFigureInfo;
 	private _obj: THREE.Mesh;
-	private _figureMaterial: THREE.MeshNormalMaterial;
-	private _material: THREE.MeshBasicMaterial;
+	private _figureMaterial: THREE.MeshBasicMaterial;
 	private readonly SCALE = 5;
 
 	constructor(info: IFigureInfo) {
@@ -20,7 +19,11 @@ export class PawnView implements IView {
 		figureGeo.rotateX(Math.PI / 2);
 		box.rotateZ(Math.PI / 4);
 		box.rotateY(Math.PI / 4);
-		this._figureMaterial = new THREE.MeshNormalMaterial();
+		if (this._info.color) {
+			this._figureMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color(0xbfc79c)});
+		} else {
+			this._figureMaterial = new THREE.MeshBasicMaterial({color: new THREE.Color(0x303030)});
+		}
 		this._obj = new THREE.Mesh(box, this._figureMaterial);
 		this._obj.position.set(-0.3, 0, 2.5);
 		this._obj.updateMatrix();
