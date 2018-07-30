@@ -5,10 +5,10 @@ describe("Testing the correct build of the GameModelBuilder", () => {
 		const builder = new ModelBuilder();
 		const blackFigures = builder.buildFigureBlack();
 		expect(blackFigures).toBeDefined();
-		expect(blackFigures).toHaveLength(8);
+		expect(blackFigures).toHaveLength(18);
 		const whiteFigures = builder.buildFiguresWhite();
 		expect(whiteFigures).toBeDefined();
-		expect(whiteFigures).toHaveLength(8);
+		expect(whiteFigures).toHaveLength(18);
 		console.log(blackFigures);
 		console.log(whiteFigures);
 		const elementals = builder.buildElementals();

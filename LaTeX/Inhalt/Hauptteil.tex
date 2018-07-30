@@ -285,6 +285,8 @@ Außerdem sind die Abhängigkeiten zu Jest und Chai in Abbildung \ref{fig:Compon
 Bei der Implementierung wurde sich zunächst mit den einzelnen Technologien aus der Grafik \ref{fig:ComponentDependencies} vertraut gemacht. Dafür wurden verschiedene Beispiele herangezogen und die Dokumentation, sowie \ggf vorhandene Getting-Started-Guides durchgearbeitet.\footnote{So zum Beispiel für Socket.IO: \url{https://socket.io/get-started/chat/}}
 Anschließend wurde die Entwicklungsumgebung aufgesetzt auf Basis eines Starter-Projektes für Node.js-Projekte mit Typescript und Express.\cite{typescript_node_starter} Dabei wurde das Starter-Projekt so angepasst, dass die Applikation auf das Bereitstellen von statischen Webseiten spezialisiert ist. Einige Skripte zum Erstellen, Debuggen, Bündeln und Minimieren der Applikation wurden angepasst \bzw hinzugefügt. Der Aufbau des Projektes wird im Folgenden näher erläutert.
 
+\subsubsection{Projektaufbau}
+
 \begin{figure}[htp]
 	\centering
 	\captionsetup{justification=centering}
@@ -336,6 +338,10 @@ Alle weiteren Dateien mit der Endung \emph{.json} aus Abbildung \ref{fig:RootDir
 \stepcounter{footnote}\footnotetext{Graphviz ist eine freie Visualisierungssoftware für Graphen und Diagramme jeglicher Art}
 \stepcounter{footnote}\footnotetext{nodemon -- Ist eine Applikation, die Dateiänderungen im Projektverzeichnis überwacht und daraufhin die Node.js-Umgebung neustartet}
 
+\subsubsection{Anfänge der Entwicklung}
+
+
+
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
 
@@ -344,7 +350,19 @@ Alle weiteren Dateien mit der Endung \emph{.json} aus Abbildung \ref{fig:RootDir
 \subsection{Überprüfung der Software mit Unit-Tests}
 \label{subsec:unittests}\index{Unittests}
 
-\emph{Hier wird dann die breite der Unit-Tests gezeigt, deren Anzahl und die Beschränkungen, also Code-Abdeckung. Anschließend ein Ergebnis-Log von einem Lauf auf dem finalen Stand.}
+Bei der Erstellung von Unittests\footnote{Unittests -- deutsch: Modultests werden benutzt um einzelne Komponenten auf Fehlerfreiheit zu überprüfen} wurde sich auf Server-Komponenten beschränkt. Es wurden Tests für die korrekte Erzeugung und das Hochlaufen der Server-Komponente geschrieben. Auch wurden Tests für die Initialisierung der Socket-Kommunikation geschrieben. Die Abbildung \ref{fig:ComTest} zeigt einen entsprechenden Testfall.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.8\textwidth]{socketConnectionTest}
+	\caption[Socket-Test]{Ein Testfall zur Kommunikation}
+	\label{fig:ComTest}
+\end{figure}
+
+\noindent Desweiteren wurde durch Unittests sichergestellt, dass der Initialzustand der Datenmodells richtig erzeugt wird. Dadurch wurden wesentliche Fehler im Grundbetrieb ausgeschlossen und eine möglichst fehlerfreie Server-Komponente erzeugt. Durch die erfolgreichen Unittests des Datenmodells konnten Initialisierungsfehler ausgeschlossen werden. Dies ist besonders wichtig, da auf Basis des initialen Datenmodells auch der Client aufgebaut wird.
+
+Die Benutzung von Unittests hat stark zur Erfüllung der Anforderungen beigetragen, indem die Fehlerfreiheit essentieller Komponenten festgestellt wurde und nötige Änderungen frühzeitig erkannt wurden.
 
 \subsection{Erfüllung der Anforderungen}
 \label{subsec:erfullung_anforderungen}\index{Erfüllung}

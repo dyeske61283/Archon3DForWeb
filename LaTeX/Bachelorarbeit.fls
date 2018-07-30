@@ -637,6 +637,9 @@ INPUT ./Grafiken/RootDirectory.png
 INPUT Grafiken/package.png
 INPUT ./Grafiken/package.png
 INPUT ./Grafiken/package.png
+INPUT Grafiken/socketConnectionTest.png
+INPUT ./Grafiken/socketConnectionTest.png
+INPUT ./Grafiken/socketConnectionTest.png
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex
