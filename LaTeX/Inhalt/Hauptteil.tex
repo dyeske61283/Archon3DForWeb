@@ -163,19 +163,20 @@ Durch die bisherigen Ausarbeitungen steht fest, dass HTML, CSS und JavaScript zu
 Die Liste an Webservern ist ähnlich groß, wie die von Programmiersprachen. Viele grundlegende Sprachen, wie die .NET-Umgebung, C++, PHP \ua unterstützen dabei über Bibliotheken oder Module auch den Websocket-Standard. Um die Entwicklung möglichst aufwandsarm zu gestalten und schnelle Fortschritte zu ermöglichen wurde sich in diesem Fall auf die node.js-Umgebung festgelegt, da hier der Server mittels JavaScript programmiert wird, was das zusätzliche Erlernen einer weiteren Programmiersprache und damit verbundene Kontext-Wechsel und Einarbeitungen in Eigenheiten, Bibliotheken und Programmiertechniken erspart.\\
 Um die Entwicklung weiterhin zu beschleunigen wurde das Framework "Express" verwendet, welches es erlaubt auf einfachstem Weg über Routing-Mechanismen Webseiten-Anfragen eines Webservers zu beantworten.\\
 Als Hilfsmittel für den Websocket-Standard wurde sich für Socket.io entschieden. Socket.io ist eine Library, welche Websockets wrapped und den Umgang stark vereinfacht. Socket.io erlaubt dabei eine stark Event-basierte Kommunikation, was dem Event-Emitter-Prinzip der node.js-Umgebung stark ähnelt und einen gleich Programmierstil ermöglicht. Die Library bietet ebenfalls einen Clientseitigen Teil an, welcher sich mit entsprechenden Optionen automatisch mit der Basis-Route des Webserver verbindet.\\
-Für die Darstellung, also die Implementierung des WebGL-Standard wird three.js genutzt. three.js ist eine stark ausgebaute und weit verbreitete Library für Hochleistungs-3D-Entwicklung im Webbrowser. three.js besitzt weiterhin eine umfangreiche Dokumentation und eine sehr große Auswahl an Beispiel-Applikationen, welche den Einstieg und auch den weiteren Entwicklungsprozess beschleunigen.
-\todo{Hier fehlt wohl noch was}\\
-Die node.js-Umgebung erlaubt es sogenannte Dev-Dependencies einzufügen, also Abhängigkeiten oder Bibliotheken, welche nur im Entwicklungsprozess benutzt werden und nicht in der Produktionsversion zu finden sind. Das folgende Kapitel befasst sich daher mit Dev-Dependencies und anderen Hilftmitteln und Vereinfachungen für die Implementierung.
+Für die Darstellung, also die Implementierung des WebGL-Standard wird three.js genutzt. three.js ist eine stark ausgebaute und weit verbreitete Library für Hochleistungs-3D-Entwicklung im Webbrowser. three.js besitzt weiterhin eine umfangreiche Dokumentation und eine sehr große Auswahl an Beispiel-Applikationen, welche den Einstieg und auch den weiteren Entwicklungsprozess beschleunigen. three.js arbeitet dabei mit einer Szene für die Zusammenfassung aller graphischen Objekte. Ein Kamera-Objekt legt den zu sehenden Ausschnitt der Szene fest und ein Renderer-Objekt zeichnet die Szene dann auf ein HTML-Canvas-Element. Dabei wird der bereits erwähnte WebGL-Standard als Kontext des Canvas benutzt. Um graphische Objekte zu erzeugen können dabei entweder Modelle mit populären Werkzeugen wie "Blender" oder "Maya" erzeugt und anschließend importiert werden, oder auch aus vorhandenen, primitiven Formen gebildet werden. Graphische Objekte bestehen dabei immer aus zwei Komponenten: Der Form (Geometry) und einem Material. Die Form gibt dabei die Eigenschaften wie Position, Skalierung und eben die einzelnen Punkte im 3D-Raum vor. Das Material entscheidet über die Interaktion mit Lichtquellen, sowie Farbe und Reflexion. Ein Objekt muss dabei nicht aus einem einzelnen Material bestehen. Außerdem können auch Bilder auf die Oberfläche von Formen projiziert werden. Da viele Projekte, die mit three.js implementiert wurden, frei verfügbar sind, findet man außerdem viele Beispielimplementierung, die auch produktiv im Einsatz sind.
+
+Die node.js-Umgebung erlaubt es außerdem sogenannte Dev-Dependencies einzufügen, also Abhängigkeiten oder Bibliotheken, welche nur im Entwicklungsprozess benutzt werden und nicht in der Produktionsversion zu finden sind. Das folgende Kapitel befasst sich mit diesen Dev-Dependencies und anderen Hilftmitteln und Vereinfachungen für die Implementierung.
 \subsection{Hilfsmittel und Vereinfachungen}
 \label{subsec:Hilfsmittel}\index{Hilfsmittel}
-Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScript ist ein sogenanntes Superset zu JavaScript: Jedes valide JavaScript-Programm ist also auch ein valides TypeScript-Programm. TypeScript wird direkt zu JavaScript mittels des Compilers tsc kompiliert. TypeScript fügt zu normalem JavaScript-Code statische Typen hinzu, sodass eine statische Analyse des Codes zur Kompilierzeit auf Fehler erfolgen kann, was die Sicherheit von Schnittstellen und Funktionsaufrufen erhöht. Zu TypeScript gehören als weitere Dev-Dependency die zugehörigen Typen-Deklarationen für bereits existierende JavaScript-Bibliotheken, sodass diese auch im TypeScript korrekt erkannt und von einer IDE\footnote{Integrated Development Environment} \bzw einem Code-Editor mit Auto-Vervollständigung genutzt werden können.
+Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScript ist ein sogenanntes Superset zu JavaScript: Jedes valide JavaScript-Programm ist also auch ein valides TypeScript-Programm. TypeScript wird direkt zu JavaScript mittels des Compilers tsc kompiliert. TypeScript fügt zu normalem JavaScript-Code statische Typen hinzu, sodass eine statische Analyse des Codes zur Kompilierzeit auf Fehler erfolgen kann, was die Sicherheit von Schnittstellen und Funktionsaufrufen erhöht. Zu TypeScript gehören als weitere Dev-Dependency die zugehörigen Typen-Deklarationen für bereits existierende JavaScript-Bibliotheken, sodass diese auch im TypeScript korrekt erkannt und von einer IDE\footnote{Integrated Development Environment -- Ein Entwicklungswerkzeug, dass die Aufgaben der Softwareentwicklung ohne Kontextwechsel erlaubt.} \bzw einem Code-Editor mit Auto-Vervollständigung genutzt werden können.
 
 \subsection{Architektur}
 \label{subsec:Architektur}\index{Architektur}
 The goal of every video game is to present the user(s) with a situation, accept their input, interpret those signals into actions, and calculate a new situation resulting from those acts. Games are constantly looping through these stages, over and over, until some end condition occurs (such as winning, losing, or exiting to go to bed). Not surprisingly, this pattern corresponds to how a game engine is programmed. The specifics depend on the game. \cite{https://developer.mozilla.org/en-us/docs/games/anatomy}
 
-Dieser Abschnitt enthält eine klassische objektorientiere Analyse des Spiels, sowie der Anforderungen aus der technologischen Sichtweise. Aus dieser Analyse soll dann eine Software-Architektur entstehen, die alle Anforderungen vereint und einen möglichst gut wartbaren und erweiterbaren Rahmen darstellt.\\
-Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass grob die Beziehungen einzelner Elemente aufzeigt, ohne sich direkt auf Code-Ebene zu bewegen. Auch diese Analyse soll dem Muster folgen. 
+Der obige Paragraph sagt sehr genau aus, wie Spiele im allgemeinen aufgebaut sein sollten. Auch die Architektur dieser Realisierung orientiert sich daher an dem EVA\footnote{EVA -- Eingang-Verarbeitung-Ausgang}-Ansatz. 
+Die Architektur folgt außerdem den Prinzipien einer objektorientieren Analyse. Aus dieser Analyse soll dann eine Software-Architektur entstehen, die alle Anforderungen vereint und einen möglichst gut wartbaren und erweiterbaren Rahmen darstellt.\\
+Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass die Beziehungen einzelner Elemente aufzeigt, ohne sich direkt auf Code-Ebene zu bewegen. 
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
@@ -183,7 +184,7 @@ Am Anfang einer objektorientieren Analyse steht meist ein Begriffsmodell, dass g
 	\caption[Begriffsmodell]{Begriffsmodell}
 	\label{fig:Begriffsmodell}
 \end{figure}
-Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was aber den Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Abschnitte sollen daher den Entwurf der generellen Systemarchitektur näher erläutern. Dabei wird, soweit möglich, noch nicht auf externe Abhängigkeiten eingegangen und die Architektur auch möglichst frei von konkreten Festlegungen auf Technologien und Frameworks gehalten. Am Ende dieses Kapitels werden die technologischen Abhängigkeiten aufgezeigt und mit in die Architektur integriert.
+Die Abbildung \ref{fig:Begriffsmodell} stellt also die im Kapitel \ref{subsec:spiel_analyse} dargestellten Inhalte grafisch dar, was den Entwurf und die Zusammenhänge von Klassen und Objekten im Folgenden stark erleichtert. Das Begriffsmodel ist nur für die reine Spielelogik gültig und beinhaltet noch keinerlei Ansätze für den technologischen Aspekt der Architektur! Die folgenden Abschnitte sollen daher den Entwurf der generellen Systemarchitektur näher erläutern. Dabei wird, soweit möglich, noch nicht auf externe Abhängigkeiten eingegangen und die Architektur auch möglichst frei von konkreten Festlegungen auf Technologien und Frameworks gehalten. Am Ende dieses Kapitels werden die technologischen Abhängigkeiten aufgezeigt und mit in die Architektur integriert. Dieses Vorgehen erhöht die Übersicht stark und vereinfach die einzelnen Teilmodelle stark.
 
 \begin{figure}[htp]
 	\centering
@@ -193,8 +194,9 @@ Die Abbildung \ref{fig:Begriffsmodell} stellt lediglich die im Kapitel \ref{subs
 	\label{fig:Client-Server-Architektur}
 \end{figure}
 Die Umsetzung mittels Webtechnologien verlangt es zwei generelle Komponenten zu entwickeln: Einen Webserver, sowie Clients welche sich mit dem Server verbinden.
-Der Webserver und die Clients müssen dabei in beide Richtungen kommunizieren.
-Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist dann ein Ansatz mit dem Model-View-Controller-Modell entstanden, um Abhängigkeiten zu reduzieren und Funktionalitäten zu kapseln. Das Modell sieht dabei vor die wesentlichen Aufgaben von Applikationen so aufzutrennen, dass die Ansicht, in den meisten Fällen eine graphische Benutzeroberfläche, möglichst unabhängig von den zugrunde liegenden Daten, also dem (Daten-)Modell ist. Dazu wird eine Klasse zur Kommunikation, der Controller, von Daten und Ansicht erstellt. Der Controller sorgt dabei dafür, dass Kommandos vom Benutzer, also in der Ansicht, an die Daten und dazugehörige Operationen weitergeleitet werden.
+Der Webserver und die Clients müssen dabei in beide Richtungen kommunizieren, was schematisch in Abbildung \ref{fig:Client-Server-Architektur} aufgezeigt ist.
+
+\noindent Da die Darstellung des Spiels nur in den Clients erfolgt und im Server sich eine Datenhaltung mit entsprechenden Operationen zur Manipulation befindet, bietet sich ein Ansatz nach dem Model-View-Controller-Muster (MVC) an. Bei MVC handelt es sich um ein klassisches Entwurfsmuster der Softwareentwicklung, dass Abhängigkeiten reduzieren und Funktionalitäten kapseln soll. Das Entwurfsmuster sieht dabei vor die wesentlichen Aufgaben von Applikationen so aufzutrennen, dass die Ansicht, in den meisten Fällen eine graphische Benutzeroberfläche, möglichst unabhängig von den zugrunde liegenden Daten, also dem (Daten-)Modell ist. Dazu wird eine Klasse zur Kommunikation, der Controller, von Daten und Ansicht erstellt. Der Controller sorgt dabei dafür, dass Kommandos vom Benutzer, also in der Ansicht, an die Daten und dazugehörige Operationen weitergeleitet werden.
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
@@ -202,9 +204,10 @@ Aus den Kommunikationsanforderungen und der Aufteilung auf Client und Server ist
 	\caption[MVC]{Darstellung der MVC-Architektur mit Aufgaben}
 	\label{fig:MVC}
 \end{figure}
-Hier wurde eine klassische Interpretierung des MVC-Musters gewählt, bei der der Controller lediglich Informationen aus Events der View verarbeitet und an das Modell weiterleitet. Für den zweiten Kommunikationsweg vom Modell zur View wurde eine separat zu implementierende Komponente gewählt: Der Adapter.
+Hier wurde eine klassische Interpretierung des MVC-Musters gewählt, bei der der Controller lediglich Informationen aus Events der View verarbeitet und an das Modell weiterleitet. Für den zweiten Kommunikationsweg, vom Modell zur View, wurde eine separat zu implementierende Komponente gewählt: Der Adapter. Die Abbildung \ref{fig:MVC} zeigt die einzelnen Komponenten und die Aufgaben der Kommunikationskomponenten auf.
 In der Mitte der Abbildung \ref{fig:MVC} ist eine Trennlinie zu erkennen. Sie soll die physische, sowie logische Grenze zwischen der Server- und der Client-Komponente repräsentieren. Auch zu erkennen ist, dass Controller und Adapter über diese Grenzen hinweg operieren müssen. Die View befindet sich auf dem Client und bekommt Benutzereingaben und soll möglichst aktuelle Daten aus dem Modell zur Anzeige bringen. Währenddessen befindet sich das Datenmodell des Spiels auf dem Server und implementiert die Regeln den Spiels, die für eine Integrität der Daten sorgen. Nun gibt es die Möglichkeit, dass der Controller komplett auf dem Client implementiert wird. Dies bringt den Vorteil, dass eine einzige Klasse an einer Position im Code hat, die für einen Kommunikationsweg zuständig ist. Der große Nachteil kommt jedoch auf der Server-Seite zum tragen: Hier muss das Modell stark an die Nachrichten des Controllers binden und Kommunikation im Datenmodell durchführen.  
-Wenn dagegen der geteilte Ansatz eines Controller-Senders und -Empfängers gewählt wird, bleiben Nachrichten, also Kommunikation, auch in Klassen, die für Kommunikation zuständig sind und müssen nicht in anderen Klasse verarbeitet werden. Als Nachteil dieses Ansatzes ergibt sich der erhöhte Aufwand bei der Erstellung einer zusätzlichen Klasse. Die Vor- und Nachteile der Ansätze für den Entwurf des Controllers sind vollständig übertragbar auf den Adapter. Es wurde sich im Folgenden für den Ansatz der geteilten Controller und Adapter entschieden, sodass sich 4 Klassen zur Kommunikation zwischen Ansicht und Datenmodell ergeben: Jeweils ein Controller und ein Adapter auf Server- \bzw
+Wenn dagegen der geteilte Ansatz eines Controller-Senders und -Empfängers gewählt wird, bleiben Nachrichten, also Kommunikation, auch in Klassen, die für Kommunikation zuständig sind und müssen nicht in anderen Klasse verarbeitet werden. Als Nachteil dieses Ansatzes ergibt sich der erhöhte Aufwand bei der Erstellung einer zusätzlichen Klasse. Die Vor- und Nachteile der Ansätze für den Entwurf des Controllers sind vollständig übertragbar auf den Adapter.\\
+Es wurde sich im Folgenden für den Ansatz der geteilten Controller und Adapter entschieden, sodass sich 4 Klassen zur Kommunikation zwischen Ansicht und Datenmodell ergeben: Jeweils ein Controller und ein Adapter auf Server- \bzw
 Client-Seite. Die Aufgaben der Klassen sind bereits in Abbildung \ref{fig:MVC} an den Pfeilen abzulesen.\\
 Aus den Anpassungen für die Kommunikation ergibt sich damit der Aufbau aus Abbildung \ref{fig:ArchitekturSplit}.
 \begin{figure}[htp]
@@ -235,7 +238,7 @@ Die Abbildung \ref{fig:InfoModel} zeigt die gewählten Daten-Schnittstellen für
 	\caption[IGameModel]{Daten-Schnittstelle IGameModel}
 	\label{fig:IGameModel}
 \end{figure}
-\noindent Zu jeder Daten-Schnittstelle fehlen jetzt noch die passenden Klassen für Anzeige und Logik um die wesentlichen Teile der Grobarchitektur fertigzustellen. Zu jeder Info-Schnittstelle gibt es also zwei weitere Klassen \zB zur IBoardInfo-Schnittstelle die Klassen Board für Spiellogik im Server und BoardView zur Anzeige im Client. Die Komponenten View und Modell werden im Folgenden nacheinander vorgestellt.
+\noindent Zu jeder Daten-Schnittstelle müssen jetzt die passenden Klassen für Anzeige und Logik entworfen werden um die wesentlichen Teile der Grobarchitektur fertigzustellen. Zu jeder Info-Schnittstelle gibt es also zwei weitere Klassen \zB zur IBoardInfo-Schnittstelle die Klassen Board für Spiellogik im Server und BoardView zur Anzeige im Client. Die Komponenten View und Modell werden im Folgenden nacheinander vorgestellt.
 \clearpage
 \subsubsection{View}
 \begin{figure}[htp]
@@ -259,10 +262,14 @@ Desweiteren besitzen alle Anzeigeklassen eine Referenz auf ihr Informationsobjek
 	\label{fig:ClassesModell}
 \end{figure}
 
-\noindent Das Modell wurde sehr ähnlich zur View strukturiert. Die Klasse "ModelBuilder" ist für die korrekte Erzeugung eines Initialzustandes des Datenmodells zuständig. Während die Klasse "GameModel" die Erzeugung der Logik-Objekte selbst übernimmt, da diese keine aufwändigen Initialisierungsroutinen besitzen. Jedes Logik-Objekt kann auf sein Informationsobjekt zugreifen und besitzt Methoden zum Schreiben der Daten. Die Methoden sind dabei zuständig für das Überprüfen von Spielregeln, wie die Reichweite von Figuren oder das Ändern der Farbe der Felder auf dem Spielbrett.\\
-An dieser Stelle sei noch die Implementierung des Beobachter-Musters zu erwähnen. Die Klasse "GameModel" muss den Adapter nach der Änderung von Daten informieren können, sodass der Adapter die geänderten Daten an den Client senden kann. Dafür trägt sich der Adapter in die Liste der Beobachter im "GameModel" ein und wird anschließend mittels der "notify"-Methode vom "GameModel" darüber benachrichtigt welche Daten sich geändert haben und kann die Änderungen einfach weiterleiten.
+\noindent Das Modell wurde sehr ähnlich zur View strukturiert. Die Klasse "ModelBuilder" ist für die korrekte Erzeugung eines Initialzustandes des Datenmodells zuständig. Während die Klasse "GameModel" die Erzeugung der Logik-Objekte selbst übernimmt, da diese keine aufwändigen Initialisierungsroutinen besitzen. Jedes Logik-Objekt kann auf sein Informationsobjekt zugreifen und besitzt Methoden zum Schreiben der Daten. Die Methoden sind dabei zuständig für das Überprüfen von Spielregeln, wie die Reichweite von Figuren oder das Ändern der Farbe der Felder auf dem Spielbrett.
 
-Da nun alle wesentlichen Komponenten des System beschrieben wurden, bleibt nun lediglich die Ansicht der technologischen Abhängigkeiten zu zeigen.
+An dieser Stelle sei noch die Benutzung des Beobachter-Musters zu erwähnen. Die Klasse "GameModel" muss den Adapter nach der Änderung von Daten informieren können, sodass der Adapter die geänderten Daten an den Client senden kann. Dafür trägt sich der Adapter in die Liste der Beobachter im "GameModel" ein und wird anschließend mittels der "notify"-Methode vom "GameModel" darüber benachrichtigt welche Daten sich geändert haben und kann die Änderungen einfach weiterleiten.
+
+Da nun alle wesentlichen Komponenten des System und deren Aufbau beschrieben wurden, bleibt nun die Ansicht der technologischen Abhängigkeiten zu zeigen.\\
+Zu sehen ist, dass die erwähnten Dev-Dependencies der Node.js-Umgebung auch im Client benutzt werden. Dies wird durch die Benutzung eines Paketes zur Bündelung und Minimierung der JavaScript-Dateien im Client ermöglicht: Browserify. Browserify wird dabei mit dem Paket tsify kombiniert um den Typescript-Code vorher bündeln und in JavaScript zu konvertieren.
+
+Außerdem sind die Abhängigkeiten zu Jest und Chai in Abbildung \ref{fig:ComponentDependencies} aufgezeigt. Jest ist eine Bibliothek, die eine Umgebung für den Test von JavaScript-Code bereitstellt, es werden dabei auch Berichte über den Erfolg von Tests und die Abdeckungsrate der Tests erstellt. Chai ist eine Bibliothek, die weitere Methoden für das Abfragen in Tests bereitstellt und damit das Test von JavaScript-Code weiter beschleunigt und vereinfacht.
 
 \subsubsection{Abhängigkeiten}
 \begin{figure}[htp]
@@ -277,7 +284,57 @@ Da nun alle wesentlichen Komponenten des System beschrieben wurden, bleibt nun l
 \label{subsec:Implementierung}\index{Implementierung}
 Bei der Implementierung wurde sich zunächst mit den einzelnen Technologien aus der Grafik \ref{fig:ComponentDependencies} vertraut gemacht. Dafür wurden verschiedene Beispiele herangezogen und die Dokumentation, sowie \ggf vorhandene Getting-Started-Guides durchgearbeitet.\footnote{So zum Beispiel für Socket.IO: \url{https://socket.io/get-started/chat/}}
 Anschließend wurde die Entwicklungsumgebung aufgesetzt auf Basis eines Starter-Projektes für Node.js-Projekte mit Typescript und Express.\cite{typescript_node_starter} Dabei wurde das Starter-Projekt so angepasst, dass die Applikation auf das Bereitstellen von statischen Webseiten spezialisiert ist. Einige Skripte zum Erstellen, Debuggen, Bündeln und Minimieren der Applikation wurden angepasst \bzw hinzugefügt. Der Aufbau des Projektes wird im Folgenden näher erläutert.
-Generell ist ein solches Projekt mit Node.js immer auf einer Datei mit dem Namen "package.json" aufgebaut. Diese Datei enthält neben wichtigen Meta-Informationen, wie dem Namen des Projektes und seiner Version, auch Informationen, wie bestimme Befehle wie ein Start, das Debuggen \etc ausgeführt werden sollen. Auch sind in dieser Datei die Abhängigkeiten und die Entwicklungs-Abhängigkeiten enthalten. Dabei wird ein Paket immer mit seiner benutzen Version angegeben und möglichst große Portabilität zu erreichen und einen Projekt-Stand exakt reproduzieren zu können.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.30\textwidth]{RootDirectory}
+	\caption[Projektverzeichnis]{Das Projektverzeichnis}
+	\label{fig:RootDirectory}
+\end{figure}
+
+\noindent Die Abbildung \ref{fig:RootDirectory} zeigt das Projektverzeichnis. Ordner sind dabei blau dargestellt und Dateien gelb.\\
+Generell ist ein Projekt mit Node.js immer auf einer Datei mit dem Namen "package.json" aufgebaut. Diese Datei enthält neben wichtigen Meta-Informationen, wie dem Namen des Projektes und seiner Version, auch Informationen, wie bestimme Befehle wie ein Start, das Debuggen\footnote{Debugging beschreibt die Untersuchung einer laufenden Applikationen auf Fehler und deren Behebung} \etc ausgeführt werden sollen. Auch sind in dieser Datei die (Entwicklungs-)Abhängigkeiten enthalten. Dabei wird ein Paket immer mit seiner benutzen Version angegeben und möglichst große Portabilität zu erreichen und einen Projekt-Stand exakt reproduzieren zu können. Die Abbildung \ref{fig:Package} zeigt einen Ausschnitt der Datei. Dabei sind aus Übersichtsgründen die Abhängigkeiten und Skripte ausgeblendet.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.8\textwidth]{package}
+	\caption[Package]{Ein Ausschnitt der Datei package.json}
+	\label{fig:Package}
+\end{figure}
+
+\noindent Für die Verwaltung der Pakete und Abhängigkeiten wird dabei der Paketmanager npm\footnote{npm -- Node.js package manager, verwaltet das Laden, Aktualisieren und Einbinden von externen Paketen in ein Projekt} benutzt, der auch die Ausführung der in package.json eingetragenen Befehle und Skripte übernimmt. Die Befehle und Skripte dieses Projektes werden in Tabelle \ref{tab:Scripts} aufgelistet und beschrieben.\\
+Alle weiteren Dateien mit der Endung \emph{.json} aus Abbildung \ref{fig:RootDirectory} stellen Konfigurationsdateien dar. Das Verzeichnis \emph{dist} enthält die gebaute Version der Applikation -- aus diesem Verzeichnis wird die Anwendung gestartet und es enthält alle fertigen Applikationsdateien. Das Verzeichnis \emph{test} enthält alle Dateien, die Tests definieren. Das Verzeichnis \emph{src} enthält alle Quelldateien. Die unterliegende Struktur des Verzeichnisses \emph{src} wird beim Bau der Applikation immer auf das Verzeichnis \emph{dist} übertragen.\clearpage
+
+\begin{table}
+	\centering
+	\begin{tabular}{|l| p{10cm}|}
+		\hline
+		\textbf{Befehl} & \textbf{Beschreibung} \\
+		\hline \hline
+		build 				& 	Baut die gesamte Applikation und führt bundle, sowie tslint aus, kopiert auch die statischen Dateien \\
+		build-ts 			& 	konvertiert nur TypeScript in JavaScript \\
+		bundle 				&	Minimiert, konvertiert und bündelt die Client-Komponente zu einer Datei bundle.js \\
+		copy-static-assets 	& 	Kopiert statische Dateien wie Bibliotheken und Bilder mit Hilfe des Skriptes aus copyStaticAssets.ts in das Ausgabeverzeichnis \\
+		createDiagrams 		& 	Erzeugt mit Hilfe des Pakets tsviz\footnotemark{} und Graphviz\footnotemark{} Klassendiagramme von diversen Unterverzeichnissen \\
+		debug				&	Baut die Applikation und startet sie dann im Debug-Modus \\
+		serve				&	Startet die Anwendung mit server.js als Einstiegspunkt \\
+		serve-debug			&	Startet nodemon\footnotemark{}, welcher die Datei server.js nach Änderungen überwacht und automatisch die Anwendung neustartet \\
+		start				&	Ein Alias für serve \\
+		test				&	Startet jest und führt alle Testfälle aus und nimmt die Abdeckung auf \\
+		tslint				&	Startet tslint und überprüft anhand von tsconfig.json den Code nach Lesbarkeit unf funktionalen Fehlern \\
+		watch				&	Startet nodemon und überwacht Node.js und Typescript mittels Dateien, die eine Zuordnung von TypeScript zu JavaScript enthalten \\
+		watch-*				&	überwacht jeweilige Dateien auf Änderungen, während die Applikation läuft. Baut und Startet die Applikation \ggf neu \\\hline
+	\end{tabular}
+	\captionsetup{justification=centering}
+	\caption[Skripte]{Skripte aus package.json}
+	\label{tab:Scripts}
+\end{table}
+\addtocounter{footnote}{-3} %3=n
+\stepcounter{footnote}\footnotetext{tsviz -- Ein npm-Paket, dass aus Graphviz aufbaut und aus TypeScript-Code Klassendiagramme erzeugt}
+\stepcounter{footnote}\footnotetext{Graphviz ist eine freie Visualisierungssoftware für Graphen und Diagramme jeglicher Art}
+\stepcounter{footnote}\footnotetext{nodemon -- Ist eine Applikation, die Dateiänderungen im Projektverzeichnis überwacht und daraufhin die Node.js-Umgebung neustartet}
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}

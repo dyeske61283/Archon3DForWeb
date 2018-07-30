@@ -631,6 +631,12 @@ INPUT ./Grafiken/Modell_Class_Diagram.png
 INPUT Grafiken/Dependencies.png
 INPUT ./Grafiken/Dependencies.png
 INPUT ./Grafiken/Dependencies.png
+INPUT Grafiken/RootDirectory.png
+INPUT ./Grafiken/RootDirectory.png
+INPUT ./Grafiken/RootDirectory.png
+INPUT Grafiken/package.png
+INPUT ./Grafiken/package.png
+INPUT ./Grafiken/package.png
 OUTPUT Inhalt/Ende.aux
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex
