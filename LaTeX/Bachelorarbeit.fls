@@ -663,6 +663,9 @@ INPUT Inhalt/Ende.tex
 INPUT Inhalt/Ende.tex
 INPUT Inhalt/Anhang.tex
 INPUT Inhalt/Anhang.tex
+INPUT Grafiken/TreeCD.png
+INPUT ./Grafiken/TreeCD.png
+INPUT ./Grafiken/TreeCD.png
 INPUT Bachelorarbeit.bbl
 INPUT Bachelorarbeit.bbl
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmcsc10.tfm
