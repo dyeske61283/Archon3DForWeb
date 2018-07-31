@@ -341,8 +341,44 @@ Alle weiteren Dateien mit der Endung \emph{.json} aus Abbildung \ref{fig:RootDir
 \subsubsection{Anfänge der Entwicklung}
 
 Zunächst ist auf Basis des Projektes eine HTML-Seite mit einem Canvas-Element angelegt worden, sowie ein Aufruft der Socket.IO-Bibliothek auf der Seite. Der Aufruf verbindet sich mit dem Webserver.\\
-Passend dazu wurde eine einfache Klasse "Server" erstellt, die einen http-Server, sowie einen Websocket-Server bereitstellt und initialisiert. Die Abbildungen \ref{} und \ref{} zeigen diese beiden Entwürfe respektive.
-\todo{Insert Pic from Server and simple html from three.js scence tutorial}
+Passend dazu wurde eine einfache Klasse "Server" erstellt, die einen http-Server, sowie einen Websocket-Server bereitstellt und initialisiert. Die Abbildungen \ref{lst:html_index_first} und \ref{fig:basicServerCode} zeigen diese beiden Entwürfe respektive.
+\clearpage
+\lstset{language=HTML5,basicstyle=\footnotesize}
+\begin{lstlisting}[caption={[Erste Index.html]\HTML HTML - Erster Prototyp der Einstiegseite}, label=lst:html_index_first]
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset=utf-8>
+			<title>My first three.js app</title>
+			<style>
+				body { margin: 0; }
+				canvas { width: 100%; height: 100% }
+			</style>
+		</head>
+		<body>
+			<script src="js/three.js"></script>
+			<script src="/socket.io/socket.io.js"></script>
+			<script>
+				var socket = io();
+			</script>
+		</body>
+	</html>
+\end{lstlisting}
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.75\textwidth]{basicServerCode}
+	\caption[erster Server-Code]{Der anfängliche Webserver}
+	\label{fig:basicServerCode}
+\end{figure}
+
+Die Abbildung \ref{lst:html_index_first} zeigt in in Zeile 15 dabei, wie der Aufruf der Socket.IO-Bibliothek erfolgt. Der Aufruf erzeugt automatisch eine Verbindung zum Webserver und stellt einen Socket bereit.
+In Zeile 13 und 14 werden die externen Bibliotheken inkludiert.
+
+Der Server aus Abbildung \ref{fig:basicServerCode} erzeugt zunächst eine Konfiguration des Express-Frameworks. Anschließend wird ein Http-Server erzeugt. Der Http-Server wird dann konfiguriert um auf Anfragen von Clients auf den Wurzelpfad der Webadresse mit der Seite "Index.html" zu antworten.\\
+Anschließend wird der Socket-Server initialisiert auf Basis des Http-Servers. Die Ereignisse zur Verbindung und dem Beenden von Clients werden vorab nur mit Log-Einträgen gefüllt.
+
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
