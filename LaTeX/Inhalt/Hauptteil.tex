@@ -175,8 +175,24 @@ Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScrip
 
 \subsubsection{Werkzeuge}
 
-\subsubsection{Vereinfachungen}
+Zur Entwicklung von Applikationen sind nicht nur Bibliotheken zur Unterstützung nötig, sondern auch Werkzeuge. So \zB der erwähnte Editor und in diesem Fall auch eine Testumgebung in Form eines Webbrowsers. Dieser Abschnitt enthält alle benutzten Werkzeuge zur Implementierung der Applikation.
 
+Als Editor wurde Visual Studio Code (VS Code)\footnote{Visual Studio Code -- Ein freier Editor von Microsoft: \url{https://code.visualstudio.com/}} benutzt. Es handelt sich dabei um einen universellen Editor. Die Erweiterungen, welche auch von vielen Nutzern des Editors geschrieben werden, spezialisieren diesen Editor und geben ihm weitere Funktionalitäten für diverse Programmiersprachen, Werkzeuge und Umgebungen. Die Liste an installierten Erweiterungen für diese Entwicklung ist an diese Arbeit angehängt\footnote{Siehe Anhang: \ref{sec:extensions}}.
+
+Zum Test der Applikation wurden die Browser Mozilla Firefox\footnote{Mehr zu Mozilla Firefox unter \url{https://www.mozilla.org/de/firefox/}} in der Version 61.0.1 und Google Chrome\footnote{Mehr zu Google Chrome unter \url{https://www.google.de/chrome/}} in der Version 68 benutzt. Dabei handelt es sich um zwei Browser, die sehr viele Internet-Standards unterstützen und gute Werkzeuge für Entwickler bereitstellen. Außerdem sind die zwei Browser sehr weit verbreitet und habe viele Nutzer\footnote{\Quelle{\url{https://www.w3counter.com/globalstats.php}}}.
+
+\noindent Desweiteren wurden die Terminalwerkzeuge der benutzten Node.js-Umgebung genutzt und der Paketmanager npm von Node.js\footnote{Mehr zu Node.js und npm unter \url{https://nodejs.org/en/} und \url{https://www.npmjs.com/}}.
+
+\noindent Für experimentelle Komponenten und kleine Tests wurden die Plattformen JSFiddle\footnote{JSFiddle ist eine Online-Plattform, die Editoren zur Webentwicklung enhält und eine Live-Vorschau: \url{https://jsfiddle.net/}} und der Playground von Typescript\footnote{Ein Online-Editor für TypeScript-Code, der eine Live-Ausführung ermöglicht: \url{https://www.typescriptlang.org/play/index.html}} benutzt.
+
+\noindent Für für Klassen- und Komponentendiagramme \ua Visualisierungen wurde das UML-Werkzeug\footnote{Die Unified Modeling Language (UML) ist eine standardisierte, graphische Sprache zur Visualisierung von Software und anderen Systemen.} Visual Paradigm\footnote{Mehr zu Visual Paradigm unter \url{https://www.visual-paradigm.com/}} benutzt.
+
+\subsubsection{Vereinfachungen}
+\label{subsubsec:Vereinfachungen}
+Wie im Abschnitt Werkzeuge bereits erwähnt wurden zum Test die beiden Browser Mozilla Firefox und Google Chrome herangezogen. Weiterhin wurde die Vereinfachung getroffen, dass die Applikation nur auf diesen Browsern funktionfähig sein muss. Auf die Kompatibilität zu anderen und älteren Browsern wurde kein Fokus gelegt.\\
+Weiterhin wird nur der Spieler-gegen-Spieler-Modus implementiert. Die Nachbildung des virtuellen Spielers würde nichttrivialen Aufwand nach sich ziehen, da die originale Implementierung unklar und nicht ersichtlich ist.\\
+Außerdem wird die Audio-API vernachlässigt und auch Touch-Events werden außer Acht gelassen.\\
+Auch wird die Parallelisierung von Spielen nicht Fokus dieser Implementierung sein. Das Ziel eine möglichst einfache Erstimplementierung und eine Parallelisierung ist bei geeigneter Architektur kaum Mehrarbeit im Anschluss dieser Arbeit.
 
 \subsection{Architektur}
 \label{subsec:Architektur}\index{Architektur}
@@ -415,22 +431,41 @@ Es wurden außerdem noch folgende weitere Elemente aus dem Bootstrap-Framework d
 \end{figure}
 \footnotetext{\Quelle{\url{https://www.w3schools.com/bootstrap/bootstrap_templates.asp}}}
 
-\subsubsection{Parallelisierung}
-
-Durch eine Erzeugung mehrerer Kommunikationsobjekte und Datenmodelle, könnten mehrere Spiele gleichzeitig ausgeführt werden. In dieser Realisierung ist dies, außer in der Architektur, noch nicht berücksichtigt worden. Gründe dafür sind die möglichst aufwandsarme Erstimplementierung um Übersicht und Zeitkosten im Rahmen einer Abschlussarbeit zu halten. Das erfordert allerdings einen Umgang mit Nutzern, die außer den beiden Spielenden die Webseite aufrufen. Hier kommt wiederum das Layout und Design der Webseite, sowie das Bootstrap-Element "Jumbotron" zum Zug.\\
-Clients, die sich nicht erfolgreich in ein Spiel verbinden können, weil dieses belegt ist, werden auf eine Webseite weitergeleitet, die dem Nutzer diese Information mitteilt. Die Abbildung \ref{fig:rejectedPage} zeigt die fertige Webseite für dieses Vorgehen.\\ Es wird außerdem eine neue Anforderung der Webseite gestartet, sobald ein aktiver Spieler die Verbindung schließt. Die Mitteilung über einen freien Platz, also die Aufforderung zum erneuten Anfordern der Webseite erteilt dabei der Webserver dem Client über ein Event der Socket-Kommunikation.
+Eine Parallelisierung von Spielen, wie in Abschnitt \ref{subsubsec:Vereinfachungen} bereits erklärt, ist nicht vorgesehen. Das erfordert allerdings einen Umgang mit Nutzern, die außer den beiden Spielenden die Webseite aufrufen. Auch hier kommen das Layout und Design der Webseite zum Einsatz.\\
+Clients, die sich nicht erfolgreich in ein Spiel verbinden können, weil dieses belegt ist, werden auf eine Webseite weitergeleitet, die dem Nutzer diese Information mitteilt. Die Abbildung \ref{fig:rejectedPage} zeigt die fertige Webseite für dieses Vorgehen.\\ Es wird außerdem eine neue Anforderung der Webseite gestartet, sobald ein aktiver Spieler die Verbindung schließt. Die Mitteilung über einen freien Platz, also die Aufforderung zum erneuten Anfordern der Webseite erteilt dabei der Webserver dem Client über ein Event der Socket-Kommunikation. Das weitere Vorgehen zum Verbindungsmanagement wird an dieser Stelle noch nicht betrachtet.
 
 \clearpage
 
 \begin{figure}[htp]
 	\centering
 	\captionsetup{justification=centering}
-	\includegraphics[width=0.85\textwidth]{rejectedPage}
+	\includegraphics[width=0.65\textwidth]{rejectedPage}
 	\caption[Webseite Abweisung]{Die Webseite für abgewiesene Nutzer}
 	\label{fig:rejectedPage}
 \end{figure}
 
-\noindent Das Management der Clients \bzw Nutzer zeigt der Ablauf in Abbildung. 
+\subsubsection{Umsetzung des Layouts}
+
+Nun wird die Vorlage für das Layout der Webseite mittels Bootstrap soweit angepasst und mit Inhalten, wie dem Canvas gefüllt, dass ein erster Entwurf der fertigen Webseite entsteht. Die Abbildung \ref{fig:html_page} zeigt die Umsetzung, in die bereits einige Elemente des Canvas und three.js integriert wurden.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.85\textwidth]{HTML-Page}
+	\caption[Webseite Index]{Die Webseite für aktive Spieler}
+	\label{fig:html_page}
+\end{figure}
+
+\clearpage
+
+\noindent Klar zu sehen sind in Abbildung \ref{fig:html_page} die einzelnen Layout-Bereiche der Vorlage aus Abbildung \ref{fig:layoutWebpage}. Die Abbildung zeigt auch einen Entwurf des Spielbretts, der für frühe, sichtbare Fortschritte und einen sicheren Umgang mit der Grafik-Bibliothek three.js implementiert wurde.
+
+\subsubsection{Entwicklung des Servers}
+
+Da nun Client-Webseiten existieren, sind die entsprechenden Mechanismen für Kommunikation, Events, Verbindungsmanagement und das Datenmodell im Server zu implementieren. Der folgenden Abschnitt zeigt diese Aspekte in Ablaufdiagrammen, die den Code widerspiegeln.
+
+Die Applikation startet damit ein Server-Objekt zu erzeugen. Eine erste Implementierung dessen ist bereits in Abbildung \ref{fig:basicServerCode} zu sehen. Dort fehlen bisher die Erzeugung des Datenmodells, sowie ein erweitertes Verbindungsmanagement.\\
+
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
@@ -452,12 +487,11 @@ Bei der Erstellung von Unittests\footnote{Unittests -- deutsch: Modultests werde
 
 \noindent Desweiteren wurde durch Unittests sichergestellt, dass der Initialzustand der Datenmodells richtig erzeugt wird. Dadurch wurden wesentliche Fehler im Grundbetrieb ausgeschlossen und eine möglichst fehlerfreie Server-Komponente erzeugt. Durch die erfolgreichen Unittests des Datenmodells konnten Initialisierungsfehler ausgeschlossen werden. Dies ist besonders wichtig, da auf Basis des initialen Datenmodells auch der Client aufgebaut wird.
 
-Die Benutzung von Unittests hat stark zur Erfüllung der Anforderungen beigetragen, indem die Fehlerfreiheit essentieller Komponenten festgestellt wurde und nötige Änderungen frühzeitig erkannt wurden.
+Die Benutzung von Unittests hat stark zur Erfüllung einiger Anforderungen beigetragen, indem die Fehlerfreiheit essentieller Komponenten festgestellt wurde und nötige Änderungen frühzeitig erkannt wurden.
 
 \subsection{Erfüllung der Anforderungen}
 \label{subsec:erfullung_anforderungen}\index{Erfüllung}
 
-\emph{Hier werden die Anforderungen aus dem Analyse-Teil aufgegriffen und mit der fertigen Anwendung und ihrer Architektur abgeglichen, also so was wie "die einzelnen Figuren und ihre Unterschiede, sind hier und hier da und da durch umgesetzt worden."}
 
-\section{Fazit}
-\label{sec:Fazit}\index{Fazit}
+\section{Zusammenfassung}
+\label{sec:Fazit}\index{Zusammenfassung}

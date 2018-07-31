@@ -652,6 +652,9 @@ INPUT ./Grafiken/LayoutWebpage.png
 INPUT Grafiken/rejectedPage.png
 INPUT ./Grafiken/rejectedPage.png
 INPUT ./Grafiken/rejectedPage.png
+INPUT Grafiken/HTML-Page.png
+INPUT ./Grafiken/HTML-Page.png
+INPUT ./Grafiken/HTML-Page.png
 INPUT Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png
