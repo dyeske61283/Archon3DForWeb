@@ -646,6 +646,12 @@ INPUT ./Grafiken/logo_HTML5.png
 INPUT Grafiken/basicServerCode.png
 INPUT ./Grafiken/basicServerCode.png
 INPUT ./Grafiken/basicServerCode.png
+INPUT Grafiken/LayoutWebpage.png
+INPUT ./Grafiken/LayoutWebpage.png
+INPUT ./Grafiken/LayoutWebpage.png
+INPUT Grafiken/rejectedPage.png
+INPUT ./Grafiken/rejectedPage.png
+INPUT ./Grafiken/rejectedPage.png
 INPUT Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png

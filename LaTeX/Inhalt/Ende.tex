@@ -32,6 +32,9 @@ Es können eine Datenbank und ein Authentifizierungsservice angebunden werden un
 
 \subsubsection{Verschiedenes}
 
-Das Spiel ist gemacht für die Benutzung mit einem GamePad\footnote{Ein GamePad ist ein Spielecontroller mit Joystick und diverses generellen Tasten.}. Die HTML-GamePad-API ist allerdings noch in einem sehr frühen Stadium der Standardisierung, sodass zunächst eine Evaluierung stattfinden muss, ob sie ausreichend benutzbar ist, oder ob andere Bibliotheken diese Funktionalität hergeben.
-
+Das Spiel ist gemacht für die Benutzung mit einem GamePad\footnote{Ein GamePad ist ein Spielecontroller mit Joystick und diverses generellen Tasten.}. Die HTML-GamePad-API ist allerdings noch in einem sehr frühen Stadium der Standardisierung, sodass zunächst eine Evaluierung stattfinden muss, ob sie ausreichend benutzbar ist, oder ob andere Bibliotheken diese Funktionalität hergeben.\\
 Außerdem kann der Inputcontroller um die Touch-Events für die Benutzung auf mobilen Endgeräten erweitert werden.
+
+Desweiteren ist bisher keine Verschlüsselung des Datenverkehrs und auch kein Zugriff auf die Webseite via HTTPS umgesetzt.
+
+Als Abschluss ist eine Parallelisierung der Architektur ein offener Punkt. Dies erlaubt es mehrere Spiele gleichzeitig auf einem Server spielen zu lassen, dafür müssten auch Leistungs- und Lasttests durchgeführt werden, um leistungsgemäß viele Spiele laufen zu lassen.

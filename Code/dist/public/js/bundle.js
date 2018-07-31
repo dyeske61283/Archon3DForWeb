@@ -56411,6 +56411,7 @@ var ClientController = /** @class */ (function (_super) {
         }
     };
     ClientController.prototype.handleKeyInput = function (ev) {
+        console.log("Keys are getting hit and registered: " + ev.key);
         if (ev.isDefaultPrevented) {
             return; // Do nothing if the event was already processed
         }
