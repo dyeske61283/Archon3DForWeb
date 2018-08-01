@@ -179,7 +179,7 @@ Als größte Dev-Dependency sei an dieser Stelle TypeScript zu nennen. TypeScrip
 \clearpage
 Desweiteren wurden die Bibliotheken Jest und Chai für Komponententests genutzt.\\
 Die beiden Pakete nodemon und watchify wurden für ein direktes Bauen und Neustarten der Anwendung im Betrieb benutzt, falls Dateiänderungen vorgenommen werden.\\
-Als letzte Dev-Dependency ist das Pakett tslint zu nennen, dass anhand einer Konfigurationsdatei den TypeScript-Code auf Lesbarkeit und Stil überprüft.
+Als letzte Dev-Dependency ist das Paket tslint zu nennen, dass anhand einer Konfigurationsdatei den TypeScript-Code auf Lesbarkeit und Stil überprüft.
 
 \subsubsection{Werkzeuge}
 
@@ -191,7 +191,7 @@ Zum Test der Applikation wurden die Browser Mozilla Firefox\footnote{Mehr zu Moz
 
 \noindent Desweiteren wurden die Terminalwerkzeuge der benutzten Node.js-Umgebung genutzt und der Paketmanager npm von Node.js\footnote{Mehr zu Node.js und npm unter \url{https://nodejs.org/en/} und \url{https://www.npmjs.com/}}.
 
-\noindent Für experimentelle Komponenten und kleine Tests wurden die Plattformen JSFiddle\footnote{JSFiddle ist eine Online-Plattform, die Editoren zur Webentwicklung enhält und eine Live-Vorschau: \url{https://jsfiddle.net/}} und der Playground von Typescript\footnote{Ein Online-Editor für TypeScript-Code, der eine Live-Ausführung ermöglicht: \url{https://www.typescriptlang.org/play/index.html}} benutzt.
+\noindent Für experimentelle Komponenten und kleine Tests wurden die Plattformen JSFiddle\footnote{JSFiddle ist eine Online-Plattform, die Editoren zur Webentwicklung enthält und eine Live-Vorschau: \url{https://jsfiddle.net/}} und der Playground von Typescript\footnote{Ein Online-Editor für TypeScript-Code, der eine Live-Ausführung ermöglicht: \url{https://www.typescriptlang.org/play/index.html}} benutzt.
 
 \noindent Für für Klassen- und Komponentendiagramme \ua Visualisierungen wurde das UML-Werkzeug\footnote{Die Unified Modeling Language (UML) ist eine standardisierte, graphische Sprache zur Visualisierung von Software und anderen Systemen.} Visual Paradigm\footnote{Mehr zu Visual Paradigm unter \url{https://www.visual-paradigm.com/}} benutzt.
 
@@ -373,7 +373,7 @@ Alle weiteren Dateien mit der Endung \emph{.json} aus Abbildung \ref{fig:RootDir
 \end{table}
 \addtocounter{footnote}{-3} %3=n
 \stepcounter{footnote}\footnotetext{tsviz -- Ein npm-Paket, dass aus Graphviz aufbaut und aus TypeScript-Code Klassendiagramme erzeugt}
-\stepcounter{footnote}\footnotetext{Graphviz ist eine freie Visualisierungssoftware für Graphen und Diagramme jeglicher Art}
+\stepcounter{footnote}\footnotetext{Graphviz ist eine freie Software zur Visualisierung von Graphen und Diagrammen jeglicher Art}
 \stepcounter{footnote}\footnotetext{nodemon ist eine Applikation, die Dateiänderungen im Projektverzeichnis überwacht und daraufhin die Node.js-Umgebung neustartet}
 
 \subsubsection{Anfänge der Entwicklung}
@@ -476,14 +476,61 @@ Clients, die sich nicht erfolgreich in ein Spiel verbinden können, weil dieses 
 
 Da nun Client-Webseiten existieren, sind die entsprechenden Mechanismen für Kommunikation, Events, Verbindungsmanagement und das Datenmodell im Server zu implementieren. Der folgenden Abschnitt zeigt diese Aspekte in Ablaufdiagrammen, die den Code widerspiegeln.
 
-Die Applikation startet damit ein Server-Objekt zu erzeugen. Eine erste Implementierung dessen ist bereits in Abbildung \ref{fig:basicServerCode} zu sehen. Dort fehlen bisher die Erzeugung des Datenmodells, sowie ein erweitertes Verbindungsmanagement.\\
+Die Applikation startet damit ein Server-Objekt zu erzeugen. Eine erste Implementierung dessen ist bereits in Abbildung \ref{fig:basicServerCode} zu sehen. Dort fehlen bisher die Erzeugung des Datenmodells, sowie ein erweitertes Verbindungsmanagement. Die Abbildung \ref{fig:createGameModel} zeigt die Erstellung des Datenmodells durch den Modellbuilder. Dieser Ablauf wird im Konstruktor des Server-Objektes aufgerufen, um direkt zum Start des Servers ein initialisiertes Datenmodell bereitzustellen. Zu beachten ist, dass die Initialzustände der Figuren sich in json-Dateien befinden und zur Initialisierung geladen werden. Dies bringt den Vorteil einer einfacheren Manipulation der Daten und auch ein Anpassen der Werte der Figuren während die Applikation läuft, ohne sie neustarten zu müssen.
 
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.70\textwidth]{createGameModel}
+	\caption[Erzeugung Datenmodell]{Die Erstellung des Datenmodells}
+	\label{fig:createGameModel}
+\end{figure}
+
+\noindent Anschließend wurde das Verbindungsmanagement implementiert, dass in Abbildung \ref{fig:connManagement} zu sehen ist. Die Abbildung zeigt die Abläufe von Anfragen eines Clients an den Webserver bis zum Spielstart. 
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.70\textwidth]{connManagement}
+	\caption[Verwaltung Verbindungen]{Ablauf der Verbindung von Clients}
+	\label{fig:connManagement}
+\end{figure}
+
+\clearpage
+
+Zuletzt wurden dann die Logik-Objekte implementiert, eine Übersicht der Klassen ist im Anhang in Abbildung \ref{fig:overviewClasses} zu sehen. Der Fokus lag hier darauf, dass Regeln und Input des Spiels immer durch spezifische Methoden auf den Daten des Modell operieren und diese Methoden ausschließlich aus dem GameModel-Objekt heraus aufgerufen werden, als Reaktion auf Kommunikationsevents.
+
+\subsubsection{Entwicklung des Client}
+
+Bei der Entwicklung des Client wurde eine Startup-Routine, ähnlich der des Server, entwickelt, die in Abbildung dargestellt ist. Auch der weitere Ablauf der Entwicklung hat sich stark an dem für den Server orientiert. Es wurden also die Kommunikationsklassen ausprogrammiert und anschließend nach und nach für die Spielereignisse passende Klassen für Ansichten implementiert. Ein Teil dieser Klassen ist ebenfalls im Anhang in der Abbildung \ref{fig:overviewClasses} zu sehen.
+
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.70\textwidth]{clientStartup}
+	\caption[Ablauf Client]{Ablauf des Aufbaus des Clients}
+	\label{fig:clientStartup}
+\end{figure}
+
+\subsubsection{Zusammenführung der Komponenten}
+
+Die Zusammenführung der einzelnen Komponenten wurde anhand der Reihenfolge an Ereignissen im Spiel vorgenommen. Es wurden also nacheinander, vom Aufruf der Webseite beginnend, die nötigen Events mit Methodenaufrufen gefüllt um so das Spiel aufzubauen.
 
 \section{Resultate}
 \label{sec:Resultate}\index{Resultate}
 
-\emph{Hier soll dann ein Screenshot des Ergebnisses rein und erläutert werden, dass als nächste der Endstand mit seiner Architektur gezeigt wird und anschließend die Erfüllung aller Anforderungen sichergestellt wird. Als letztes (falls genug Zeit!) werden die (hoffentlich) programmierten Unit-Tests erwähnt, und deren Ergebnisse dargestellt.}
+\begin{figure}[htp]
+	\centering
+	\captionsetup{justification=centering}
+	\includegraphics[width=0.70\textwidth]{pageWithFigures}
+	\caption[Webseite Figures]{Die Webseite mit aufgestellten Figuren}
+	\label{fig:pageWithFigures}
+\end{figure}
 
+Die Abbildung \ref{fig:pageWithFigures} zeigt die fertige Webseite kurz vor Spielbeginn. Die Implementierung ist an diesem Punkt abgeschlossen worden. Es wurden also Figuren umgesetzt und ein funktionierender Cursor. Außerdem können Methoden für Zauber registriert werden und die Logikklassen für fast alle Spielregeln sind fertig implementiert. Die Klassen für Ansichten sind bisher sehr rudimentär umgesetzt. Die Annahme von Eingaben und Tastaturevents ist teilweise umgesetzt worden und das Senden von Aktualisierungen zu geänderten Daten an den Client ist vollständig umgesetzt.\\
+Es wurde außerdem eine Änderung in der Architektur vollzogen, die die Cursor-Klasse vollständig in den Client integriert, da die zugehörige Kommunikation für einzelne Bewegungen des Cursors über den Server als nicht wichtig bewertet wurde. Eine ähnliche Änderung gibt es für Zauber. Zauber benötigen nur eine Methode zum Ausführen des Zaubers und keinerlei visuelle Objekte, außer der Auswahl in der Oberfläche, sodass keine eigene Klasse SpellView implementiert wurde.
+Ein Szenenwechsel zur Kampfszenerie ist in der View-Klasse vorgesehen und die View-Klasse stößt ein automatisches Update aller nötigen Elemente eigenständig an. 
+\clearpage
 \subsection{Überprüfung der Software mit Unit-Tests}
 \label{subsec:unittests}\index{Unittests}
 
@@ -504,6 +551,11 @@ Die Benutzung von Unittests hat stark zur Erfüllung einiger Anforderungen beige
 \subsection{Erfüllung der Anforderungen}
 \label{subsec:erfullung_anforderungen}\index{Erfüllung}
 
+Die anfangs definierten Anforderungen für eine Realisierung von Archon wurden teilweise erfüllt. Das Spielbrett wurde in seiner vollständigen Funktionalität implementiert und ist funktionsfähig. Die Figuren sind ebenfalls vollständig implementiert.\\
+Für die Zauber, sowie das Kampfareal wurden Grundsteine gelegt, jedoch ist die Implementierung hier noch nicht abgeschlossen.
 
 \section{Zusammenfassung}
 \label{sec:Fazit}\index{Zusammenfassung}
+
+Die erarbeitete Architektur hat sich als gute Grundlage für die Entwicklungsarbeiten erwiesen. Die Systeme von Webserver und Client, sowie der unterschiedlichen Frameworks und Hilfsmittel haben sich gut verzahnt. Die Entwicklung des Spiels an sich hat sich als sehr zeitintensiv herausgestellt.\\
+Es ist also ein Webclient entstanden, der 3D-Grafik visualisiert und Daten in Echtzeit aktualisiert. Außerdem ist ein Webserver entstanden, der ein Datenmodell aufbauen kann, Verbindungsmanagement für mehrere Clients betreibt und Spielregeln und Event-Kommunikation verarbeitet.
