@@ -440,8 +440,6 @@ INPUT Inhalt/Deckblatt.aux
 INPUT Inhalt/Deckblatt.aux
 INPUT Inhalt/Kurzfassung.aux
 INPUT Inhalt/Kurzfassung.aux
-INPUT Inhalt/Vorwort.aux
-INPUT Inhalt/Vorwort.aux
 INPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Einleitung.aux
@@ -541,9 +539,6 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
 INPUT Bachelorarbeit.toc
 INPUT Bachelorarbeit.toc
 OUTPUT Bachelorarbeit.toc
-OUTPUT Inhalt/Vorwort.aux
-INPUT Inhalt/Vorwort.tex
-INPUT Inhalt/Vorwort.tex
 OUTPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Erklaerung.tex
 INPUT Inhalt/Erklaerung.tex
@@ -649,12 +644,12 @@ INPUT ./Grafiken/basicServerCode.png
 INPUT Grafiken/LayoutWebpage.png
 INPUT ./Grafiken/LayoutWebpage.png
 INPUT ./Grafiken/LayoutWebpage.png
-INPUT Grafiken/rejectedPage.png
-INPUT ./Grafiken/rejectedPage.png
-INPUT ./Grafiken/rejectedPage.png
 INPUT Grafiken/HTML-Page.png
 INPUT ./Grafiken/HTML-Page.png
 INPUT ./Grafiken/HTML-Page.png
+INPUT Grafiken/rejectedPage.png
+INPUT ./Grafiken/rejectedPage.png
+INPUT ./Grafiken/rejectedPage.png
 INPUT Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png
 INPUT ./Grafiken/socketConnectionTest.png
@@ -694,8 +689,6 @@ INPUT Inhalt/Deckblatt.aux
 INPUT Inhalt/Deckblatt.aux
 INPUT Inhalt/Kurzfassung.aux
 INPUT Inhalt/Kurzfassung.aux
-INPUT Inhalt/Vorwort.aux
-INPUT Inhalt/Vorwort.aux
 INPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Erklaerung.aux
 INPUT Inhalt/Einleitung.aux
