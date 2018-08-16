@@ -76,8 +76,8 @@ export class ModelBuilder {
 		actionInfos = [];
 		figures = [];
 		// read in json
-		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteFigureInfo.json", "UTF-8");
-		const actionContent = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteActionFigureInfo.json", "UTF-8");
+		const content = readFileSync("../informationmodel/WhiteFigureInfo.json", "UTF-8");
+		const actionContent = readFileSync("../informationmodel/WhiteActionFigureInfo.json", "UTF-8");
 		// fill array with objects
 		figures = JSON.parse(content.toString());
 		actionInfos = JSON.parse(actionContent.toString());
@@ -96,8 +96,8 @@ export class ModelBuilder {
 		actionInfos = [];
 		figures = [];
 		// read in json
-		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackFigureInfo.json", "UTF-8");
-		const actionContent = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackActionFigureInfo.json", "UTF-8");
+		const content = readFileSync("../informationmodel/BlackFigureInfo.json", "UTF-8");
+		const actionContent = readFileSync("../informationmodel/BlackActionFigureInfo.json", "UTF-8");
 
 		// fill array with objects
 		figures = JSON.parse(content.toString());
@@ -115,7 +115,7 @@ export class ModelBuilder {
 		let elementals: IActionFigureInfo[];
 		elementals = [];
 
-		const content = readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/ElementalInfo.json", "UTF-8");
+		const content = readFileSync("../informationmodel/ElementalInfo.json", "UTF-8");
 		elementals = JSON.parse(content.toString());
 		return elementals;
 	}

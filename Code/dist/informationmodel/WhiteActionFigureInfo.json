@@ -1,0 +1,82 @@
+[
+	{
+		"prototype": "Knight",
+		"BaseHP": 4.5,
+		"Speed": 1,
+		"AttackPower": 5,
+		"Shot Speed": -1,
+		"Attack Rate": 1.5,
+		"HProjectileWidth": 2,
+		"VProjectileWidth": 4
+	},
+	{
+		"prototype": "Archer",
+		"BaseHP": 4.5,
+		"Speed": 1,
+		"AttackPower": 5,
+		"Shot Speed": 0.7,
+		"Attack Rate": 0.75,
+		"HProjectileWidth": 1,
+		"VProjectileWidth": 2
+	},
+	{
+		"prototype": "Valkyrie",
+		"BaseHP": 7.5,
+		"Speed": 1,
+		"AttackPower": 7,
+		"Shot Speed": 0.5,
+		"Attack Rate": 0.75,
+		"HProjectileWidth": 1,
+		"VProjectileWidth": 4
+	},
+	{
+		"prototype": "Golem",
+		"BaseHP": 14.5,
+		"Speed": 0.75,
+		"AttackPower": 10,
+		"Shot Speed": 0.5,
+		"Attack Rate": 0.6,
+		"HProjectileWidth": 8,
+		"VProjectileWidth": 12
+	},
+	{
+		"prototype": "Unicorn",
+		"BaseHP": 8.5,
+		"Speed": 1,
+		"AttackPower": 7,
+		"Shot Speed": 1,
+		"Attack Rate": 1,
+		"HProjectileWidth": 1,
+		"VProjectileWidth": 2
+	},
+	{
+		"prototype": "Phoenix",
+		"BaseHP": 11.5,
+		"Speed": 1,
+		"AttackPower": 2,
+		"Shot Speed": -1,
+		"Attack Rate": 0.6,
+		"HProjectileWidth": 32,
+		"VProjectileWidth": 64
+	},
+	{
+		"prototype": "Djinn",
+		"BaseHP": 14.5,
+		"Speed": 1,
+		"AttackPower": 6,
+		"Shot Speed": 0.8,
+		"Attack Rate": 0.6,
+		"HProjectileWidth": 6,
+		"VProjectileWidth": 8
+	},
+	{
+		"prototype": "Wizard",
+		"BaseHP": 9.5,
+		"Speed": 1,
+		"AttackPower": 10,
+		"Shot Speed": 0.8,
+		"Attack Rate": 1.5,
+		"HProjectileWidth": 2,
+		"VProjectileWidth": 4
+	}
+]

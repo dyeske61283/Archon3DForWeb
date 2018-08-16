@@ -1,0 +1,128 @@
+[
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 1]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 2]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 3]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 4]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 5]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 6]
+	},
+	{
+		"name": "Goblin",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 7]
+	},
+	{
+		"name": "Manticore",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 0]
+	},
+	{
+		"name": "Manticore",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [7, 8]
+	},
+	{
+		"name": "Banshee",
+		"range": 3,
+		"movementType": "fly",
+		"color": false,
+		"pos":[8, 0]
+	},
+	{
+		"name": "Banshee",
+		"range": 3,
+		"movementType": "fly",
+		"color": false,
+		"pos":[8, 8]
+	},
+	{
+		"name": "Troll",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos":[8, 1]
+	},
+	{
+		"name": "Troll",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos":[8, 7]
+	},
+	{
+		"name": "Basilisk",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [8, 2]
+	},
+	{
+		"name": "Basilisk",
+		"range": 3,
+		"movementType": "ground",
+		"color": false,
+		"pos": [8, 6]
+	},
+	{
+		"name": "Shapeshifter",
+		"range": 5,
+		"movementType": "fly",
+		"color": false,
+		"pos": [8, 3]
+	},
+	{
+		"name": "Dragon",
+		"range": 4,
+		"movementType": "fly",
+		"color": false,
+		"pos": [8, 5]
+	},
+	{
+		"name": "Sorceress",
+		"range": 3,
+		"movementType": "teleport",
+		"color": false,
+		"pos": [8, 4]
+	}
+]
