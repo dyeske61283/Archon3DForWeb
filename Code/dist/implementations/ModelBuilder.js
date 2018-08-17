@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Colors_1 = require("../informationmodel/Colors");
 var fs_1 = require("fs");
+var path = require("path");
 var ModelBuilder = /** @class */ (function () {
     function ModelBuilder() {
     }
@@ -68,8 +69,8 @@ var ModelBuilder = /** @class */ (function () {
         actionInfos = [];
         figures = [];
         // read in json
-        var content = fs_1.readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteFigureInfo.json", "UTF-8");
-        var actionContent = fs_1.readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/WhiteActionFigureInfo.json", "UTF-8");
+        var content = fs_1.readFileSync(path.resolve(__dirname, "../informationmodel/WhiteFigureInfo.json"), "UTF-8");
+        var actionContent = fs_1.readFileSync(path.resolve(__dirname, "../informationmodel/WhiteActionFigureInfo.json"), "UTF-8");
         // fill array with objects
         figures = JSON.parse(content.toString());
         actionInfos = JSON.parse(actionContent.toString());
@@ -87,8 +88,8 @@ var ModelBuilder = /** @class */ (function () {
         actionInfos = [];
         figures = [];
         // read in json
-        var content = fs_1.readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackFigureInfo.json", "UTF-8");
-        var actionContent = fs_1.readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/BlackActionFigureInfo.json", "UTF-8");
+        var content = fs_1.readFileSync(path.resolve(__dirname, "../informationmodel/BlackFigureInfo.json"), "UTF-8");
+        var actionContent = fs_1.readFileSync(path.resolve(__dirname, "../informationmodel/BlackActionFigureInfo.json"), "UTF-8");
         // fill array with objects
         figures = JSON.parse(content.toString());
         actionInfos = JSON.parse(actionContent.toString());
@@ -103,7 +104,7 @@ var ModelBuilder = /** @class */ (function () {
     ModelBuilder.prototype.buildElementals = function () {
         var elementals;
         elementals = [];
-        var content = fs_1.readFileSync("/Users/kevin/Projects/Bachelorarbeit/Archon3DForWeb/Code/src/informationmodel/ElementalInfo.json", "UTF-8");
+        var content = fs_1.readFileSync(path.resolve(__dirname, "../informationmodel/ElementalInfo.json"), "UTF-8");
         elementals = JSON.parse(content.toString());
         return elementals;
     };

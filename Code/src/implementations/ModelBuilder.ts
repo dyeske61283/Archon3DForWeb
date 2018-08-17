@@ -6,6 +6,7 @@ import { IPlayerInfo } from "../informationmodel/IPlayerInfo";
 import { IActionBoardInfo } from "../informationmodel/IActionBoardInfo";
 import { readFileSync, read } from "fs";
 import { IActionFigureInfo } from "../informationmodel/IActionFigureInfo";
+import * as path from "path";
 
 export class ModelBuilder {
 
@@ -76,8 +77,8 @@ export class ModelBuilder {
 		actionInfos = [];
 		figures = [];
 		// read in json
-		const content = readFileSync("../informationmodel/WhiteFigureInfo.json", "UTF-8");
-		const actionContent = readFileSync("../informationmodel/WhiteActionFigureInfo.json", "UTF-8");
+		const content = readFileSync(path.resolve(__dirname, "../informationmodel/WhiteFigureInfo.json"), "UTF-8");
+		const actionContent = readFileSync(path.resolve(__dirname, "../informationmodel/WhiteActionFigureInfo.json"), "UTF-8");
 		// fill array with objects
 		figures = JSON.parse(content.toString());
 		actionInfos = JSON.parse(actionContent.toString());
@@ -96,8 +97,8 @@ export class ModelBuilder {
 		actionInfos = [];
 		figures = [];
 		// read in json
-		const content = readFileSync("../informationmodel/BlackFigureInfo.json", "UTF-8");
-		const actionContent = readFileSync("../informationmodel/BlackActionFigureInfo.json", "UTF-8");
+		const content = readFileSync(path.resolve(__dirname, "../informationmodel/BlackFigureInfo.json"), "UTF-8");
+		const actionContent = readFileSync(path.resolve(__dirname, "../informationmodel/BlackActionFigureInfo.json"), "UTF-8");
 
 		// fill array with objects
 		figures = JSON.parse(content.toString());
@@ -115,7 +116,7 @@ export class ModelBuilder {
 		let elementals: IActionFigureInfo[];
 		elementals = [];
 
-		const content = readFileSync("../informationmodel/ElementalInfo.json", "UTF-8");
+		const content = readFileSync(path.resolve(__dirname, "../informationmodel/ElementalInfo.json"), "UTF-8");
 		elementals = JSON.parse(content.toString());
 		return elementals;
 	}
