@@ -16,6 +16,7 @@ var ViewBuilder = /** @class */ (function () {
         }
         else {
             console.log("Somehow the model is not filled inside the ViewBuilder..");
+            return undefined;
         }
     };
     ViewBuilder.prototype.buildBlackFigures = function () {
@@ -28,6 +29,7 @@ var ViewBuilder = /** @class */ (function () {
         }
         else {
             console.log("Somehow the model is not filled inside the ViewBuilder..");
+            return undefined;
         }
     };
     ViewBuilder.prototype.buildBoard = function () {

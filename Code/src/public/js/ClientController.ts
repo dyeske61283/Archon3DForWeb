@@ -9,6 +9,7 @@ export class ClientController extends EventEmitter implements IClientController 
 	private _view: EventEmitter;
 	private _cursor: Cursor; // most times cursor
 	private _actionActive = false;
+	private _actionCommand: (context: any) => void;
 
 	constructor(socket: SocketIOClient.Socket) {
 		super();

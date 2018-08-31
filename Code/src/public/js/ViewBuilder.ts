@@ -22,6 +22,7 @@ export class ViewBuilder implements IViewBuilder {
 			return tmp;
 		} else {
 			console.log("Somehow the model is not filled inside the ViewBuilder..");
+			return undefined;
 		}
 	}
 
@@ -34,6 +35,7 @@ export class ViewBuilder implements IViewBuilder {
 			return tmp;
 		} else {
 			console.log("Somehow the model is not filled inside the ViewBuilder..");
+			return undefined;
 		}
 	}
 	buildBoard(): IView {
